@@ -6,18 +6,24 @@ using WaccaMyPageScraper.Data;
 
 namespace WaccaMyPageScraper
 {
-    public class WaccaMyPage
+    /// <summary>
+    /// The class about a connection to the WACCA My Page.
+    /// </summary>
+    public class PageConnector : IDisposable
     {
+        #region Constants
         private static readonly string MyPageLoginExecUrl = "https://wacca.marv-games.jp/web/login/exec";
-
         private static readonly string MyPageTopUrl = "https://wacca.marv-games.jp/web";
         private static readonly string MyPageMusicUrl = "https://wacca.marv-games.jp/web/music";
+        #endregion
 
+        #region Properties
         public HttpClient Client { get; private set; }
 
         public string AimeId { get; private set; }
+        #endregion
 
-        public WaccaMyPage(string aimeId)
+        public PageConnector(string aimeId)
         {
             this.Client = new HttpClient();
             this.AimeId = aimeId;
@@ -50,7 +56,7 @@ namespace WaccaMyPageScraper
             var stageIconSrc = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img").Attributes["src"].Value;
             var stageIconNumbers = stageIconSrc.Split('/').Last()
                 .Replace("stage_icon_", "")
-                .Replace(".png", "")
+                .Replace(".png", "") 
                 .Split('_');
 
             var name = userDetailNode.SelectSingleNode("./div/div[@class='user-info__detail__name']").InnerText;
@@ -70,6 +76,11 @@ namespace WaccaMyPageScraper
         public async Task<string> CallMyPage()
         {
             return await this.Client.GetStringAsync(MyPageTopUrl);
+        }
+
+        public void Dispose()
+        {
+            this.Client.Dispose();
         }
     }
 }

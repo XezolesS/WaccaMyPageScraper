@@ -1,16 +1,26 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using WaccaMyPageScraper;
+using WaccaMyPageScraper.Data;
 
 // Retreive Aime Id
 var aimeId = GetAimeId();
-var pageScraper = new WaccaMyPage(aimeId);
-var login = await pageScraper.LoginAsync();
-var fetchUserResponse = await pageScraper.FetchUserAsync();
+var isLoginSuccess = false;
+User userData = null;
 
-Console.WriteLine();
+using (var pageScraper = new PageConnector(aimeId))
+{
+    isLoginSuccess = await pageScraper.LoginAsync();
+    userData = await pageScraper.FetchUserAsync();
+}
 
-Console.WriteLine(login ? "Login Success" : "Login Failed");
-Console.WriteLine(fetchUserResponse);
+if (!isLoginSuccess)
+{
+    Console.WriteLine("Login Failed");
+    return;
+}
+
+Console.WriteLine("Login Succeed");
+Console.WriteLine(userData);
 
 string GetAimeId()
 {
