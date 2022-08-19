@@ -123,7 +123,7 @@ namespace WaccaMyPageScraper.Fetchers
             {
                 this.pageConnector.Logger?.Error(ex.Message);
 
-                return result;
+                return null;
             }
 
             return result;

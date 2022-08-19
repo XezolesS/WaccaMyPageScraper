@@ -30,8 +30,14 @@ while (true)
 
 var playerFetcher = new PlayerFetcher(pageConnector);
 var player = await playerFetcher.FetchAsync();
-
 Log.Information("${PlayerData}", player);
+
+var musicFetcher = new MusicsFetcher(pageConnector);
+var musics = await musicFetcher.FetchAsync();
+foreach (var music in musics)
+{
+    Log.Information("{Music}", music);
+}
 
 Log.CloseAndFlush();
 pageConnector.Dispose();
