@@ -1,13 +1,14 @@
 ﻿using HtmlAgilityPack;
+using Serilog;
 using System.Net;
 using System.Net.Http.Headers;
-
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper
 {
     /// <summary>
-    /// The class about a connection to the WACCA My Page.
+    ///  The class about a connection to the WACCA My Page.
     /// </summary>
     public class PageConnector : IDisposable
     {
@@ -18,15 +19,31 @@ namespace WaccaMyPageScraper
         #endregion
 
         #region Properties
-        public HttpClient Client { get; private set; }
+        internal string AimeId { get; private set; }
 
-        public string AimeId { get; private set; }
+        internal HttpClient Client { get; private set; }        
+
+        internal LoginStatus LoginStatus { get; private set; }
+
+        internal ILogger? Logger { get; private set; }
         #endregion
 
         public PageConnector(string aimeId)
         {
-            this.Client = new HttpClient();
             this.AimeId = aimeId;
+            this.Client = new HttpClient();
+            this.LoginStatus = LoginStatus.LoggedOff;
+
+            this.Logger = null;
+        }
+
+        public PageConnector(string aimeId, ILogger logger)
+        {
+            this.AimeId = aimeId;
+            this.Client = new HttpClient();
+            this.LoginStatus = LoginStatus.LoggedOff;
+
+            this.Logger = logger;
         }
 
         public async Task<bool> LoginAsync()
@@ -35,47 +52,40 @@ namespace WaccaMyPageScraper
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this.Client.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
+            this.Logger?.Debug("{Response}", response);
 
-            return response.StatusCode == HttpStatusCode.OK;
-        }
-
-        public async Task<User> FetchUserAsync()
-        {
-            // Get a response from "My Page Top".
-            var response = await this.CallMyPage();
-
-            var document = new HtmlDocument();
-            document.LoadHtml(response);
-
-            // Select user data from HTML and convert to the data.
-            var userInfoNodes = document.DocumentNode.SelectSingleNode("//section[@class='user-info']");
-
-            var userIconNode = userInfoNodes.SelectSingleNode("./div[@class='user-info__icon']");
-            var userDetailNode = userInfoNodes.SelectSingleNode("./div[@class='user-info__detail']");
-
-            var stageIconSrc = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img").Attributes["src"].Value;
-            var stageIconNumbers = stageIconSrc.Split('/').Last()
-                .Replace("stage_icon_", "")
-                .Replace(".png", "") 
-                .Split('_');
-
-            var name = userDetailNode.SelectSingleNode("./div/div[@class='user-info__detail__name']").InnerText;
-            var level = userDetailNode.SelectSingleNode("./div/div[@class='user-info__detail__lv']/span").InnerText;
-            var rating = userDetailNode.SelectSingleNode("./div[@class='rating__wrap']/div/div").InnerText;
-
-            return new User
+            if (!response.IsSuccessStatusCode)
             {
-                Name = name,
-                Level = int.Parse(level.Replace("Lv.", "")),
-                Rate = int.Parse(rating),
-                StageCleared = int.Parse(stageIconNumbers[0]),
-                StageGrade = int.Parse(stageIconNumbers[1])
-            };
-        }
+                this.Logger?.Error("Error occured while connecting to the page!");
 
-        public async Task<string> CallMyPage()
-        {
-            return await this.Client.GetStringAsync(MyPageTopUrl);
+                return false;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Check response content HTML to find out if it's an error page.
+            var document = new HtmlDocument();
+            document.LoadHtml(responseContent);
+
+            var errorCodeNode = document.DocumentNode.SelectSingleNode("//p[@class='error_code']");
+            var errorMessageNode = document.DocumentNode.SelectSingleNode("//p[@class='error_message']");
+
+            if (errorCodeNode != null && errorMessageNode != null)
+            {
+                var errorCode = errorCodeNode?.InnerText.Trim()
+                    .Replace("エラーコード: ", "Error Code: ");
+                var errorMessage = errorMessageNode?.InnerText.Trim();
+
+                this.Logger?.Error("{ErrorCode}: {ErrorMessage}", errorCode, errorMessage);
+
+                this.LoginStatus = LoginStatus.LoggedOff;
+
+                return false;
+            }
+            
+            this.LoginStatus = LoginStatus.LoggedOn;
+
+            return true;
         }
 
         public void Dispose()
