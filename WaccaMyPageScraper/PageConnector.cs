@@ -14,24 +14,26 @@ namespace WaccaMyPageScraper
     {
         #region Constants
         private static readonly string MyPageLoginExecUrl = "https://wacca.marv-games.jp/web/login/exec";
-        private static readonly string MyPageTopUrl = "https://wacca.marv-games.jp/web";
-        private static readonly string MyPageMusicUrl = "https://wacca.marv-games.jp/web/music";
+        #endregion
+
+        #region Private Fields
+        private HttpClient _httpClient;
         #endregion
 
         #region Properties
         internal string AimeId { get; private set; }
-
-        internal HttpClient Client { get; private set; }        
 
         internal LoginStatus LoginStatus { get; private set; }
 
         internal ILogger? Logger { get; private set; }
         #endregion
 
+        #region Constructors
         public PageConnector(string aimeId)
         {
+            this._httpClient = new HttpClient();
+
             this.AimeId = aimeId;
-            this.Client = new HttpClient();
             this.LoginStatus = LoginStatus.LoggedOff;
 
             this.Logger = null;
@@ -39,19 +41,21 @@ namespace WaccaMyPageScraper
 
         public PageConnector(string aimeId, ILogger logger)
         {
+            this._httpClient = new HttpClient();
+
             this.AimeId = aimeId;
-            this.Client = new HttpClient();
             this.LoginStatus = LoginStatus.LoggedOff;
 
             this.Logger = logger;
         }
+        #endregion
 
         public async Task<bool> LoginAsync()
         {
             var parameters = new Dictionary<string, string> { { "aimeId", this.AimeId} };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.Client.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
+            var response = await this._httpClient.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
             this.Logger?.Debug("{Response}", response);
 
             if (!response.IsSuccessStatusCode)
@@ -88,9 +92,16 @@ namespace WaccaMyPageScraper
             return true;
         }
 
+        public async Task<string> GetStringAsync(string? requestUrl)
+        {
+            return await this._httpClient.GetStringAsync(requestUrl).ConfigureAwait(false);
+        }
+
+        public bool IsLoggedOn() => this.LoginStatus == LoginStatus.LoggedOn;
+        
         public void Dispose()
         {
-            this.Client.Dispose();
+            this._httpClient.Dispose();
         }
     }
 }

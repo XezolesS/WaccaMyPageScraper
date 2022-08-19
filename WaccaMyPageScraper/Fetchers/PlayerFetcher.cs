@@ -1,10 +1,13 @@
-﻿using Serilog;
+﻿using HtmlAgilityPack;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
@@ -19,42 +22,111 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public Task<Player> FetchAsync()
+        public async Task<Player> FetchAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        /*
-         // Get a response from "My Page Top".
-            var response = await this.CallMyPage();
-
-            var document = new HtmlDocument();
-            document.LoadHtml(response);
-
-            // Select user data from HTML and convert to the data.
-            var userInfoNodes = document.DocumentNode.SelectSingleNode("//section[@class='user-info']");
-
-            var userIconNode = userInfoNodes.SelectSingleNode("./div[@class='user-info__icon']");
-            var userDetailNode = userInfoNodes.SelectSingleNode("./div[@class='user-info__detail']");
-
-            var stageIconSrc = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img").Attributes["src"].Value;
-            var stageIconNumbers = stageIconSrc.Split('/').Last()
-                .Replace("stage_icon_", "")
-                .Replace(".png", "") 
-                .Split('_');
-
-            var name = userDetailNode.SelectSingleNode("./div/div[@class='user-info__detail__name']").InnerText;
-            var level = userDetailNode.SelectSingleNode("./div/div[@class='user-info__detail__lv']/span").InnerText;
-            var rating = userDetailNode.SelectSingleNode("./div[@class='rating__wrap']/div/div").InnerText;
-
-            return new Player
+            if (!this.pageConnector.IsLoggedOn())
             {
-                Name = name,
-                Level = int.Parse(level.Replace("Lv.", "")),
-                Rate = int.Parse(rating),
-                StageCleared = int.Parse(stageIconNumbers[0]),
-                StageGrade = int.Parse(stageIconNumbers[1])
-            };
-        */
+                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+
+                return null;
+            }
+
+            var response = await pageConnector.GetStringAsync(Url);
+            Player result = null;
+
+            var numericRegex = new Regex("[0-9]+");
+
+            try
+            {
+                var document = new HtmlDocument();
+                document.LoadHtml(response);
+
+                var playerDataNode = document.DocumentNode.SelectSingleNode("//div[@class='playdata__playerdata']");
+
+                // Fetch player's name and stuffs
+                var userDetailNode = playerDataNode.SelectSingleNode("./div[@class='user-info']/div[@class='user-info__detail']");
+
+                var userNameNode = userDetailNode.SelectSingleNode(".//div[@class='user-info__detail__name']");
+                var userLevelNode = userDetailNode.SelectSingleNode(".//div[@class='user-info__detail__lv']/span");
+                var userRatingNode = userDetailNode.SelectSingleNode(".//div[@class='rating__wrap']/div/div");
+
+                this.pageConnector.Logger?.Debug("{UserNameNode}, {UserLevelNode}, {UserRatingNode}",
+                    userNameNode.InnerText,
+                    userLevelNode.InnerText,
+                    userRatingNode.InnerText);
+
+                string name = userNameNode.InnerText;
+                int level = int.Parse(numericRegex.Match(userLevelNode.InnerText).Value);
+                int rate = int.Parse(userRatingNode.InnerText);
+
+                // Fetch a stage icon file name to get the player's stage info
+                var userIconNode = playerDataNode.SelectSingleNode("./div[@class='user-info']/div[@class='user-info__icon']");
+
+                var userIconImgNode = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img");
+
+                int stageCleared = 0;
+                StageGrade stageGrade = 0;
+                if (userIconImgNode != null)
+                {
+                    var stageIconImgSrc = userIconImgNode.Attributes["src"].Value;
+
+                    this.pageConnector.Logger?.Debug("{UserIconImgNode}", stageIconImgSrc);
+
+                    var stageRegex = new Regex(@"^\/img\/web\/stage\/rank\/stage_icon_[0-9]+_[1-3].png$");
+                    if (stageRegex.IsMatch(stageIconImgSrc))
+                    {
+                        var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconImgSrc).Value.Split('_');
+
+                        stageCleared = int.Parse(stageIconNumbers[0]);
+                        stageGrade = (StageGrade)int.Parse(stageIconNumbers[1]);
+                    }
+                }
+
+                // Fetch player's play counts
+                var playCountNode = playerDataNode.SelectSingleNode("./div[@class='play-count']");
+
+                var playCountDetailNodes = playCountNode.SelectNodes(".//dd"); // 0: Total, 1: Versus Mode, 2: Co-op mode
+
+                this.pageConnector.Logger?.Debug("{PlayCountDetailNodes_0}, {PlayCountDetailNodes_1}, {PlayCountDetailNodes_2}",
+                    playCountDetailNodes[0].InnerText, playCountDetailNodes[1].InnerText, playCountDetailNodes[2].InnerText);
+
+                int playCount = int.Parse(numericRegex.Match(playCountDetailNodes[0].InnerText).Value);
+                int playCountVersus = int.Parse(numericRegex.Match(playCountDetailNodes[1].InnerText).Value);
+                int playCountCoop = int.Parse(numericRegex.Match(playCountDetailNodes[2].InnerText).Value);
+
+                // Fetch player's RP earned and spent
+                var pointNode = playerDataNode.SelectSingleNode("./div[@class='poss-wp']");
+
+                var pointDetailNodes = pointNode.SelectNodes(".//dd"); // 0: Currently has (not used), 1: Total earend, 2: Total spent
+
+                this.pageConnector.Logger?.Debug("{PointDetailNode_1}, {PointDetailNode_2}",
+                    pointDetailNodes[1].InnerText, pointDetailNodes[2].InnerText);
+
+                int totalRpEarned = int.Parse(numericRegex.Match(pointDetailNodes[1].InnerText).Value);
+                int totalRpSpent = int.Parse(numericRegex.Match(pointDetailNodes[2].InnerText).Value);
+
+                result = new Player
+                {
+                    Name = name,
+                    Level = level,
+                    Rate = rate,
+                    StageCleared = stageCleared,
+                    StageGrade = stageGrade,
+                    PlayCount = playCount,
+                    PlayCountVersus = playCountVersus,
+                    PlayCountCoop = playCountCoop,
+                    TotalRpEarned = totalRpEarned,
+                    TotalRpSpent = totalRpSpent,
+                };
+            }
+            catch (Exception ex)
+            {
+                this.pageConnector.Logger?.Error(ex.Message);
+
+                return result;
+            }
+
+            return result;
+        }
     }
 }

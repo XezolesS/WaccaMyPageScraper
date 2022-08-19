@@ -3,11 +3,15 @@ using WaccaMyPageScraper;
 using WaccaMyPageScraper.Data;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using WaccaMyPageScraper.Fetchers;
 
 // Create logger
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
     .WriteTo.Console()
     .CreateLogger();
+
+PageConnector pageConnector;
 
 // Retreive Aime Id
 while (true)
@@ -24,7 +28,13 @@ while (true)
     Log.Error("Login failed!");
 }
 
+var playerFetcher = new PlayerFetcher(pageConnector);
+var player = await playerFetcher.FetchAsync();
+
+Log.Information("${PlayerData}", player);
+
 Log.CloseAndFlush();
+pageConnector.Dispose();
 
 #region LocalFunctions
 string GetAimeId()
@@ -45,8 +55,9 @@ string GetAimeId()
 async Task<bool> LoginToPageAsync(string aimeId)
 {
     bool result = false;
-    using (var pageScraper = new PageConnector(aimeId, Log.Logger))
-        result = await pageScraper.LoginAsync();
+
+    pageConnector = new PageConnector(aimeId, Log.Logger);
+    result = await pageConnector.LoginAsync();
     
     return result;
 }

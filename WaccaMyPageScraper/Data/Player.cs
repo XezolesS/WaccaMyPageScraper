@@ -28,6 +28,16 @@ namespace WaccaMyPageScraper.Data
         public int Rate { get; set; }
 
         /// <summary>
+        /// The highest stage that player has passed.
+        /// </summary>
+        public int StageCleared { get; set; }
+
+        /// <summary>
+        /// The grade of a stage that player has passed.
+        /// </summary>
+        public StageGrade StageGrade { get; set; }
+
+        /// <summary>
         /// How many times the player has played a game.
         /// </summary>
         public int PlayCount { get; set; }
@@ -43,18 +53,19 @@ namespace WaccaMyPageScraper.Data
         public int PlayCountCoop { get; set; }
 
         /// <summary>
-        /// The highest stage that player has passed.
+        /// The total amount of RP that player has earend.
         /// </summary>
-        public int StageCleared { get; set; }
+        public int TotalRpEarned { get; set; }
 
         /// <summary>
-        /// The grade of a stage that player has passed.
+        /// The total amount of RP that player has spent.
         /// </summary>
-        public StageGrade StageGrade { get; set; }
+        public int TotalRpSpent { get; set; }
 
-        public override string ToString() => string.Format("[{0}, {1}, {2}, ({3},{4},{5}), {6}:{7}]", 
-            this.Name, this.Level, this.Rate, 
+        public override string ToString() => string.Format("[\n\t{0}, {1}, {2}\n\tStage: {3}-{4}\n\tPlayed: {5}, {6}(VS), {7}(CO-OP)\n\tRP: Earned {8}, Spent {9}\n]", 
+            this.Name, this.Level, this.Rate,
+            this.StageCleared, this.StageGrade,
             this.PlayCount, this.PlayCountVersus, this.PlayCountCoop,
-            this.StageCleared, this.StageGrade);
+            this.TotalRpEarned, this.TotalRpSpent);
     }
 }
