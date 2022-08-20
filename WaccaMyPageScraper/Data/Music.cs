@@ -17,6 +17,11 @@ namespace WaccaMyPageScraper.Data
 
         public string[] Levels { get; set; }
 
+        public Music()
+        {
+            this.Levels = new string[4];
+        }
+
         public override string ToString() => string.Format("[{0}] {1} | {2} ({3})", 
             this.Id, this.Title, this.Genre, string.Join(",", this.Levels));
     }

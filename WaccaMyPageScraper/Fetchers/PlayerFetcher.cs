@@ -2,6 +2,7 @@
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -71,22 +72,15 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var userIconImgNode = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img");
 
-                int stageCleared = 0;
-                StageGrade stageGrade = 0;
+                Stage stage = new Stage();
                 if (userIconImgNode != null)
                 {
                     var stageIconImgSrc = userIconImgNode.Attributes["src"].Value;
 
                     this.pageConnector.Logger?.Debug("{UserIconImgNode}", stageIconImgSrc);
 
-                    var stageRegex = new Regex(@"^\/img\/web\/stage\/rank\/stage_icon_[0-9]+_[1-3].png$");
-                    if (stageRegex.IsMatch(stageIconImgSrc))
-                    {
-                        var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconImgSrc).Value.Split('_');
-
-                        stageCleared = int.Parse(stageIconNumbers[0]);
-                        stageGrade = (StageGrade)int.Parse(stageIconNumbers[1]);
-                    }
+                    var converter = TypeDescriptor.GetConverter(typeof(Stage));
+                    stage = (Stage)converter.ConvertFrom(stageIconImgSrc);
                 }
 
                 // Fetch player's play counts
@@ -117,8 +111,7 @@ namespace WaccaMyPageScraper.Fetchers
                     Name = name,
                     Level = level,
                     Rate = rate,
-                    StageCleared = stageCleared,
-                    StageGrade = stageGrade,
+                    Stage = stage,
                     PlayCount = playCount,
                     PlayCountVersus = playCountVersus,
                     PlayCountCoop = playCountCoop,
