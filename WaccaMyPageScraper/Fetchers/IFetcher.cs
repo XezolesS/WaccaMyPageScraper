@@ -8,6 +8,6 @@ namespace WaccaMyPageScraper.Fetchers
 {
     public interface IFetcher<T>
     {
-        public Task<T> FetchAsync();
+        public Task<T> FetchAsync(params object?[] args);
     }
 }

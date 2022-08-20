@@ -22,7 +22,7 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<Player> FetchAsync()
+        public async Task<Player> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {

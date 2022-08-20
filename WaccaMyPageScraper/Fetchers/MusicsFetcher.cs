@@ -19,7 +19,7 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<Music[]> FetchAsync()
+        public async Task<Music[]> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {

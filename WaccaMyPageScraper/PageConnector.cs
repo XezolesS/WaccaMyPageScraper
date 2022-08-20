@@ -55,7 +55,7 @@ namespace WaccaMyPageScraper
             var parameters = new Dictionary<string, string> { { "aimeId", this.AimeId} };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this._httpClient.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
+            var response = await this.PostAsync(MyPageLoginExecUrl, encodedContent);
             this.Logger?.Debug("{Response}", response);
 
             if (!response.IsSuccessStatusCode)
@@ -92,9 +92,14 @@ namespace WaccaMyPageScraper
             return true;
         }
 
-        public async Task<string> GetStringAsync(string? requestUrl)
+        public async Task<string> GetStringAsync(string? requestUri)
         {
-            return await this._httpClient.GetStringAsync(requestUrl).ConfigureAwait(false);
+            return await this._httpClient.GetStringAsync(requestUri).ConfigureAwait(false);
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string? requestUri, HttpContent? content)
+        {
+            return await this._httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
         }
 
         public bool IsLoggedOn() => this.LoginStatus == LoginStatus.LoggedOn;

@@ -39,6 +39,10 @@ foreach (var music in musics)
     Log.Information("{Music}", music);
 }
 
+var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
+var musicDetailTest = await musicDetailFetcher.FetchAsync(musics[0].Id);
+Log.Information("{MusicDetail}", musicDetailTest);
+
 Log.CloseAndFlush();
 pageConnector.Dispose();
 
