@@ -7,23 +7,44 @@ using System.Threading.Tasks;
 
 namespace WaccaMyPageScraper.Data
 {
+    /// <summary>
+    /// Structured data for the trophies.
+    /// </summary>
     public class Trophy
     {
+        /// <summary>
+        /// Trophy Id.
+        /// </summary>
         [JsonProperty("trophyId")]
         public int Id { get; set; }
 
+        /// <summary>
+        /// Trophy category.
+        /// </summary>
         [JsonProperty("trophyCategory")]
         public int Category { get; set; }
 
+        /// <summary>
+        /// Trophy rarity. (1 to 4)
+        /// </summary>
         [JsonProperty("trophyRarity")]
         public int Rarity { get; set; }
 
+        /// <summary>
+        /// Trophy name.
+        /// </summary>
         [JsonProperty("trophyName")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Trophy description.
+        /// </summary>
         [JsonProperty("trophyDescription")]
         public string Description { get; set; }
 
+        /// <summary>
+        /// True if the player has obtained it, false if not.
+        /// </summary>
         [JsonProperty("isHavingTrophy")]
         public bool Obtained { get; set; }
 

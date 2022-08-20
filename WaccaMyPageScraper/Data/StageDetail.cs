@@ -7,10 +7,19 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
 {
+    /// <summary>
+    /// Structure data for detailed stage record.
+    /// </summary>
     public class StageDetail : Stage
     {
+        /// <summary>
+        /// Scores for each tracks (Max 3).
+        /// </summary>
         public int[] Scores { get; set; }
 
+        /// <summary>
+        /// Total score of the stage.
+        /// </summary>
         public int TotalScore { get => Scores.Sum(); }
 
         public StageDetail() : base()

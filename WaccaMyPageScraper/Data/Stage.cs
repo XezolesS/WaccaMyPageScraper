@@ -9,13 +9,26 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
 {
+    /// <summary>
+    /// Structure data for stage records.
+    /// </summary>
     [TypeConverter(typeof(StageConverter))]
     public class Stage
     {
+        /// <summary>
+        /// Stage Id.
+        /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Stage Name.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Stage Grade. <br/>
+        /// <b><see cref="StageGrade"/></b>: NotCleared(0), Blue(1), Silver(2), Gold(3)
+        /// </summary>
         public StageGrade Grade { get; set; }
 
         public Stage()

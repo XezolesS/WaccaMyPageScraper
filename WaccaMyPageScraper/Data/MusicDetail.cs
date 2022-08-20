@@ -7,14 +7,30 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
 {
+    /// <summary>
+    /// Structured data for the detailed music data.
+    /// </summary>
     public class MusicDetail : Music
     {
+        /// <summary>
+        /// Artist of the music.
+        /// </summary>
         public string Artist { get; set; }
 
+        /// <summary>
+        /// Play counts for each difficulties. (Max 4)
+        /// </summary>
         public int[] PlayCounts { get; set; }
 
+        /// <summary>
+        /// Scores for each difficulties. (Max 4)
+        /// </summary>
         public int[] Scores { get; set; }
 
+        /// <summary>
+        /// Rates for each difficulties. (Max 4) <br/>
+        /// Automatically calculate from scores.
+        /// </summary>
         public Rate[] Rates
         {
             get
@@ -44,14 +60,27 @@ namespace WaccaMyPageScraper.Data
             }
         }
 
+        /// <summary>
+        /// Achieved rate for each difficulties. (Max 4) <br/>
+        /// <see cref="Achieve"/>
+        /// </summary>
         public Achieve[] Achieves { get; set; }
 
-        public MusicDetail()
+        public MusicDetail() : base()
         {
-            this.Levels = new string[4];
             this.PlayCounts = new int[4];
             this.Scores = new int[4];
             this.Achieves = new Achieve[4];
+        }
+
+        public MusicDetail(int id, string title, Genre genre, string[] levels, 
+            string artist, int[] playCounts, int[] scores, Achieve[] achieves) 
+            : base(id, title, genre, levels)
+        {
+            Artist = artist;
+            PlayCounts = playCounts;
+            Scores = scores;
+            Achieves = achieves;
         }
 
         public override string ToString() => string.Format("[{0}] {1} - {2} | {3} ({4}) | PlayCounts: ({5}) | Scores: ({6}) | Rates: ({7}) | Achieves: ({8})",

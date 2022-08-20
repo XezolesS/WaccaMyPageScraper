@@ -57,6 +57,21 @@ namespace WaccaMyPageScraper.Data
         /// </summary>
         public int TotalRpSpent { get; set; }
 
+        public Player() { }
+
+        public Player(string name, int level, int rate, Stage stage, int playCount, int playCountVersus, int playCountCoop, int totalRpEarned, int totalRpSpent)
+        {
+            Name = name;
+            Level = level;
+            Rate = rate;
+            Stage = stage;
+            PlayCount = playCount;
+            PlayCountVersus = playCountVersus;
+            PlayCountCoop = playCountCoop;
+            TotalRpEarned = totalRpEarned;
+            TotalRpSpent = totalRpSpent;
+        }
+
         public override string ToString() => string.Format("{0}, Lv.{1}, Rate {2} [{3} | Played({4}, {5}(VS), {6}(CO-OP)) | RP(Earned {7}, Spent {8})]", 
             this.Name, this.Level, this.Rate,
             this.Stage,
