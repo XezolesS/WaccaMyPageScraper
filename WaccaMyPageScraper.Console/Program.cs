@@ -41,10 +41,11 @@ int count = 0;
 foreach (var music in musics)
 {
     var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
-    var musicDetail = await musicDetailFetcher.FetchAsync(music.Id);
+    var musicDetail = await musicDetailFetcher.FetchAsync(music.Id, music.Genre);
 
     Log.Information("{Count} out of {Musics} has been fetched: \n{MusicDetail}", ++count, musics.Length, musicDetail);
-    Thread.Sleep(50);
+
+    Thread.Sleep(100);
 }
 
 Log.CloseAndFlush();

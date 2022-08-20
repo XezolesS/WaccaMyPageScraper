@@ -68,15 +68,16 @@ namespace WaccaMyPageScraper.Fetchers
                 string title = titleNode.InnerText;
                 string artist = artistNode.InnerText;
 
+                // Fetch music data
                 List<string> levels = new List<string>();
                 List<int> playCounts = new List<int>();
                 List<int> scores = new List<int>();
                 List<Achieve> achieves = new List<Achieve>();
-                var detailListsNode = scoreDetailNode.SelectNodes("./ul[@class='score-detail__list']/li");
-                foreach (var detail in detailListsNode)
+                var detailListsNodes = scoreDetailNode.SelectNodes("./ul[@class='score-detail__list']/li");
+                foreach (var node in detailListsNodes)
                 {
-                    var songTopNode = detail.SelectSingleNode("./div/div[@class='song-info__top']");
-                    var songBottomNode = detail.SelectSingleNode("./div/div[@class='song-info__bottom']");
+                    var songTopNode = node.SelectSingleNode("./div/div[@class='song-info__top']");
+                    var songBottomNode = node.SelectSingleNode("./div/div[@class='song-info__bottom']");
 
                     var levelNode = songTopNode.SelectSingleNode("./div[@class='song-info__top__lv']/div");
                     var playCountNode = songTopNode.SelectSingleNode("./div[@class='song-info__top__play-count']");
@@ -105,20 +106,19 @@ namespace WaccaMyPageScraper.Fetchers
                 {
                     Id = id,
                     Title = title,
+                    Genre = (Genre)args[1],
                     Levels = levels.ToArray(),
                     Artist = artist,
                     PlayCounts = playCounts.ToArray(),
                     Scores = scores.ToArray(),
                     Achieves = achieves.ToArray(),
-                };
-            }
+                };            }
             catch (Exception ex)
             {
                 this.pageConnector.Logger?.Error(ex.Message);
 
                 return null;
             }
-
 
             return result;
         }

@@ -46,8 +46,8 @@ namespace WaccaMyPageScraper.Data
 
         public Achieve[] Achieves { get; set; }
 
-        public override string ToString() => string.Format("[{0}] {1} - {2} ({3})\n\tPlayCounts: ({4})\n\tScores: ({5})\n\tRates: ({6})\n\tAchieves: ({7})",
-            this.Id, this.Title, this.Artist, string.Join(",", this.Levels),
+        public override string ToString() => string.Format("[{0}] {1} - {2} | {3} ({4})\n\tPlayCounts: ({5})\n\tScores: ({6})\n\tRates: ({7})\n\tAchieves: ({8})",
+            this.Id, this.Title, this.Artist, this.Genre, string.Join(",", this.Levels),
             string.Join(",", this.PlayCounts),
             string.Join(",", this.Scores),
             string.Join(",", this.Rates),

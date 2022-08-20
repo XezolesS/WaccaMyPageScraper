@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
 {
@@ -12,9 +13,11 @@ namespace WaccaMyPageScraper.Data
 
         public string Title { get; set; }
 
+        public Genre Genre { get; set; }
+
         public string[] Levels { get; set; }
 
-        public override string ToString() => string.Format("[{0}] {1} ({2})", 
-            this.Id, this.Title, string.Join(",", this.Levels));
+        public override string ToString() => string.Format("[{0}] {1} | {2} ({3})", 
+            this.Id, this.Title, this.Genre, string.Join(",", this.Levels));
     }
 }
