@@ -37,11 +37,8 @@ namespace WaccaMyPageScraper.Data
             this.Scores = scores;
         }
 
-        public StageDetail(Stage stage, int[] scores)
+        public StageDetail(Stage stage, int[] scores) : base(stage.Id, stage.Name, stage.Grade)
         {
-            this.Id = stage.Id;
-            this.Name = stage.Name;
-            this.Grade = stage.Grade;
             this.Scores = scores;
         }
 

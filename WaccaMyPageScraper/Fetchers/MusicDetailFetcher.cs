@@ -21,7 +21,12 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<MusicDetail> FetchAsync(params object?[] args)
+        /// <summary>
+        /// Fetch player's play record of the music.
+        /// </summary>
+        /// <param name="args"><see cref="Music"/> is needed.</param>
+        /// <returns>Fetched player's record of given <see cref="Music"/> in <see cref="MusicDetail"/>.</returns>
+        public async Task<MusicDetail?> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {
@@ -30,20 +35,22 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            if (args[0] == null)
+            if (args[0] is null || args[0] is not Music)
             {
-                this.pageConnector.Logger?.Error("MusicDetailFetcher.FetchAsync() must have at least 1 argument!");
+                this.pageConnector.Logger?.Error("MusicDetailFetcher.FetchAsync() must have a Music class argument!");
 
                 return null;
             }
 
-            var parameters = new Dictionary<string, string> { { "musicId", args[0].ToString() } };
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
+
+            var musicArg = args[0] as Music;
+
+            var parameters = new Dictionary<string, string> { { "musicId", musicArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this.pageConnector.PostAsync(Url, encodedContent);
-            MusicDetail result = null;
-
-            var numericRegex = new Regex("[0-9,+]+");
+            MusicDetail? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -52,8 +59,12 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
+            this.pageConnector.Logger?.Information("Connection successful");
+
             try
             {
+                var numericRegex = new Regex("[0-9,+]+");
+
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 // Check response content HTML to find out if it's an error page.
@@ -61,33 +72,31 @@ namespace WaccaMyPageScraper.Fetchers
                 document.LoadHtml(responseContent);
 
                 var scoreDetailNode = document.DocumentNode.SelectSingleNode("//section[@class='playdata']/div/div[@class='playdata__score-detail']");
-                var titleNode = scoreDetailNode.SelectSingleNode(".//div[@class='song-info__name']");
                 var artistNode = scoreDetailNode.SelectSingleNode(".//div[@class='song-info__artist']");
 
-                int id = int.Parse(args[0].ToString());
-                string title = titleNode.InnerText;
                 string artist = artistNode.InnerText;
 
                 // Fetch music data
-                List<string> levels = new List<string>();
                 List<int> playCounts = new List<int>();
                 List<int> scores = new List<int>();
                 List<Achieve> achieves = new List<Achieve>();
+
                 var detailListsNodes = scoreDetailNode.SelectNodes("./ul[@class='score-detail__list']/li");
                 foreach (var node in detailListsNodes)
                 {
                     var songTopNode = node.SelectSingleNode("./div/div[@class='song-info__top']");
                     var songBottomNode = node.SelectSingleNode("./div/div[@class='song-info__bottom']");
 
-                    var levelNode = songTopNode.SelectSingleNode("./div[@class='song-info__top__lv']/div");
                     var playCountNode = songTopNode.SelectSingleNode("./div[@class='song-info__top__play-count']");
                     var scoreNode = songBottomNode.SelectSingleNode("./div[@class='song-info__score']");
                     var achieveNode = songBottomNode.SelectSingleNode("./div[@class='score-detail__icon']/div/img[@alt='achieveimage']");
 
-                    var level = new Regex("[0-9+]+").Match(levelNode.InnerText).Value;
+                    var achieveImgSrc = achieveNode.Attributes["src"].Value;
+                    this.pageConnector.Logger?.Debug("Achieve Image Source: {ImageSource}", achieveImgSrc);
+
                     var playCount = int.Parse(numericRegex.Match(playCountNode.InnerText).Value);
                     var score = int.Parse(numericRegex.Match(scoreNode.InnerText).Value);
-                    var achieve = achieveNode.Attributes["src"].Value.Split('/').Last() switch
+                    var achieve = new Regex("achieve[1-4].png").Match(achieveImgSrc).Value switch
                     {
                         "achieve1.png" => Achieve.Clear,
                         "achieve2.png" => Achieve.Missless,
@@ -96,23 +105,12 @@ namespace WaccaMyPageScraper.Fetchers
                         _ => Achieve.NoAchieve
                     };
 
-                    levels.Add(level);
                     playCounts.Add(playCount);
                     scores.Add(score);
                     achieves.Add(achieve);
                 }
 
-                result = new MusicDetail
-                {
-                    Id = id,
-                    Title = title,
-                    Genre = (Genre)args[1],
-                    Levels = levels.ToArray(),
-                    Artist = artist,
-                    PlayCounts = playCounts.ToArray(),
-                    Scores = scores.ToArray(),
-                    Achieves = achieves.ToArray(),
-                };            
+                result = new MusicDetail(musicArg, artist, playCounts.ToArray(), scores.ToArray(), achieves.ToArray());        
             }
             catch (Exception ex)
             {
@@ -120,6 +118,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Successfully fetched music data: {Result}", result);
 
             return result;
         }

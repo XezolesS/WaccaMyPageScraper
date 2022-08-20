@@ -23,7 +23,12 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<Player> FetchAsync(params object?[] args)
+        /// <summary>
+        /// Fetch player's data.
+        /// </summary>
+        /// <param name="args">No argument needed.</param>
+        /// <returns>Fetched player data in <see cref="Player"/>, null if it's failed.</returns>
+        public async Task<Player?> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {
@@ -32,10 +37,10 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            var response = await pageConnector.GetStringAsync(Url);
-            Player result = null;
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var numericRegex = new Regex("[0-9]+");
+            var response = await pageConnector.GetStringAsync(Url);
+            Player? result = null;
 
             if (string.IsNullOrEmpty(response))
             {
@@ -44,8 +49,12 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
+            this.pageConnector.Logger?.Information("Connection successful");
+
             try
             {
+                var numericRegex = new Regex("[0-9]+");
+
                 var document = new HtmlDocument();
                 document.LoadHtml(response);
 
@@ -58,11 +67,6 @@ namespace WaccaMyPageScraper.Fetchers
                 var userLevelNode = userDetailNode.SelectSingleNode(".//div[@class='user-info__detail__lv']/span");
                 var userRatingNode = userDetailNode.SelectSingleNode(".//div[@class='rating__wrap']/div/div");
 
-                this.pageConnector.Logger?.Debug("{UserNameNode}, {UserLevelNode}, {UserRatingNode}",
-                    userNameNode.InnerText,
-                    userLevelNode.InnerText,
-                    userRatingNode.InnerText);
-
                 string name = userNameNode.InnerText;
                 int level = int.Parse(numericRegex.Match(userLevelNode.InnerText).Value);
                 int rate = int.Parse(userRatingNode.InnerText);
@@ -73,11 +77,11 @@ namespace WaccaMyPageScraper.Fetchers
                 var userIconImgNode = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img");
 
                 Stage stage = new Stage();
-                if (userIconImgNode != null)
+                if (userIconImgNode is not null)
                 {
                     var stageIconImgSrc = userIconImgNode.Attributes["src"].Value;
 
-                    this.pageConnector.Logger?.Debug("{UserIconImgNode}", stageIconImgSrc);
+                    this.pageConnector.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
 
                     var converter = TypeDescriptor.GetConverter(typeof(Stage));
                     stage = (Stage)converter.ConvertFrom(stageIconImgSrc);
@@ -106,18 +110,7 @@ namespace WaccaMyPageScraper.Fetchers
                 int totalRpEarned = int.Parse(numericRegex.Match(pointDetailNodes[1].InnerText).Value);
                 int totalRpSpent = int.Parse(numericRegex.Match(pointDetailNodes[2].InnerText).Value);
 
-                result = new Player
-                {
-                    Name = name,
-                    Level = level,
-                    Rate = rate,
-                    Stage = stage,
-                    PlayCount = playCount,
-                    PlayCountVersus = playCountVersus,
-                    PlayCountCoop = playCountCoop,
-                    TotalRpEarned = totalRpEarned,
-                    TotalRpSpent = totalRpSpent,
-                };
+                result = new Player(name, level, rate, stage, playCount, playCountVersus, playCountCoop, totalRpEarned, totalRpSpent);
             }
             catch (Exception ex)
             {
@@ -125,6 +118,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
 
             return result;
         }

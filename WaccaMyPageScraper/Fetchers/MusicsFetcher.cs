@@ -20,7 +20,12 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<Music[]> FetchAsync(params object?[] args)
+        /// <summary>
+        /// Fetch musics listed on My Page.
+        /// </summary>
+        /// <param name="args">No argument needed.</param>
+        /// <returns>List of musics listed on My Page in array of <see cref="Music"/>s.</returns>
+        public async Task<Music[]?> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {
@@ -28,6 +33,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
             var response = await pageConnector.GetStringAsync(Url);
             List<Music> result = new List<Music>();
@@ -39,17 +46,19 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
+            this.pageConnector.Logger?.Information("Connection successful");
+
             try
             {
                 var document = new HtmlDocument();
                 document.LoadHtml(response);
 
                 var scoreListNode = document.DocumentNode.SelectSingleNode("//section[@class='playdata']/div[@class='contents-wrap']/div[@class='playdata__score-list']/ul");
-
                 var musicItemNodes = scoreListNode.SelectNodes("./li");
-                pageConnector.Logger?.Information("Music found: {MusicCount}", musicItemNodes.Count);
 
                 // Fetch genre data
+                this.pageConnector.Logger?.Information("Fetching genre data...");
+
                 var genreListsNodes = scoreListNode.SelectNodes("./h2");
                 var genreOffsets = new Dictionary<Genre, int>();
                 foreach (var node in genreListsNodes)
@@ -73,6 +82,10 @@ namespace WaccaMyPageScraper.Fetchers
                     genreOffsets.Add(genreTitle, genreOffset);
                 }
 
+                this.pageConnector.Logger?.Information("Genre has successfully fetched.");
+
+                // Fetch music data
+                int count = 0;
                 foreach (var node in musicItemNodes)
                 {
                     int id = int.Parse(node.SelectSingleNode("./div/form/input").Attributes["value"].Value);
@@ -96,11 +109,12 @@ namespace WaccaMyPageScraper.Fetchers
                         node.Attributes["data-rank_inferno_level"].Value.Replace(".1", "+"),
                     };
 
-                    Music music = new Music { Id = id, Title = title, Genre = genre, Levels = levels };
-
-                    this.pageConnector.Logger?.Debug("Fetched music data: {Music}", music);
-
+                    Music music = new Music(id, title, genre, levels);
                     result.Add(music);
+
+                    this.pageConnector.Logger?.Information("Fetching music data... ({Count} out of {MusicTotal})", 
+                        ++count, musicItemNodes.Count);
+                    this.pageConnector.Logger?.Debug("Data: {Music}", music);
                 }
             }
             catch (Exception ex)
@@ -109,6 +123,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Successfully fetched {ResultCount} of musics.", result.Count);
 
             return result.ToArray();
         }

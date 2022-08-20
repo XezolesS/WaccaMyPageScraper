@@ -7,7 +7,6 @@ using WaccaMyPageScraper.Fetchers;
 
 // Create logger
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
     .WriteTo.Console()
     .CreateLogger();
 
@@ -40,16 +39,20 @@ while (true)
 
 while (true)
 {
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("================================================");
     Console.WriteLine("Type a number of a task which you want to do.\n");
     Console.WriteLine("\t(1) Fetch player's data");
     Console.WriteLine("\t(2) Fetch player's music records");
     Console.WriteLine("\t(3) Fetch player's stage records");
     Console.WriteLine("\t(4) Fetch player's trophies");
     Console.WriteLine("\t(0) Exit");
-    Console.WriteLine("");
+    Console.WriteLine("================================================");
 
     Console.Write(" >> ");
-    string input = Console.ReadLine();
+    Console.ForegroundColor = ConsoleColor.White;
+
+    string? input = Console.ReadLine();
     if (!int.TryParse(input, out int result))
     {
         Log.Warning("Input must be a integer value.");
@@ -60,7 +63,7 @@ while (true)
     switch (int.Parse(input))
     {
         case 0: return;
-        case 1: Log.Information("${PlayerData}", await FetchPlayerAsync()); break;
+        case 1: await LogPlayerAsync(); break;
         case 2: await LogMusicDetailsAsync(); break;
         case 3: await LogStageDetailAsync(); break;
         case 4: await LogTrophyDetailAsync(); break;
@@ -74,11 +77,13 @@ pageConnector.Dispose();
 #region LocalFunctions
 string GetAimeId()
 {
-    string aimeId;
     while (true)
     {
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.Write("Type your Aime ID >> ");
-        aimeId = Console.ReadLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        string? aimeId = Console.ReadLine();
 
         if (string.IsNullOrEmpty(aimeId))
             Log.Error("The given ID is not valid!");
@@ -97,11 +102,11 @@ async Task<bool> LoginToPageAsync(string aimeId)
     return result;
 }
 
-async Task<Player> FetchPlayerAsync()
+async Task<Player> LogPlayerAsync()
 {
     var playerFetcher = new PlayerFetcher(pageConnector);
 
-    return await playerFetcher.FetchAsync(); ;
+    return await playerFetcher.FetchAsync();
 }
 
 async Task<Music[]> LogMusicDetailsAsync()
@@ -109,15 +114,13 @@ async Task<Music[]> LogMusicDetailsAsync()
     var musicsFetcher = new MusicsFetcher(pageConnector);
     var musics = await musicsFetcher.FetchAsync();
 
-    Log.Information("{Musics} of musics have been fetched", musics.Length);
-
     int count = 0;
     foreach (var music in musics)
     {
         var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
-        var musicDetail = await musicDetailFetcher.FetchAsync(music.Id, music.Genre);
+        var musicDetail = await musicDetailFetcher.FetchAsync(music);
 
-        Log.Information("{Count} out of {Musics} has been fetched: \n{MusicDetail}", ++count, musics.Length, musicDetail);
+        Log.Information("{Count} out of {Musics} has been fetched", ++count, musics.Length);
 
         Thread.Sleep(100);
     }
@@ -138,7 +141,7 @@ async Task<Stage[]> LogStageDetailAsync()
         var stageDetailFetcher = new StageDetailFetcher(pageConnector);
         var stageDetail = await stageDetailFetcher.FetchAsync(stage);
 
-        Log.Information("{Count} out of {Musics} has been fetched: \n{MusicDetail}", ++count, stages.Length, stageDetail);
+        Log.Information("{Count} out of {Musics} has been fetched", ++count, stages.Length, stageDetail);
 
         Thread.Sleep(100);
     }

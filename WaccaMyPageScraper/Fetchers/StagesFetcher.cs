@@ -21,7 +21,12 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<Stage[]> FetchAsync(params object?[] args)
+        /// <summary>
+        /// Fetch stages listed on My Page.
+        /// </summary>
+        /// <param name="args">No argument needed.</param>
+        /// <returns>List of stages listed on My Page in array of <see cref="Stage"/>s.</returns>
+        public async Task<Stage[]?> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {
@@ -29,6 +34,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
             var response = await pageConnector.GetStringAsync(Url);
             List<Stage> result = new List<Stage>();
@@ -40,14 +47,17 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
+            this.pageConnector.Logger?.Information("Connection successful");
+
             try
             {
                 var document = new HtmlDocument();
                 document.LoadHtml(response);
 
                 var stageListNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/ul[@class='stageup__list']");
-
                 var stageItemNodes = stageListNode.SelectNodes("./form/a[@class='stageup__list__link']");
+
+                int count = 0;
                 foreach (var node in stageItemNodes)
                 {
                     var stageNameNode = node.SelectSingleNode("./li/div/div[@class='stageup__list__top__name']");
@@ -68,9 +78,11 @@ namespace WaccaMyPageScraper.Fetchers
                         stage = (Stage)converter.ConvertFrom(stageIconImgSrc);
                     }
 
-                    this.pageConnector.Logger?.Debug("Fetched stage data: {Stage}", stage);
-
                     result.Add(stage);
+
+                    this.pageConnector.Logger?.Information("Fetching stage data... ({Count} out of {StageTotal})",
+                        ++count, stageItemNodes.Count);
+                    this.pageConnector.Logger?.Debug("Data: {Stage}", stage);
                 }
             }
             catch (Exception ex)
@@ -79,6 +91,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Successfully fetched {ResultCount} of stages.", result.Count);
 
             return result.ToArray();
         }

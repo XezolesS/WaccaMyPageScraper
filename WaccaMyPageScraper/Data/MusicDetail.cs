@@ -83,6 +83,15 @@ namespace WaccaMyPageScraper.Data
             Achieves = achieves;
         }
 
+        public MusicDetail(Music music, string artist, int[] playCounts, int[] scores, Achieve[] achieves)
+            : base(music.Id, music.Title, music.Genre, music.Levels)
+        {
+            Artist = artist;
+            PlayCounts = playCounts;
+            Scores = scores;
+            Achieves = achieves;
+        }
+
         public override string ToString() => string.Format("[{0}] {1} - {2} | {3} ({4}) | PlayCounts: ({5}) | Scores: ({6}) | Rates: ({7}) | Achieves: ({8})",
             this.Id, this.Title, this.Artist, this.Genre, string.Join(",", this.Levels),
             string.Join(",", this.PlayCounts),

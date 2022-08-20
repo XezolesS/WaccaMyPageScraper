@@ -21,7 +21,12 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public async Task<StageDetail> FetchAsync(params object?[] args)
+        /// <summary>
+        /// Fetch player's stage record.
+        /// </summary>
+        /// <param name="args"><see cref="Stage"/> is needed.</param>
+        /// <returns>Fetched player's stage record of given <see cref="Stage"/> in <see cref="StageDetail"/>.</returns>
+        public async Task<StageDetail?> FetchAsync(params object?[] args)
         {
             if (!this.pageConnector.IsLoggedOn())
             {
@@ -32,7 +37,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             if (args[0] is null || args[0] is not Stage)
             {
-                this.pageConnector.Logger?.Error("MusicDetailFetcher.FetchAsync() must have a Stage class argument!");
+                this.pageConnector.Logger?.Error("StageDetailFetcher.FetchAsync() must have a Stage class argument!");
 
                 return null;
             }
@@ -40,14 +45,18 @@ namespace WaccaMyPageScraper.Fetchers
             var stageArg = args[0] as Stage;
             if (stageArg.Grade == StageGrade.NotCleared)
             {
+                this.pageConnector.Logger?.Information("There is no record of {StageName}.", stageArg.Name);
+
                 return new StageDetail(stageArg, new int[3] { 0, 0, 0 });
             }
+
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
             var parameters = new Dictionary<string, string> { { "trialClass", stageArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this.pageConnector.PostAsync(Url, encodedContent);
-            StageDetail result = null;
+            StageDetail? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -56,8 +65,12 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
+            this.pageConnector.Logger?.Information("Connection successful");
+
             try
             {
+                var numericRegex = new Regex("[0-9]+");
+
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 // Check response content HTML to find out if it's an error page.
@@ -66,8 +79,6 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var stageDetailNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/div[@class='stageup__detail']");
                 var scoreNodes = stageDetailNode.SelectNodes("./ul/li/div/div[@class='stageup__detail__song-info__score']");
-
-                var numericRegex = new Regex("[0-9]+");
 
                 var scores = new int[3];
                 for (int i = 0; i < 3; i++)
@@ -81,6 +92,8 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
+
+            this.pageConnector.Logger?.Information("Successfully fetched stage data: {Result}", result);
 
             return result;
         }
