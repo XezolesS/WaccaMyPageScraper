@@ -34,14 +34,18 @@ Log.Information("${PlayerData}", player);
 
 var musicFetcher = new MusicsFetcher(pageConnector);
 var musics = await musicFetcher.FetchAsync();
+
+Log.Information("{Musics} of Musics have been fetched", musics.Length);
+
+int count = 0;
 foreach (var music in musics)
 {
-    Log.Information("{Music}", music);
-}
+    var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
+    var musicDetail = await musicDetailFetcher.FetchAsync(music.Id);
 
-var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
-var musicDetailTest = await musicDetailFetcher.FetchAsync(musics[0].Id);
-Log.Information("{MusicDetail}", musicDetailTest);
+    Log.Information("{Count} out of {Musics} has been fetched: \n{MusicDetail}", ++count, musics.Length, musicDetail);
+    Thread.Sleep(50);
+}
 
 Log.CloseAndFlush();
 pageConnector.Dispose();
