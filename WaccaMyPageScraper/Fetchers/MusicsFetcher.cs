@@ -31,6 +31,13 @@ namespace WaccaMyPageScraper.Fetchers
             var response = await pageConnector.GetStringAsync(Url);
             List<Music> result = new List<Music>();
 
+            if (string.IsNullOrEmpty(response))
+            {
+                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+
+                return null;
+            }
+
             try
             {
                 var document = new HtmlDocument();

@@ -45,6 +45,13 @@ namespace WaccaMyPageScraper.Fetchers
 
             var numericRegex = new Regex("[0-9,+]+");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+
+                return null;
+            }
+
             try
             {
                 var responseContent = await response.Content.ReadAsStringAsync();

@@ -36,6 +36,13 @@ namespace WaccaMyPageScraper.Fetchers
 
             var numericRegex = new Regex("[0-9]+");
 
+            if (string.IsNullOrEmpty(response))
+            {
+                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+
+                return null;
+            }
+
             try
             {
                 var document = new HtmlDocument();
