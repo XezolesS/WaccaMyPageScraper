@@ -112,7 +112,8 @@ namespace WaccaMyPageScraper.Fetchers
                     PlayCounts = playCounts.ToArray(),
                     Scores = scores.ToArray(),
                     Achieves = achieves.ToArray(),
-                };            }
+                };            
+            }
             catch (Exception ex)
             {
                 this.pageConnector.Logger?.Error(ex.Message);

@@ -15,6 +15,7 @@ namespace WaccaMyPageScraper.Fetchers
         private readonly static string Url = "https://wacca.marv-games.jp/web/stageup";
 
         private readonly PageConnector pageConnector;
+
         public StagesFetcher(PageConnector pageConnector)
         {
             this.pageConnector = pageConnector;

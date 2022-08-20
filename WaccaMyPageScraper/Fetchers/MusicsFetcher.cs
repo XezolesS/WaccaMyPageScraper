@@ -90,13 +90,17 @@ namespace WaccaMyPageScraper.Fetchers
                     };
                     string[] levels = new string[]
                     {
-                        node.Attributes["data-rank_normal_level"].Value,
-                        node.Attributes["data-rank_hard_level"].Value,
-                        node.Attributes["data-rank_expert_level"].Value,
-                        node.Attributes["data-rank_inferno_level"].Value,
+                        node.Attributes["data-rank_normal_level"].Value.Replace(".1", "+"),
+                        node.Attributes["data-rank_hard_level"].Value.Replace(".1", "+"),
+                        node.Attributes["data-rank_expert_level"].Value.Replace(".1", "+"),
+                        node.Attributes["data-rank_inferno_level"].Value.Replace(".1", "+"),
                     };
 
-                    result.Add(new Music { Id = id, Title = title, Genre = genre, Levels = levels });
+                    Music music = new Music { Id = id, Title = title, Genre = genre, Levels = levels };
+
+                    this.pageConnector.Logger?.Debug("Fetched music data: {Music}", music);
+
+                    result.Add(music);
                 }
             }
             catch (Exception ex)

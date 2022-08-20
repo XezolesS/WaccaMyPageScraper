@@ -130,6 +130,17 @@ async Task<Stage[]> LogStageDetailAsync()
 
     Log.Information("{Stages} of stages have been fetched", stages.Length);
 
+    int count = 0;
+    foreach (var stage in stages)
+    {
+        var stageDetailFetcher = new StageDetailFetcher(pageConnector);
+        var stageDetail = await stageDetailFetcher.FetchAsync(stage);
+
+        Log.Information("{Count} out of {Musics} has been fetched: \n{MusicDetail}", ++count, stages.Length, stageDetail);
+
+        Thread.Sleep(100);
+    }
+
     return stages;
 }
 #endregion
