@@ -44,6 +44,7 @@ while (true)
     Console.WriteLine("\t(1) Fetch player's data");
     Console.WriteLine("\t(2) Fetch player's music records");
     Console.WriteLine("\t(3) Fetch player's stage records");
+    Console.WriteLine("\t(4) Fetch player's trophies");
     Console.WriteLine("\t(0) Exit");
     Console.WriteLine("");
 
@@ -62,6 +63,7 @@ while (true)
         case 1: Log.Information("${PlayerData}", await FetchPlayerAsync()); break;
         case 2: await LogMusicDetailsAsync(); break;
         case 3: await LogStageDetailAsync(); break;
+        case 4: await LogTrophyDetailAsync(); break;
         default: break;
     }
 }
@@ -104,8 +106,8 @@ async Task<Player> FetchPlayerAsync()
 
 async Task<Music[]> LogMusicDetailsAsync()
 {
-    var musicFetcher = new MusicsFetcher(pageConnector);
-    var musics = await musicFetcher.FetchAsync();
+    var musicsFetcher = new MusicsFetcher(pageConnector);
+    var musics = await musicsFetcher.FetchAsync();
 
     Log.Information("{Musics} of musics have been fetched", musics.Length);
 
@@ -125,8 +127,8 @@ async Task<Music[]> LogMusicDetailsAsync()
 
 async Task<Stage[]> LogStageDetailAsync()
 {
-    var stageFetcher = new StagesFetcher(pageConnector);
-    var stages = await stageFetcher.FetchAsync();
+    var stagesFetcher = new StagesFetcher(pageConnector);
+    var stages = await stagesFetcher.FetchAsync();
 
     Log.Information("{Stages} of stages have been fetched", stages.Length);
 
@@ -142,5 +144,15 @@ async Task<Stage[]> LogStageDetailAsync()
     }
 
     return stages;
+}
+
+async Task<Trophy[]> LogTrophyDetailAsync()
+{
+    var trophiesFetcher = new TrophiesFetcher(pageConnector);
+    var trophies = await trophiesFetcher.FetchAsync();
+
+    Log.Information("{Trophies} of trophies have been fetched", trophies.Length);
+
+    return trophies;
 }
 #endregion
