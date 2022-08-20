@@ -35,11 +35,10 @@ namespace WaccaMyPageScraper.Converter
 
             var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(valueAsString).Value.Split('_');
 
-            return new Stage
-            {
-                Rank = int.Parse(stageIconNumbers[0]),
-                Grade = (StageGrade)int.Parse(stageIconNumbers[1])
-            };
+            int id = int.Parse(stageIconNumbers[0]);
+            StageGrade grade = (StageGrade)int.Parse(stageIconNumbers[1]);
+
+            return new Stage(id, grade);
         }
     }
 }

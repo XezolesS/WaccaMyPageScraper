@@ -8,7 +8,8 @@ namespace WaccaMyPageScraper.Enums
 {
     public enum StageGrade
     {
-        Blue = 1,
+        NotCleared,
+        Blue,
         Silver,
         Gold
     }

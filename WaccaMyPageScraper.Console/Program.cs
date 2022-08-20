@@ -43,6 +43,7 @@ while (true)
     Console.WriteLine("Type a number of a task which you want to do.\n");
     Console.WriteLine("\t(1) Fetch player's data");
     Console.WriteLine("\t(2) Fetch player's music records");
+    Console.WriteLine("\t(3) Fetch player's stage records");
     Console.WriteLine("\t(0) Exit");
     Console.WriteLine("");
 
@@ -60,6 +61,7 @@ while (true)
         case 0: return;
         case 1: Log.Information("${PlayerData}", await FetchPlayerAsync()); break;
         case 2: await LogMusicDetailsAsync(); break;
+        case 3: await LogStageDetailAsync(); break;
         default: break;
     }
 }
@@ -105,7 +107,7 @@ async Task<Music[]> LogMusicDetailsAsync()
     var musicFetcher = new MusicsFetcher(pageConnector);
     var musics = await musicFetcher.FetchAsync();
 
-    Log.Information("{Musics} of Musics have been fetched", musics.Length);
+    Log.Information("{Musics} of musics have been fetched", musics.Length);
 
     int count = 0;
     foreach (var music in musics)
@@ -119,5 +121,15 @@ async Task<Music[]> LogMusicDetailsAsync()
     }
 
     return musics;
+}
+
+async Task<Stage[]> LogStageDetailAsync()
+{
+    var stageFetcher = new StagesFetcher(pageConnector);
+    var stages = await stageFetcher.FetchAsync();
+
+    Log.Information("{Stages} of stages have been fetched", stages.Length);
+
+    return stages;
 }
 #endregion
