@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
@@ -74,8 +75,15 @@ namespace WaccaMyPageScraper.Fetchers
                     {
                         var stageIconImgSrc = stageIconNode.Attributes["src"].Value;
 
-                        var converter = TypeDescriptor.GetConverter(typeof(Stage));
-                        stage = (Stage)converter.ConvertFrom(stageIconImgSrc);
+                        this.pageConnector.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
+
+                        var stageIconFileName = new Regex(@"stage_icon_[0-9]+_[1-3].png").Match(stageIconImgSrc).Value;
+                        var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconFileName).Value.Split('_');
+
+                        int id = int.Parse(stageIconNumbers[0]);
+                        StageGrade grade = (StageGrade)int.Parse(stageIconNumbers[1]);
+
+                        stage = new Stage(id, grade);
                     }
 
                     result.Add(stage);

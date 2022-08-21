@@ -1,8 +1,11 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Converter;
 using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
@@ -46,7 +49,20 @@ namespace WaccaMyPageScraper.Data
             Levels = levels;
         }
 
-        public override string ToString() => string.Format("[{0}] {1} | {2} ({3})", 
-            this.Id, this.Title, this.Genre, string.Join(",", this.Levels));
+        public override string ToString() => string.Format("[{0},{1},{2},[{3}]]", 
+            this.Id, this.Title, (int)this.Genre, string.Join(",", this.Levels));
+    }
+
+    public sealed class MusicMap : ClassMap<Music>
+    {
+        public MusicMap()
+        {
+            Map(m => m.Id).Index(0).Name("id");
+            Map(m => m.Title).Index(1).Name("title");
+            Map(m => m.Genre).Index(2).Name("genre")
+                .TypeConverter<EnumConverter<Genre>>();
+            Map(m => m.Levels).Index(3).Name("levels")
+                .TypeConverter<StringArrayConverter>();
+        }
     }
 }

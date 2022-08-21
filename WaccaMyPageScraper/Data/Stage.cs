@@ -1,6 +1,7 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace WaccaMyPageScraper.Data
     /// <summary>
     /// Structure data for stage records.
     /// </summary>
-    [TypeConverter(typeof(StageConverter))]
     public class Stage
     {
         /// <summary>
@@ -70,6 +70,18 @@ namespace WaccaMyPageScraper.Data
             this.Grade = grade;
         }
 
-        public override string ToString() => string.Format("({0}){1} | {2}", this.Id, this.Name, this.Grade);
+        public override string ToString() => string.Format("[{0},{1},{2}]", 
+            this.Id, this.Name, (int)this.Grade);
+    }
+
+    public sealed class StageMap : ClassMap<Stage>
+    {
+        public StageMap()
+        {
+            Map(m => m.Id).Index(0).Name("id");
+            Map(m => m.Name).Index(1).Name("name");
+            Map(m => m.Grade).Index(2).Name("grade")
+                .TypeConverter<EnumConverter<StageGrade>>();
+        }
     }
 }

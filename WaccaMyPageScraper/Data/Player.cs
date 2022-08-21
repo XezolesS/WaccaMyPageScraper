@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Converter;
 using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
@@ -72,10 +74,27 @@ namespace WaccaMyPageScraper.Data
             TotalRpSpent = totalRpSpent;
         }
 
-        public override string ToString() => string.Format("{0}, Lv.{1}, Rate {2} [{3} | Played({4}, {5}(VS), {6}(CO-OP)) | RP(Earned {7}, Spent {8})]", 
+        public override string ToString() => string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8}]", 
             this.Name, this.Level, this.Rate,
             this.Stage,
             this.PlayCount, this.PlayCountVersus, this.PlayCountCoop,
             this.TotalRpEarned, this.TotalRpSpent);
+    }
+
+    public sealed class PlayerMap : ClassMap<Player>
+    {
+        public PlayerMap()
+        {
+            Map(m => m.Name).Index(0).Name("name");
+            Map(m => m.Level).Index(1).Name("level");
+            Map(m => m.Rate).Index(2).Name("rate");
+            Map(m => m.Stage).Index(3).Name("stage")
+                .TypeConverter<StageConverter>();
+            Map(m => m.PlayCount).Index(4).Name("play_count");
+            Map(m => m.PlayCountVersus).Index(5).Name("play_count_versus");
+            Map(m => m.PlayCountCoop).Index(6).Name("play_count_coop");
+            Map(m => m.TotalRpEarned).Index(7).Name("total_rp_earned");
+            Map(m => m.TotalRpSpent).Index(8).Name("total_rp_spent");
+        }
     }
 }

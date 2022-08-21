@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CsvHelper.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Converter;
 using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Data
@@ -73,8 +75,8 @@ namespace WaccaMyPageScraper.Data
             this.Achieves = new Achieve[4];
         }
 
-        public MusicDetail(int id, string title, Genre genre, string[] levels, 
-            string artist, int[] playCounts, int[] scores, Achieve[] achieves) 
+        public MusicDetail(int id, string title, Genre genre, string[] levels,
+            string artist, int[] playCounts, int[] scores, Achieve[] achieves)
             : base(id, title, genre, levels)
         {
             Artist = artist;
@@ -92,11 +94,30 @@ namespace WaccaMyPageScraper.Data
             Achieves = achieves;
         }
 
-        public override string ToString() => string.Format("[{0}] {1} - {2} | {3} ({4}) | PlayCounts: ({5}) | Scores: ({6}) | Rates: ({7}) | Achieves: ({8})",
-            this.Id, this.Title, this.Artist, this.Genre, string.Join(",", this.Levels),
+        public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}],[{5}],[{6}],[{7}],[{8}]]",
+            this.Id, this.Title, this.Artist, (int)this.Genre, string.Join(",", this.Levels),
             string.Join(",", this.PlayCounts),
             string.Join(",", this.Scores),
             string.Join(",", this.Rates),
-            string.Join(",", this.Achieves));
+            string.Join(",", Array.ConvertAll(this.Achieves, s => (int)s)));
+    }
+    public sealed class MusicDetailMap : ClassMap<MusicDetail>
+    {
+        public MusicDetailMap()
+        {
+            Map(m => m.Id).Index(0).Name("id");
+            Map(m => m.Title).Index(1).Name("title");
+            Map(m => m.Artist).Index(2).Name("artist");
+            Map(m => m.Genre).Index(3).Name("genre")
+                .TypeConverter<EnumConverter<Genre>>();
+            Map(m => m.Levels).Index(4).Name("levels")
+                .TypeConverter<StringArrayConverter>();
+            Map(m => m.PlayCounts).Index(5).Name("play_counts")
+                .TypeConverter<Int32ArrayConverter>();
+            Map(m => m.Scores).Index(6).Name("scores")
+                .TypeConverter<Int32ArrayConverter>();
+            Map(m => m.Achieves).Index(7).Name("achieves")
+                .TypeConverter<EnumArrayConverter<Achieve>>();
+        }
     }
 }

@@ -7,6 +7,7 @@ using WaccaMyPageScraper.Fetchers;
 
 // Create logger
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
     .WriteTo.Console()
     .CreateLogger();
 
@@ -67,6 +68,40 @@ while (true)
         case 2: await LogMusicDetailsAsync(); break;
         case 3: await LogStageDetailAsync(); break;
         case 4: await LogTrophyDetailAsync(); break;
+
+        case 5:
+            var playerCsvHandler = new CsvHandler<Player>(Log.Logger);
+            var playerRecords = playerCsvHandler.Import("player.csv");
+
+            if (playerRecords is not null)
+                Log.Information("\n{Records}", playerRecords.First());
+
+            var musicCsvHandler = new CsvHandler<Music>(Log.Logger);
+            var musicRecords = musicCsvHandler.Import("musics.csv");
+
+            if (musicRecords is not null)
+                Log.Information("\n{Records}", string.Join("\n", musicRecords));
+
+            var musicDetailCsvHandler = new CsvHandler<MusicDetail>(Log.Logger);
+            var musicDetailRecords = musicDetailCsvHandler.Import("music_details.csv");
+
+            if (musicDetailRecords is not null)
+                Log.Information("\n{Records}", string.Join("\n", musicDetailRecords));
+
+            var stageCsvHandler = new CsvHandler<Stage>(Log.Logger);
+            var stageRecords = stageCsvHandler.Import("stages.csv");
+
+            if (stageRecords is not null)
+                Log.Information("\n{Records}", string.Join("\n", stageRecords));
+
+            var stageDetailCsvHandler = new CsvHandler<StageDetail>(Log.Logger);
+            var stageDetailRecords = stageCsvHandler.Import("stage_details.csv");
+
+            if (stageDetailRecords is not null)
+                Log.Information("\n{Records}", string.Join("\n", stageDetailRecords));
+
+            break;
+        
         default: break;
     }
 }
@@ -105,8 +140,12 @@ async Task<bool> LoginToPageAsync(string aimeId)
 async Task<Player> LogPlayerAsync()
 {
     var playerFetcher = new PlayerFetcher(pageConnector);
+    var player = await playerFetcher.FetchAsync();
 
-    return await playerFetcher.FetchAsync();
+    var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
+    csvHandler.Export(Directory.GetCurrentDirectory(), "player.csv");
+
+    return player;
 }
 
 async Task<Music[]> LogMusicDetailsAsync()
@@ -115,15 +154,22 @@ async Task<Music[]> LogMusicDetailsAsync()
     var musics = await musicsFetcher.FetchAsync();
 
     int count = 0;
+    var musicDetails = new List<MusicDetail>();
     foreach (var music in musics)
     {
         var musicDetailFetcher = new MusicDetailFetcher(pageConnector);
         var musicDetail = await musicDetailFetcher.FetchAsync(music);
 
-        Log.Information("{Count} out of {Musics} has been fetched", ++count, musics.Length);
+        musicDetails.Add(musicDetail);
 
-        Thread.Sleep(100);
+        Log.Information("{Count} out of {Musics} has been fetched", ++count, musics.Length);
     }
+
+    var musicCsvHandler = new CsvHandler<Music>(musics, Log.Logger);
+    musicCsvHandler.Export(Directory.GetCurrentDirectory(), "musics.csv");
+
+    var musicDetailCsvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
+    musicDetailCsvHandler.Export(Directory.GetCurrentDirectory(), "music_details.csv");
 
     return musics;
 }
@@ -136,15 +182,22 @@ async Task<Stage[]> LogStageDetailAsync()
     Log.Information("{Stages} of stages have been fetched", stages.Length);
 
     int count = 0;
+    var stageDetails = new List<StageDetail>();
     foreach (var stage in stages)
     {
         var stageDetailFetcher = new StageDetailFetcher(pageConnector);
         var stageDetail = await stageDetailFetcher.FetchAsync(stage);
 
-        Log.Information("{Count} out of {Musics} has been fetched", ++count, stages.Length, stageDetail);
+        stageDetails.Add(stageDetail);
 
-        Thread.Sleep(100);
+        Log.Information("{Count} out of {Musics} has been fetched", ++count, stages.Length, stageDetail);
     }
+
+    var stageCsvHandler = new CsvHandler<Stage>(stages, Log.Logger);
+    stageCsvHandler.Export(Directory.GetCurrentDirectory(), "stages.csv");
+
+    var stageDetailCsvHandler = new CsvHandler<StageDetail>(stageDetails, Log.Logger);
+    stageDetailCsvHandler.Export(Directory.GetCurrentDirectory(), "stage_details.csv");
 
     return stages;
 }

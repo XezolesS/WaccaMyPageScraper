@@ -83,8 +83,13 @@ namespace WaccaMyPageScraper.Fetchers
 
                     this.pageConnector.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
 
-                    var converter = TypeDescriptor.GetConverter(typeof(Stage));
-                    stage = (Stage)converter.ConvertFrom(stageIconImgSrc);
+                    var stageIconFileName = new Regex(@"stage_icon_[0-9]+_[1-3].png").Match(stageIconImgSrc).Value;
+                    var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconFileName).Value.Split('_');
+
+                    int id = int.Parse(stageIconNumbers[0]);
+                    StageGrade grade = (StageGrade)int.Parse(stageIconNumbers[1]);
+
+                    stage = new Stage(id, grade);
                 }
 
                 // Fetch player's play counts
