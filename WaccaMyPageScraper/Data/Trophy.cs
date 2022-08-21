@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CsvHelper.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,20 @@ namespace WaccaMyPageScraper.Data
             this.Obtained = obtained;
         }
 
-        public override string ToString() => string.Format("({0}) {1} - {2} | Category {3} | Rarity {4} | {5}", 
+        public override string ToString() => string.Format("[{0},{1},{2},{3},{4},{5}]", 
             this.Id, this.Name, this.Description, this.Category, this.Rarity, this.Obtained);
+    }
+
+    public sealed class TrophyMap : ClassMap<Trophy>
+    {
+        public TrophyMap()
+        {
+            Map(m => m.Id).Index(0).Name("trophy_id");
+            Map(m => m.Name).Index(1).Name("trophy_name");
+            Map(m => m.Description).Index(2).Name("trophy_description");
+            Map(m => m.Category).Index(3).Name("trophy_category");
+            Map(m => m.Rarity).Index(4).Name("trophy_rarity");
+            Map(m => m.Obtained).Index(5).Name("trophy_obtained");
+        }
     }
 }

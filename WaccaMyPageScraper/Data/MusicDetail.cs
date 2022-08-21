@@ -105,18 +105,18 @@ namespace WaccaMyPageScraper.Data
     {
         public MusicDetailMap()
         {
-            Map(m => m.Id).Index(0).Name("id");
-            Map(m => m.Title).Index(1).Name("title");
-            Map(m => m.Artist).Index(2).Name("artist");
-            Map(m => m.Genre).Index(3).Name("genre")
+            Map(m => m.Id).Index(0).Name("music_id");
+            Map(m => m.Title).Index(1).Name("music_title");
+            Map(m => m.Artist).Index(2).Name("music_artist");
+            Map(m => m.Genre).Index(3).Name("music_genre")
                 .TypeConverter<EnumConverter<Genre>>();
-            Map(m => m.Levels).Index(4).Name("levels")
+            Map(m => m.Levels).Index(4).Name("music_levels")
                 .TypeConverter<StringArrayConverter>();
-            Map(m => m.PlayCounts).Index(5).Name("play_counts")
+            Map(m => m.PlayCounts).Index(5).Name("music_play_counts")
                 .TypeConverter<Int32ArrayConverter>();
-            Map(m => m.Scores).Index(6).Name("scores")
+            Map(m => m.Scores).Index(6).Name("music_scores")
                 .TypeConverter<Int32ArrayConverter>();
-            Map(m => m.Achieves).Index(7).Name("achieves")
+            Map(m => m.Achieves).Index(7).Name("music_achieves")
                 .TypeConverter<EnumArrayConverter<Achieve>>();
         }
     }

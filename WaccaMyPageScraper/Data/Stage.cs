@@ -78,9 +78,9 @@ namespace WaccaMyPageScraper.Data
     {
         public StageMap()
         {
-            Map(m => m.Id).Index(0).Name("id");
-            Map(m => m.Name).Index(1).Name("name");
-            Map(m => m.Grade).Index(2).Name("grade")
+            Map(m => m.Id).Index(0).Name("stage_id");
+            Map(m => m.Name).Index(1).Name("stage_name");
+            Map(m => m.Grade).Index(2).Name("stage_grade")
                 .TypeConverter<EnumConverter<StageGrade>>();
         }
     }

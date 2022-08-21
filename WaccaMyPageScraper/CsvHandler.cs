@@ -126,6 +126,7 @@ namespace WaccaMyPageScraper
             var t when t.Name == typeof(StageDetail).Name => typeof(StageDetailMap),
             var t when t.Name == typeof(Music).Name => typeof(MusicMap),
             var t when t.Name == typeof(MusicDetail).Name => typeof(MusicDetailMap),
+            var t when t.Name == typeof(Trophy).Name => typeof(TrophyMap),
             _ => null
         };
     }

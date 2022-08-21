@@ -47,6 +47,7 @@ while (true)
     Console.WriteLine("\t(2) Fetch player's music records");
     Console.WriteLine("\t(3) Fetch player's stage records");
     Console.WriteLine("\t(4) Fetch player's trophies");
+    Console.WriteLine("\t(5) Read all .csv files");
     Console.WriteLine("\t(0) Exit");
     Console.WriteLine("================================================");
 
@@ -68,39 +69,7 @@ while (true)
         case 2: await LogMusicDetailsAsync(); break;
         case 3: await LogStageDetailAsync(); break;
         case 4: await LogTrophyDetailAsync(); break;
-
-        case 5:
-            var playerCsvHandler = new CsvHandler<Player>(Log.Logger);
-            var playerRecords = playerCsvHandler.Import("player.csv");
-
-            if (playerRecords is not null)
-                Log.Information("\n{Records}", playerRecords.First());
-
-            var musicCsvHandler = new CsvHandler<Music>(Log.Logger);
-            var musicRecords = musicCsvHandler.Import("musics.csv");
-
-            if (musicRecords is not null)
-                Log.Information("\n{Records}", string.Join("\n", musicRecords));
-
-            var musicDetailCsvHandler = new CsvHandler<MusicDetail>(Log.Logger);
-            var musicDetailRecords = musicDetailCsvHandler.Import("music_details.csv");
-
-            if (musicDetailRecords is not null)
-                Log.Information("\n{Records}", string.Join("\n", musicDetailRecords));
-
-            var stageCsvHandler = new CsvHandler<Stage>(Log.Logger);
-            var stageRecords = stageCsvHandler.Import("stages.csv");
-
-            if (stageRecords is not null)
-                Log.Information("\n{Records}", string.Join("\n", stageRecords));
-
-            var stageDetailCsvHandler = new CsvHandler<StageDetail>(Log.Logger);
-            var stageDetailRecords = stageCsvHandler.Import("stage_details.csv");
-
-            if (stageDetailRecords is not null)
-                Log.Information("\n{Records}", string.Join("\n", stageDetailRecords));
-
-            break;
+        case 5: ReadAllCsvFiles(); break;
         
         default: break;
     }
@@ -209,6 +178,48 @@ async Task<Trophy[]> LogTrophyDetailAsync()
 
     Log.Information("{Trophies} of trophies have been fetched", trophies.Length);
 
+    var trophyCsvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
+    trophyCsvHandler.Export(Directory.GetCurrentDirectory(), "trophies.csv");
+
     return trophies;
+}
+
+void ReadAllCsvFiles()
+{
+    var playerCsvHandler = new CsvHandler<Player>(Log.Logger);
+    var playerRecords = playerCsvHandler.Import("player.csv");
+
+    if (playerRecords is not null)
+        Log.Information("\n{Records}", playerRecords.First());
+
+    var musicCsvHandler = new CsvHandler<Music>(Log.Logger);
+    var musicRecords = musicCsvHandler.Import("musics.csv");
+
+    if (musicRecords is not null)
+        Log.Information("\n{Records}", string.Join("\n", musicRecords));
+
+    var musicDetailCsvHandler = new CsvHandler<MusicDetail>(Log.Logger);
+    var musicDetailRecords = musicDetailCsvHandler.Import("music_details.csv");
+
+    if (musicDetailRecords is not null)
+        Log.Information("\n{Records}", string.Join("\n", musicDetailRecords));
+
+    var stageCsvHandler = new CsvHandler<Stage>(Log.Logger);
+    var stageRecords = stageCsvHandler.Import("stages.csv");
+
+    if (stageRecords is not null)
+        Log.Information("\n{Records}", string.Join("\n", stageRecords));
+
+    var stageDetailCsvHandler = new CsvHandler<StageDetail>(Log.Logger);
+    var stageDetailRecords = stageCsvHandler.Import("stage_details.csv");
+
+    if (stageDetailRecords is not null)
+        Log.Information("\n{Records}", string.Join("\n", stageDetailRecords));
+
+    var trophyCsvHandler = new CsvHandler<Trophy>(Log.Logger);
+    var trophyRecords = trophyCsvHandler.Import("trophies.csv");
+
+    if (trophyRecords is not null)
+        Log.Information("\n{Records}", string.Join("\n", trophyRecords));
 }
 #endregion

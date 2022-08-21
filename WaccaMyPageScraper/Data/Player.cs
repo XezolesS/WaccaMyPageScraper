@@ -85,16 +85,16 @@ namespace WaccaMyPageScraper.Data
     {
         public PlayerMap()
         {
-            Map(m => m.Name).Index(0).Name("name");
-            Map(m => m.Level).Index(1).Name("level");
-            Map(m => m.Rate).Index(2).Name("rate");
-            Map(m => m.Stage).Index(3).Name("stage")
+            Map(m => m.Name).Index(0).Name("player_name");
+            Map(m => m.Level).Index(1).Name("player_level");
+            Map(m => m.Rate).Index(2).Name("player_rate");
+            Map(m => m.Stage).Index(3).Name("player_stage")
                 .TypeConverter<StageConverter>();
-            Map(m => m.PlayCount).Index(4).Name("play_count");
-            Map(m => m.PlayCountVersus).Index(5).Name("play_count_versus");
-            Map(m => m.PlayCountCoop).Index(6).Name("play_count_coop");
-            Map(m => m.TotalRpEarned).Index(7).Name("total_rp_earned");
-            Map(m => m.TotalRpSpent).Index(8).Name("total_rp_spent");
+            Map(m => m.PlayCount).Index(4).Name("player_play_count");
+            Map(m => m.PlayCountVersus).Index(5).Name("player_play_count_versus");
+            Map(m => m.PlayCountCoop).Index(6).Name("player_play_count_coop");
+            Map(m => m.TotalRpEarned).Index(7).Name("player_total_rp_earned");
+            Map(m => m.TotalRpSpent).Index(8).Name("player_total_rp_spent");
         }
     }
 }

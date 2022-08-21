@@ -54,13 +54,13 @@ namespace WaccaMyPageScraper.Data
     {
         public StageDetailMap()
         {
-            Map(m => m.Id).Index(0).Name("id");
-            Map(m => m.Name).Index(1).Name("name");
-            Map(m => m.Grade).Index(2).Name("grade")
+            Map(m => m.Id).Index(0).Name("stage_id");
+            Map(m => m.Name).Index(1).Name("stage_name");
+            Map(m => m.Grade).Index(2).Name("stage_grade")
                 .TypeConverter<EnumConverter<StageGrade>>();
-            Map(m => m.Scores).Index(3).Name("scores")
+            Map(m => m.Scores).Index(3).Name("stage_scores")
                 .TypeConverter<Int32ArrayConverter>();
-            Map(m => m.TotalScore).Index(4).Name("total_score");
+            Map(m => m.TotalScore).Index(4).Name("stage_total_score");
         }
     }
 }

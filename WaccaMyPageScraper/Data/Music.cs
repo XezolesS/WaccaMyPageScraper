@@ -57,11 +57,11 @@ namespace WaccaMyPageScraper.Data
     {
         public MusicMap()
         {
-            Map(m => m.Id).Index(0).Name("id");
-            Map(m => m.Title).Index(1).Name("title");
-            Map(m => m.Genre).Index(2).Name("genre")
+            Map(m => m.Id).Index(0).Name("music_id");
+            Map(m => m.Title).Index(1).Name("music_title");
+            Map(m => m.Genre).Index(2).Name("music_genre")
                 .TypeConverter<EnumConverter<Genre>>();
-            Map(m => m.Levels).Index(3).Name("levels")
+            Map(m => m.Levels).Index(3).Name("music_levels")
                 .TypeConverter<StringArrayConverter>();
         }
     }
