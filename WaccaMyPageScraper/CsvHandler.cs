@@ -79,11 +79,8 @@ namespace WaccaMyPageScraper
             return records;
         }
 
-        public void Export(string? directoryUri, string? fileName)
+        public void Export(string? filePath)
         {
-            directoryUri ??= Directory.GetCurrentDirectory();
-
-            var filePath = Path.Combine(directoryUri, fileName);
             try
             {
                 Path.GetFullPath(filePath);
@@ -116,7 +113,7 @@ namespace WaccaMyPageScraper
                 return;
             }
 
-            _logger.Information("Csv file exported to {FilePath}", filePath);
+            _logger.Information("Csv file exported to {FilePath}", Path.GetFullPath(filePath));
         }
 
         private Type? GetClassMap<T>() => typeof(T) switch
