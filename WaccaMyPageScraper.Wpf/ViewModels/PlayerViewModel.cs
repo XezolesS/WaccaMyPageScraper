@@ -57,11 +57,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePlayerData);
         }
-        private void InitializeDataFromFile()
+        private async void InitializeDataFromFile()
         {
-            var player = new CsvHandler<Player>(Log.Logger)
-                .Import(DataFilePath.PlayerData)?
-                .First();
+            var playerRecords = await new CsvHandler<Player>(Log.Logger)
+                .ImportAsync(DataFilePath.PlayerData);
+            var player = playerRecords.First();
 
             this.PlayerName = player?.Name;
             this.PlayerLevel = player?.Level.ToString();

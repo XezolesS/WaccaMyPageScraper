@@ -79,6 +79,54 @@ namespace WaccaMyPageScraper
             return records;
         }
 
+        public async Task<IEnumerable<T>?> ImportAsync(string? filePath)
+        {
+            try
+            {
+                Path.GetFullPath(filePath);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Error("Invalid path!");
+                _logger?.Debug("Detail: {ExceptionMessage}", ex.Message);
+
+                return null;
+            }
+
+            var fileFullPath = Path.GetFullPath(filePath);
+            if (!File.Exists(fileFullPath))
+            {
+                _logger?.Error("Cannot find a file!");
+
+                return null;
+            }
+
+            List<T>? records = new List<T>();
+            try
+            {
+                using (var reader = new StreamReader(fileFullPath))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    var classMap = this.GetClassMap<T>();
+                    if (classMap is not null)
+                        csv.Context.RegisterClassMap(classMap);
+
+                    await foreach (var record in csv.GetRecordsAsync<T>())
+                    {
+                        records.Add(record);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.Error(ex.Message);
+
+                return null;
+            }
+
+            return records;
+        }
+
         public void Export(string? filePath)
         {
             try
@@ -103,6 +151,43 @@ namespace WaccaMyPageScraper
                         csv.Context.RegisterClassMap(classMap);
 
                     csv.WriteRecords(this.Records);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.Error(ex.Message);
+                _logger?.Debug(ex.StackTrace);
+
+                return;
+            }
+
+            _logger?.Information("Csv file exported to {FilePath}", Path.GetFullPath(filePath));
+        }
+
+        public async void ExportAsync(string? filePath)
+        {
+            try
+            {
+                Path.GetFullPath(filePath);
+            }
+            catch (Exception ex)
+            {
+                _logger?.Error("Invalid path!");
+                _logger?.Debug("Detail: {ExceptionMessage}", ex.Message);
+
+                return;
+            }
+
+            try
+            {
+                using (var writer = new StreamWriter(filePath))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    var classMap = this.GetClassMap<T>();
+                    if (classMap is not null)
+                        csv.Context.RegisterClassMap(classMap);
+
+                    await csv.WriteRecordsAsync(this.Records);
                 }
             }
             catch (Exception ex)

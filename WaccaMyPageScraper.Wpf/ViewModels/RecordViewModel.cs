@@ -64,10 +64,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
-        private void InitializeDataFromFile()
+        private async void InitializeDataFromFile()
         {
-            var musicDetails = new CsvHandler<MusicDetail>(Log.Logger)
-                .Import(DataFilePath.RecordData);
+            var musicDetails = await new CsvHandler<MusicDetail>(Log.Logger)
+                .ImportAsync(DataFilePath.RecordData);
 
             this.Records = ConvertMusicDetailsToRecords(musicDetails);
         }
