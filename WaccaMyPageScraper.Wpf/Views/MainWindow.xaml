@@ -44,7 +44,7 @@
                              Margin="10"
                              Background="Transparent">
             <mah:MetroTabItem Header="Record">
-
+                <Views:RecordView />
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Stage">

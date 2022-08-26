@@ -63,7 +63,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             PlayerFetcher fetcher = new PlayerFetcher(connector);
             var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
 
-            CsvHandler<Player> csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
+            var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
             csvHandler.Export(DataFilePath.PlayerData);
 
             var playerIcon = await fetcher.FetchPlayerIconAsync();
@@ -92,7 +92,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.StageIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
         }
 
-        byte[] GetImageByte(string? DataFilePath)
+        private byte[] GetImageByte(string? DataFilePath)
         {
             if (!File.Exists(DataFilePath))
                 return null;

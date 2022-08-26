@@ -57,7 +57,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (!Directory.Exists(DataFilePath.Root))
                 Directory.CreateDirectory(DataFilePath.Root);
             
-
             using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Create, FileAccess.Write))
                 fs.Write(Encoding.UTF8.GetBytes(this.AimeId));
         }

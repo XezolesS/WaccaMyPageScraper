@@ -115,6 +115,24 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/records/.
+        /// </summary>
+        public static string Record {
+            get {
+                return ResourceManager.GetString("Record", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/records/records.csv.
+        /// </summary>
+        public static string RecordData {
+            get {
+                return ResourceManager.GetString("RecordData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to data/.
         /// </summary>
         public static string Root {
