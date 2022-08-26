@@ -18,7 +18,7 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button Content="Console" 
-                    Command="{Binding OpenConsoleCommand}"/>
+                    Command="{Binding OpenConsoleCommand}" />
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     

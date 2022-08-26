@@ -118,6 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AcheiveNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\no_achieve.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AchieveAllMarvelous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\achieve4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AchieveClear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\achieve1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AchieveFullCombo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\achieve3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AchieveMissless" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\achieve2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="RateA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\rate_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

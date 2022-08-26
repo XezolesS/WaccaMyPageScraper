@@ -62,6 +62,18 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Achieve Achieve { get; set; }
 
+        public byte[] AchieveImage
+        {
+            get => (this.PlayCount, this.Achieve) switch
+            {
+                var (p, a) when p > 0 && a == Achieve.Clear => Properties.Resources.AchieveClear,
+                var (p, a) when a == Achieve.Missless => Properties.Resources.AchieveMissless,
+                var (p, a) when a == Achieve.FullCombo => Properties.Resources.AchieveFullCombo,
+                var (p, a) when a == Achieve.AllMarvelous => Properties.Resources.AchieveAllMarvelous,
+                _ => Properties.Resources.AcheiveNo
+            };
+        }
+
         public RecordModel() { }
 
         public RecordModel(string title, string artist, Genre genre, Difficulty difficulty, string level, int score, int playCount, Rate rate, Achieve achieve)

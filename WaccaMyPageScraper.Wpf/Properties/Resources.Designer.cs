@@ -63,6 +63,56 @@ namespace WaccaMyPageScraper.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] AcheiveNo {
+            get {
+                object obj = ResourceManager.GetObject("AcheiveNo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AchieveAllMarvelous {
+            get {
+                object obj = ResourceManager.GetObject("AchieveAllMarvelous", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AchieveClear {
+            get {
+                object obj = ResourceManager.GetObject("AchieveClear", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AchieveFullCombo {
+            get {
+                object obj = ResourceManager.GetObject("AchieveFullCombo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AchieveMissless {
+            get {
+                object obj = ResourceManager.GetObject("AchieveMissless", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] RateA {
             get {
                 object obj = ResourceManager.GetObject("RateA", resourceCulture);

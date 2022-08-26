@@ -70,11 +70,19 @@
                                                HorizontalAlignment="Left"
                                                Foreground="LightGray"
                                                FontSize="10" />
-                                    
-                                    <TextBlock Grid.Row="1"
-                                               Text="{Binding PlayCount}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Right" />
+
+                                    <StackPanel Grid.Row="1"
+                                                Orientation="Horizontal"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding PlayCount}" />
+                                        <TextBlock Margin="4,0" 
+                                                   Text="times played"
+                                                   Foreground="Gray"
+                                                   FontSize="11"
+                                                   FontWeight="Light"
+                                                   VerticalAlignment="Bottom" />
+                                    </StackPanel>
 
                                     <Grid Grid.Row="2">
                                         <Border Background="{Binding DifficultyColor}"
@@ -110,10 +118,11 @@
                                                    Height="35" Width="35"
                                                    Margin="5,0"
                                                    RenderOptions.BitmapScalingMode="HighQuality" />
-                                            <TextBlock Grid.Column="1" 
-                                                       Height="35" Width="35"
-                                                       Margin="5,0"
-                                                       Text="{Binding Achieve}" />
+                                            <Image Grid.Column="1" 
+                                                   Source="{Binding AchieveImage}"
+                                                   Height="35" Width="35"
+                                                   Margin="5,0"
+                                                   RenderOptions.BitmapScalingMode="HighQuality" />
                                         </Grid>
                                     </Grid>
                                 </Grid>
