@@ -113,6 +113,14 @@ namespace WaccaMyPageScraper.Console.Options
                         return trophies;
                     }
 
+                case "image_rate":
+                    {
+                        var rateImageFetcher = new RateImageFetcher(pageConnector);
+                        var result = Task.Run(async () => await rateImageFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
                 default:
                     this.logger?.Error("Invalid data information.");
 
