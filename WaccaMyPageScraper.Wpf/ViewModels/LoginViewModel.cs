@@ -20,6 +20,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             get => _aimeId;
             set => this.SetProperty(ref _aimeId, value);
         }
+
+        public bool IsAbleToAccess
+        {
+           get => DateTime.Compare(DateTime.Now, new DateTime(2022, 9, 30)) < 0;
+        }
         
         public DelegateCommand LoginCommand { get; private set; }
 

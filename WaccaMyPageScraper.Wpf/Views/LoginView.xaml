@@ -24,7 +24,8 @@
                 Content="Login"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center" 
-                Command="{Binding LoginCommand}" />
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding IsAbleToAccess}" />
 
         <Grid Grid.Row="1"
               Margin="10"
