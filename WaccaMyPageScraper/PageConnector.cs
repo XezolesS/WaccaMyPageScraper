@@ -16,11 +16,9 @@ namespace WaccaMyPageScraper
         private static readonly string MyPageLoginExecUrl = "https://wacca.marv-games.jp/web/login/exec";
         #endregion
 
-        #region Private Fields
-        private HttpClient _httpClient;
-        #endregion
-
         #region Properties
+        public HttpClient Client { get; private set; }
+
         internal string AimeId { get; private set; }
 
         internal LoginStatus LoginStatus { get; private set; }
@@ -31,7 +29,7 @@ namespace WaccaMyPageScraper
         #region Constructors
         public PageConnector(string aimeId)
         {
-            this._httpClient = new HttpClient();
+            this.Client = new HttpClient();
 
             this.AimeId = aimeId;
             this.LoginStatus = LoginStatus.LoggedOff;
@@ -41,7 +39,7 @@ namespace WaccaMyPageScraper
 
         public PageConnector(string aimeId, ILogger logger)
         {
-            this._httpClient = new HttpClient();
+            this.Client = new HttpClient();
 
             this.AimeId = aimeId;
             this.LoginStatus = LoginStatus.LoggedOff;
@@ -55,7 +53,7 @@ namespace WaccaMyPageScraper
             var parameters = new Dictionary<string, string> { { "aimeId", this.AimeId} };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.PostAsync(MyPageLoginExecUrl, encodedContent);
+            var response = await this.Client.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
             this.Logger?.Debug("{Response}", response);
 
             if (!response.IsSuccessStatusCode)
@@ -92,21 +90,11 @@ namespace WaccaMyPageScraper
             return true;
         }
 
-        public async Task<string> GetStringAsync(string? requestUri)
-        {
-            return await this._httpClient.GetStringAsync(requestUri).ConfigureAwait(false);
-        }
-
-        public async Task<HttpResponseMessage> PostAsync(string? requestUri, HttpContent? content)
-        {
-            return await this._httpClient.PostAsync(requestUri, content).ConfigureAwait(false);
-        }
-
         public bool IsLoggedOn() => this.LoginStatus == LoginStatus.LoggedOn;
         
         public void Dispose()
         {
-            this._httpClient.Dispose();
+            this.Client.Dispose();
         }
     }
 }

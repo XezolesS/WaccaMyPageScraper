@@ -32,7 +32,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var response = await pageConnector.GetStringAsync(Url);
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<Music> result = new List<Music>();
 
             if (string.IsNullOrEmpty(response))

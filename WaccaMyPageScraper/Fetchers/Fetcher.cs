@@ -8,6 +8,8 @@ namespace WaccaMyPageScraper.Fetchers
 {
     public abstract class Fetcher<T>
     {
+        protected Uri BaseUrl => new Uri("https://wacca.marv-games.jp/");
+
         protected abstract string Url { get; }
 
         protected PageConnector pageConnector { get; set; }

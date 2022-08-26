@@ -15,6 +15,21 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <Grid>
+            <Image Source="{Binding PlayerIconPath}"
+                   Margin="20"
+                   Stretch="Fill"
+                   VerticalAlignment="Stretch"
+                   HorizontalAlignment="Stretch">
+            </Image>
+            <Image Source="{Binding StageIconPath}"
+                   Margin="20"
+                   Height="80" Width="80"
+                   Stretch="Fill"
+                   VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Right" />
+        </Grid>
+
         <StackPanel Grid.Row="1"
                     Orientation="Vertical"
                     Margin="10,0">

@@ -3,19 +3,21 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
+using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Fetchers
 {
     public sealed class PlayerFetcher : Fetcher<Player>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/player";
-
+    
         public PlayerFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var response = await pageConnector.GetStringAsync(Url);
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             Player? result = null;
 
             if (string.IsNullOrEmpty(response))
@@ -112,6 +114,152 @@ namespace WaccaMyPageScraper.Fetchers
                 int totalRpSpent = int.Parse(numericRegex.Match(pointDetailNodes[2].InnerText).Value);
 
                 result = new Player(name, level, rate, stage, playCount, playCountVersus, playCountCoop, totalRpEarned, totalRpSpent);
+            }
+            catch (Exception ex)
+            {
+                this.pageConnector.Logger?.Error(ex.Message);
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
+
+            return result;
+        }
+
+        public async Task<string> FetchPlayerIconAsync()
+        {
+            // Connect to the page and get an HTML document.
+            if (!this.pageConnector.IsLoggedOn())
+            {
+                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
+
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
+            string? result = null;
+
+            if (string.IsNullOrEmpty(response))
+            {
+                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Connection successful");
+
+            try
+            {
+                var document = new HtmlDocument();
+                document.LoadHtml(response);
+
+                var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='icon__image']/img");
+                var playerIconSrc = playerIconNode.Attributes["src"].Value;
+
+                this.pageConnector.Logger?.Information("Trying to save player icon to {Path}", ImagePath.PlayerIcon);
+
+                if (!Directory.Exists(ImagePath.Player))
+                {
+                    Directory.CreateDirectory(ImagePath.Player);
+
+                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", ImagePath.Player);
+                }
+
+                var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
+
+                using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
+                {
+                    msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/player");
+
+                    this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
+
+                    using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
+                    using (var fs = new FileStream(ImagePath.PlayerIcon, FileMode.Create, FileAccess.Write))
+                    {
+                        await request.Content.CopyToAsync(fs);
+                        result = Path.GetFullPath(ImagePath.PlayerIcon);
+
+                        this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", ImagePath.PlayerIcon);
+                    }
+                }
+
+                // var imageResponse = await this.pageConnector.Client.GetStreamAsync(imageUrl).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                this.pageConnector.Logger?.Error(ex.Message);
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
+
+            return result;
+        }
+
+        public async Task<string> FetchStageIconAsync()
+        {
+            // Connect to the page and get an HTML document.
+            if (!this.pageConnector.IsLoggedOn())
+            {
+                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
+
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
+            string? result = null;
+
+            if (string.IsNullOrEmpty(response))
+            {
+                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+
+                return null;
+            }
+
+            this.pageConnector.Logger?.Information("Connection successful");
+
+            try
+            {
+                var document = new HtmlDocument();
+                document.LoadHtml(response);
+
+                var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='user-info__icon__stage']/img");
+                var playerIconSrc = playerIconNode.Attributes["src"].Value;
+
+                this.pageConnector.Logger?.Information("Trying to save player stage image to {Path}", ImagePath.PlayerStageIcon);
+
+                if (!Directory.Exists(ImagePath.Player))
+                {
+                    Directory.CreateDirectory(ImagePath.Player);
+
+                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", ImagePath.Player);
+                }
+
+                var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
+
+                using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
+                {
+                    msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/player");
+
+                    this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
+
+                    using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
+                    using (var fs = new FileStream(ImagePath.PlayerStageIcon, FileMode.Create, FileAccess.Write))
+                    {
+                        await request.Content.CopyToAsync(fs);
+                        result = Path.GetFullPath(ImagePath.PlayerStageIcon);
+
+                        this.pageConnector.Logger?.Information("Player stage image has been saved at {Path}", ImagePath.PlayerStageIcon);
+                    }
+                }
+
+                // var imageResponse = await this.pageConnector.Client.GetStreamAsync(imageUrl).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

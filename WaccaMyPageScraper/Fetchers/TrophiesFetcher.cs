@@ -43,7 +43,7 @@ namespace WaccaMyPageScraper.Fetchers
                 var parameters = new Dictionary<string, string> { { "seasonId", season.ToString() } };
                 var encodedContent = new FormUrlEncodedContent(parameters);
 
-                var response = await this.pageConnector.PostAsync(Url, encodedContent);
+                var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 var trophyJsonObject = JObject.Parse(responseContent);
@@ -63,8 +63,9 @@ namespace WaccaMyPageScraper.Fetchers
                     // Fetch trophy's description
                     this.pageConnector.Logger?.Debug("Fetching description for trophy ID: {TrophyId}", resultItem.Id);
 
-                    var descResponse = await this.pageConnector.GetStringAsync($"{DescriptionUrl}?trid={resultItem.Id}");
-
+                    var descResponse = await this.pageConnector.Client
+                        .GetStringAsync($"{DescriptionUrl}?trid={resultItem.Id}")
+                        .ConfigureAwait(false);
                     var descDocument = new HtmlDocument();
                     descDocument.LoadHtml(descResponse);
 

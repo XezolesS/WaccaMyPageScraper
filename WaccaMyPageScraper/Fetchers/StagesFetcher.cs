@@ -34,7 +34,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var response = await pageConnector.GetStringAsync(Url);
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<Stage> result = new List<Stage>();
 
             if (string.IsNullOrEmpty(response))

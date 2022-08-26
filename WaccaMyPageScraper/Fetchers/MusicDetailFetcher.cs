@@ -45,7 +45,7 @@ namespace WaccaMyPageScraper.Fetchers
             var parameters = new Dictionary<string, string> { { "musicId", musicArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.pageConnector.PostAsync(Url, encodedContent);
+            var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
             MusicDetail? result = null;
 
             if (!response.IsSuccessStatusCode)
