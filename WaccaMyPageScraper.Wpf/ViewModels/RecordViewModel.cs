@@ -9,9 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
+using WaccaMyPageScraper.Wpf.Models;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
@@ -40,10 +42,19 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             set => SetProperty(ref _musicFetched, value);
         }
 
+        IList<RecordModel> _records;
+        public IList<RecordModel> Records
+        {
+            get => _records;
+            set => SetProperty(ref _records, value);
+        }
+
         public DelegateCommand FetchRecordsCommand { get; private set; }
 
         public RecordViewModel(IEventAggregator ea)
         {
+            InitializeDataFromFile();
+
             this.DownloadStateText = "Not Logged In";
             this.MusicCount = 1;
             this.MusicFetched = 0;
@@ -51,6 +62,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.FetchRecordsCommand = new DelegateCommand(ExcuteFetchRecordsCommand);
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
+        }
+
+        private void InitializeDataFromFile()
+        {
+            var musicDetails = new CsvHandler<MusicDetail>(Log.Logger)
+                .Import(DataFilePath.RecordData);
+
+            this.Records = ConvertMusicDetailsToRecords(musicDetails);
         }
 
         private async void ExcuteFetchRecordsCommand()
@@ -68,23 +87,26 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.DownloadStateText = string.Format("Total {0} musics found.", this.MusicCount);
 
             // Fetch records
-            var records = new List<MusicDetail>();
+            var musicDetails = new List<MusicDetail>();
             MusicDetailFetcher musicDetailFetcher = new MusicDetailFetcher(this.pageConnector);
             foreach (var music in musicList)
             {
-                records.Add(await musicDetailFetcher.FetchAsync(music));
+                musicDetails.Add(await musicDetailFetcher.FetchAsync(music));
                 this.MusicFetched++;
 
-                this.DownloadStateText = string.Format("({0}/{1}) Fetching {1}", 
+                this.DownloadStateText = string.Format("({0}/{1}) Fetching {2}", 
                     this.MusicCount, this.MusicFetched, music.Title);
             }
-
+            
             // Save records
             if (!Directory.Exists(DataFilePath.Record))
                 Directory.CreateDirectory(DataFilePath.Record);
 
-            var csvHandler = new CsvHandler<MusicDetail>(records, Log.Logger);
+            var csvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
             csvHandler.Export(DataFilePath.RecordData);
+
+            // Convert MusicDetails to RecordModels
+            this.Records = ConvertMusicDetailsToRecords(musicDetails);
 
             this.DownloadStateText = "Download Complete";
         }
@@ -95,6 +117,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             if (connector.IsLoggedOn())
                 this.DownloadStateText = "Logged In";
+        }
+
+        private IList<RecordModel> ConvertMusicDetailsToRecords(IEnumerable<MusicDetail> musicDetails)
+        {
+            var records = new List<RecordModel>();
+            foreach (var musicDetail in musicDetails)
+            {
+                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Normal));
+                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Hard));
+                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Expert));
+
+                if (musicDetail.HasInferno())
+                    records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Inferno));
+            }
+
+            return records;
         }
     }
 }

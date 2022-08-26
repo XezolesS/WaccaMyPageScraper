@@ -2,7 +2,7 @@
   "profiles": {
     "WaccaMyPageScraper.Console": {
       "commandName": "Project",
-      "commandLineArgs": "-u 8249565 -r record -i records.csv"
+      "commandLineArgs": "-u 8249565 -f image_rate"
     }
   }
 }

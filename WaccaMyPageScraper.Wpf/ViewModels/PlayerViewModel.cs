@@ -57,6 +57,19 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePlayerData);
         }
+        private void InitializeDataFromFile()
+        {
+            var player = new CsvHandler<Player>(Log.Logger)
+                .Import(DataFilePath.PlayerData)?
+                .First();
+
+            this.PlayerName = player?.Name;
+            this.PlayerLevel = player?.Level.ToString();
+            this.PlayerRate = player?.Rate.ToString();
+
+            this.PlayerIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
+            this.StageIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
+        }
 
         private async void UpdatePlayerData(PageConnector connector)
         {
@@ -76,20 +89,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.PlayerIconPath = GetImageByte(playerIcon);
             this.StageIconPath = GetImageByte(stageIcon);
-        }
-
-        private void InitializeDataFromFile()
-        {
-            var player = new CsvHandler<Player>(Log.Logger)
-                .Import(DataFilePath.PlayerData)?
-                .First();
-
-            this.PlayerName = player?.Name;
-            this.PlayerLevel = player?.Level.ToString();
-            this.PlayerRate = player?.Rate.ToString();
-
-            this.PlayerIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
-            this.StageIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
         }
 
         private byte[] GetImageByte(string? DataFilePath)

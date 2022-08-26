@@ -24,6 +24,107 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="recordsControl"
+                          ItemsSource="{Binding Records}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#101020"
+                                BorderBrush="{Binding DifficultyColor}"
+                                BorderThickness="1"
+                                CornerRadius="0,30,30,0"
+                                MaxWidth="600"
+                                Margin="10"
+                                Padding="0,10">
+                            <Grid Height="120">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0"/>
+                                <Grid Grid.Column="1"
+                                      Margin="20,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35" />
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0"
+                                               Text="{Binding Title}" 
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Foreground="{Binding DifficultyColor}"
+                                               FontSize="14"
+                                               FontWeight="Bold" />
+
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding Artist}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Foreground="LightGray"
+                                               FontSize="10" />
+                                    
+                                    <TextBlock Grid.Row="1"
+                                               Text="{Binding PlayCount}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Right" />
+
+                                    <Grid Grid.Row="2">
+                                        <Border Background="{Binding DifficultyColor}"
+                                                CornerRadius="15"
+                                                Height="30" Width="80"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding LevelText}"
+                                                       Foreground="AliceBlue"
+                                                       Margin="3"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="13" 
+                                                       FontWeight="DemiBold" />
+                                        </Border>
+
+                                        <TextBlock Text="{Binding Score}"
+                                                   Margin="100,0"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   FontSize="20"
+                                                   FontWeight="Bold" />
+
+                                        <Grid VerticalAlignment="Center"
+                                              HorizontalAlignment="Right">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image Grid.Column="0" 
+                                                   Source="{Binding RateImage}" 
+                                                   Height="35" Width="35"
+                                                   Margin="5,0"
+                                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                                            <TextBlock Grid.Column="1" 
+                                                       Height="35" Width="35"
+                                                       Margin="5,0"
+                                                       Text="{Binding Achieve}" />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+
         <Grid Grid.Row="1"
               Margin="0,10">
             <Grid.ColumnDefinitions>

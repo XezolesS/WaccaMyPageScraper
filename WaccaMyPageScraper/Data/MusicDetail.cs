@@ -94,6 +94,8 @@ namespace WaccaMyPageScraper.Data
             Achieves = achieves;
         }
 
+        public bool HasInferno() => this.Levels.Length == 4 && this.Levels[(int)Difficulty.Inferno] != "0";
+
         public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}],[{5}],[{6}],[{7}],[{8}]]",
             this.Id, this.Title, this.Artist, (int)this.Genre, string.Join(",", this.Levels),
             string.Join(",", this.PlayCounts),
@@ -101,6 +103,7 @@ namespace WaccaMyPageScraper.Data
             string.Join(",", this.Rates),
             string.Join(",", Array.ConvertAll(this.Achieves, s => (int)s)));
     }
+
     public sealed class MusicDetailMap : ClassMap<MusicDetail>
     {
         public MusicDetailMap()
