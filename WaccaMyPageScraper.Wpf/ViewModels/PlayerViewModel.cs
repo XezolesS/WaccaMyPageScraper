@@ -1,5 +1,6 @@
 ﻿using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,16 +58,16 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePlayerData);
         }
 
-        private void UpdatePlayerData(PageConnector connector)
+        private async void UpdatePlayerData(PageConnector connector)
         {
             PlayerFetcher fetcher = new PlayerFetcher(connector);
             var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
 
-            CsvHandler<Player> csvHandler = new CsvHandler<Player>(new List<Player> { player });
+            CsvHandler<Player> csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
             csvHandler.Export(DataFilePath.PlayerData);
 
-            var playerIcon = Task.Run(async () => await fetcher.FetchPlayerIconAsync()).Result;
-            var stageIcon = Task.Run(async () => await fetcher.FetchStageIconAsync()).Result;
+            var playerIcon = await fetcher.FetchPlayerIconAsync();
+            var stageIcon = await fetcher.FetchStageIconAsync();
 
             // Update properties
             this.PlayerName = player?.Name;
@@ -79,7 +80,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         private void InitializeDataFromFile()
         {
-            var player = new CsvHandler<Player>()
+            var player = new CsvHandler<Player>(Log.Logger)
                 .Import(DataFilePath.PlayerData)?
                 .First();
 

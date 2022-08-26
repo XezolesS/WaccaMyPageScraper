@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,10 +40,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this._eventAggregator = ea;
         }
 
-        private void ExecuteLoginCommand()
+        private async void ExecuteLoginCommand()
         {
-            var connector = new PageConnector(this.AimeId);
-            var loginResult = Task.Run(async () => await connector.LoginAsync()).Result;
+            var connector = new PageConnector(this.AimeId, Log.Logger);
+            var loginResult = await connector.LoginAsync();
 
             if (loginResult)
             {

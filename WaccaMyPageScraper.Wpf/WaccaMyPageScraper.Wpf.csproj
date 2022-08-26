@@ -14,8 +14,12 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.Logging.Serilog" Version="7.2.0.1423" />
+    <PackageReference Include="Prism.Plugin.Logging.Abstractions" Version="8.1.16" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="Serilog" Version="2.11.0" />
+    <PackageReference Include="Serilog.Sinks.RichTextBox.Wpf" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
