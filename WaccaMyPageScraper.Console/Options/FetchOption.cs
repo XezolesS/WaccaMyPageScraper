@@ -121,6 +121,14 @@ namespace WaccaMyPageScraper.Console.Options
                         return result;
                     }
 
+                case "image_achieve":
+                    {
+                        var achieveImageFetcher = new AchieveImageFetcher(pageConnector);
+                        var result = Task.Run(async () => await achieveImageFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
                 default:
                     this.logger?.Error("Invalid data information.");
 
