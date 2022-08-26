@@ -1,18 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
+using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Models
 {
     public class RecordModel
     {
+        public string Id { get; set; }
+
         public string Title { get; set; }
 
         public string Artist { get; set; }
+
+        public byte[] JacketImage
+        {
+            get
+            {
+                var filePath = Path.Combine(DataFilePath.RecordImage, this.Id + ".png");
+
+                if (!File.Exists(filePath))
+                    return null;
+
+                byte[] image = null;
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    image = new byte[fs.Length];
+                    while (fs.Read(image, 0, image.Length) > 0)
+                    {
+                        image[image.Length - 1] = (byte)fs.ReadByte();
+                    }
+                }
+
+                return image;
+            } 
+        }
 
         public Genre Genre { get; set; }
 
@@ -76,8 +103,9 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public RecordModel() { }
 
-        public RecordModel(string title, string artist, Genre genre, Difficulty difficulty, string level, int score, int playCount, Rate rate, Achieve achieve)
+        public RecordModel(string id, string title, string artist, Genre genre, Difficulty difficulty, string level, int score, int playCount, Rate rate, Achieve achieve)
         {
+            this.Id = id;
             this.Title = title;
             this.Artist = artist;
             this.Genre = genre;
@@ -91,7 +119,9 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public static RecordModel FromMusicDetail(MusicDetail data, Difficulty difficulty)
         {
-            return new RecordModel(data.Title,
+            return new RecordModel(
+                data.Id.ToString(),
+                data.Title,
                 data.Artist,
                 data.Genre,
                 difficulty,

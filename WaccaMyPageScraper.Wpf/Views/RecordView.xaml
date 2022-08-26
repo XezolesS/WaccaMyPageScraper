@@ -9,22 +9,102 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="600">
 
+    <UserControl.Resources>
+        <Style x:Key="DifficultyCheckBox" TargetType="{x:Type CheckBox}">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="DifficultyCheckBoxBorder"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                BorderBrush="{TemplateBinding Background}"
+                                BorderThickness="2"
+                                CornerRadius="12">
+                            <Border x:Name="DifficultyCheckBoxBorderFill"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="12"
+                                    Margin="-1">
+                                <Grid></Grid>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorder" Value="0.7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorderFill" Value="{StaticResource MahApps.Brushes.Accent}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="1.0" /> 
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="0.0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid Grid.Row="0"
+              Margin="10,0"
+              VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="120" />
             </Grid.ColumnDefinitions>
-        </Grid>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Grid.Column="0"
+                        Orientation="Horizontal">
+                <CheckBox Style="{StaticResource DifficultyCheckBox}"
+                          IsChecked="{Binding FilterDifficultyNormal}"
+                          Margin="3" 
+                          Background="#009DE6" />
+                <CheckBox Style="{StaticResource DifficultyCheckBox}"
+                          IsChecked="{Binding FilterDifficultyHard}"
+                          Margin="3" 
+                          Background="#FED131"/>
+                <CheckBox Style="{StaticResource DifficultyCheckBox}"
+                          IsChecked="{Binding FilterDifficultyExpert}"
+                          Margin="3" 
+                          Background="#FC06A3"/>
+                <CheckBox Style="{StaticResource DifficultyCheckBox}"
+                          IsChecked="{Binding FilterDifficultyInferno}"
+                          Margin="3"
+                          Background="#4A004F"/>
+            </StackPanel>
+
+            <TextBox Grid.Column="1"
+                     Text="{Binding FilterSearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="10,0"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"/>
+            
+            <Grid Grid.Column="2">
+                <ComboBox />
+            </Grid>
+        </Grid>
+        
+
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="recordsControl"
                           ItemsSource="{Binding Records}">
                 <ItemsControl.ItemsPanel>
@@ -40,14 +120,15 @@
                                 CornerRadius="0,30,30,0"
                                 MaxWidth="600"
                                 Margin="10"
-                                Padding="0,10">
+                                Padding="10">
                             <Grid Height="120">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Image Grid.Column="0"/>
+                                <Image Grid.Column="0"
+                                       Source="{Binding JacketImage}" />
                                 <Grid Grid.Column="1"
                                       Margin="20,0">
                                     <Grid.RowDefinitions>
@@ -133,8 +214,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               Margin="0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

@@ -133,6 +133,15 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/records/image/.
+        /// </summary>
+        public static string RecordImage {
+            get {
+                return ResourceManager.GetString("RecordImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to data/.
         /// </summary>
         public static string Root {

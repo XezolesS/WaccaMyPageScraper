@@ -41,7 +41,8 @@
         </Grid>
 
         <mah:MetroTabControl Grid.Column="1"
-                             Margin="10"
+                             Margin="5"
+                             Padding="10"
                              Background="Transparent">
             <mah:MetroTabItem Header="Record">
                 <Views:RecordView />

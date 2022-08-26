@@ -39,7 +39,7 @@ namespace WaccaMyPageScraper.Fetchers
 
                     using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
                     {
-                        msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/player");
+                        msg.Headers.Referrer = this.BaseUrl;
 
                         this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 

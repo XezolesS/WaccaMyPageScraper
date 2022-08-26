@@ -84,7 +84,7 @@ namespace WaccaMyPageScraper.Fetchers
                 int count = 0;
                 foreach (var node in musicItemNodes)
                 {
-                    int id = int.Parse(node.SelectSingleNode("./div/form/input").Attributes["value"].Value);
+                    string id = node.SelectSingleNode("./div/form/input").Attributes["value"].Value;
                     string title = node.SelectSingleNode("./div/a/div/div[@class='playdata__score-list__song-info__name']").InnerText;
                     Genre genre = int.Parse(node.Attributes["data-sequence_number"].Value) switch
                     {

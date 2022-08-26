@@ -195,8 +195,6 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
-
             return result;
         }
 
@@ -245,7 +243,7 @@ namespace WaccaMyPageScraper.Fetchers
 
                 using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
                 {
-                    msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/player");
+                    msg.Headers.Referrer = new Uri(this.Url);
 
                     this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 
@@ -267,8 +265,6 @@ namespace WaccaMyPageScraper.Fetchers
 
                 return null;
             }
-
-            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
 
             return result;
         }
