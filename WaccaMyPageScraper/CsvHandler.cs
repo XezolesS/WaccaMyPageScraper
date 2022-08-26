@@ -113,7 +113,7 @@ namespace WaccaMyPageScraper
                 return;
             }
 
-            _logger.Information("Csv file exported to {FilePath}", Path.GetFullPath(filePath));
+            _logger?.Information("Csv file exported to {FilePath}", Path.GetFullPath(filePath));
         }
 
         private Type? GetClassMap<T>() => typeof(T) switch

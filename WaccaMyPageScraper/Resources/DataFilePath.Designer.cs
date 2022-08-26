@@ -22,14 +22,14 @@ namespace WaccaMyPageScraper.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ImagePath {
+    public class DataFilePath {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ImagePath() {
+        internal DataFilePath() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WaccaMyPageScraper.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Resources.ImagePath", typeof(ImagePath).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Resources.DataFilePath", typeof(DataFilePath).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,16 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to images/player/.
+        ///   Looks up a localized string similar to data/aime_id.txt.
+        /// </summary>
+        public static string AimeId {
+            get {
+                return ResourceManager.GetString("AimeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/player/.
         /// </summary>
         public static string Player {
             get {
@@ -70,7 +79,16 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to images/player/player_icon.png.
+        ///   Looks up a localized string similar to data/player/player.csv.
+        /// </summary>
+        public static string PlayerData {
+            get {
+                return ResourceManager.GetString("PlayerData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/player/image/player_icon.png.
         /// </summary>
         public static string PlayerIcon {
             get {
@@ -79,7 +97,16 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to images/player/player_stage.png.
+        ///   Looks up a localized string similar to data/player/image/.
+        /// </summary>
+        public static string PlayerImage {
+            get {
+                return ResourceManager.GetString("PlayerImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/player/image/player_stage.png.
         /// </summary>
         public static string PlayerStageIcon {
             get {
@@ -88,7 +115,7 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to images/.
+        ///   Looks up a localized string similar to data/.
         /// </summary>
         public static string Root {
             get {

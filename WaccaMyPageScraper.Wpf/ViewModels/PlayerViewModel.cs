@@ -1,9 +1,12 @@
 ﻿using Prism.Events;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
@@ -22,14 +25,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         private string _playerLevel;
         public string PlayerLevel
         {
-            get => _playerLevel;
+            get => "Lv." + _playerLevel;
             set => this.SetProperty(ref _playerLevel, value);
         }
 
         private string _playerRate;
         public string PlayerRate
         {
-            get => _playerRate;
+            get => "Rate " + _playerRate;
             set => this.SetProperty(ref _playerRate, value);
         }
 
@@ -49,35 +52,52 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public PlayerViewModel(IEventAggregator ea)
         {
-            ea.GetEvent<LoginSuccessEvent>().Subscribe(GetPlayerData);
+            InitializeDataFromFile();
 
-            this.PlayerIconPath = GetImageByte(Path.GetFullPath(ImagePath.PlayerIcon));
-            this.StageIconPath = GetImageByte(Path.GetFullPath(ImagePath.PlayerStageIcon));
+            ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePlayerData);
         }
 
-        void GetPlayerData(PageConnector connector)
+        private void UpdatePlayerData(PageConnector connector)
         {
             PlayerFetcher fetcher = new PlayerFetcher(connector);
             var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
 
+            CsvHandler<Player> csvHandler = new CsvHandler<Player>(new List<Player> { player });
+            csvHandler.Export(DataFilePath.PlayerData);
+
             var playerIcon = Task.Run(async () => await fetcher.FetchPlayerIconAsync()).Result;
             var stageIcon = Task.Run(async () => await fetcher.FetchStageIconAsync()).Result;
 
-            this.PlayerName = player.Name;
-            this.PlayerLevel = "Lv." + player.Level.ToString();
-            this.PlayerRate = "Rate " + player.Rate.ToString();
+            // Update properties
+            this.PlayerName = player?.Name;
+            this.PlayerLevel = player?.Level.ToString();
+            this.PlayerRate = player?.Rate.ToString();
 
             this.PlayerIconPath = GetImageByte(playerIcon);
             this.StageIconPath = GetImageByte(stageIcon);
         }
 
-        byte[] GetImageByte(string? imagePath)
+        private void InitializeDataFromFile()
         {
-            if (!File.Exists(imagePath))
+            var player = new CsvHandler<Player>()
+                .Import(DataFilePath.PlayerData)?
+                .First();
+
+            this.PlayerName = player?.Name;
+            this.PlayerLevel = player?.Level.ToString();
+            this.PlayerRate = player?.Rate.ToString();
+
+            this.PlayerIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
+            this.StageIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
+        }
+
+        byte[] GetImageByte(string? DataFilePath)
+        {
+            if (!File.Exists(DataFilePath))
                 return null;
 
             byte[] image = null;
-            using (var fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(DataFilePath, FileMode.Open, FileAccess.Read))
             {
                 image = new byte[fs.Length];
                 while(fs.Read(image, 0, image.Length) > 0)

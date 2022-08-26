@@ -3,9 +3,11 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
@@ -25,6 +27,8 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public LoginViewModel(IEventAggregator ea)
         {
+            this.AimeId = ReadAimeFile();
+
             this.LoginCommand = new DelegateCommand(ExecuteLoginCommand);
 
             this._eventAggregator = ea;
@@ -38,7 +42,35 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (loginResult)
             {
                 this._eventAggregator.GetEvent<LoginSuccessEvent>().Publish(connector);
+                WriteAimeFile();
             }
+        }
+
+        private void WriteAimeFile()
+        {
+            if (!Directory.Exists(DataFilePath.Root))
+                Directory.CreateDirectory(DataFilePath.Root);
+            
+
+            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Create, FileAccess.Write))
+                fs.Write(Encoding.UTF8.GetBytes(this.AimeId));
+        }
+
+        private string ReadAimeFile()
+        {
+            if (!File.Exists(DataFilePath.AimeId))
+                return null;
+
+            string result = null;
+            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Open, FileAccess.Read))
+            {
+                var buffer = new byte[fs.Length];
+
+                while (fs.Read(buffer, 0, buffer.Length) > 0)
+                    result = Encoding.UTF8.GetString(buffer);
+            }
+
+            return result;
         }
     }
 }

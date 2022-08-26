@@ -159,13 +159,13 @@ namespace WaccaMyPageScraper.Fetchers
                 var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='icon__image']/img");
                 var playerIconSrc = playerIconNode.Attributes["src"].Value;
 
-                this.pageConnector.Logger?.Information("Trying to save player icon to {Path}", ImagePath.PlayerIcon);
+                this.pageConnector.Logger?.Information("Trying to save player icon to {Path}", DataFilePath.PlayerIcon);
 
-                if (!Directory.Exists(ImagePath.Player))
+                if (!Directory.Exists(DataFilePath.PlayerImage))
                 {
-                    Directory.CreateDirectory(ImagePath.Player);
+                    Directory.CreateDirectory(DataFilePath.PlayerImage);
 
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", ImagePath.Player);
+                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", DataFilePath.Player);
                 }
 
                 var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
@@ -177,12 +177,12 @@ namespace WaccaMyPageScraper.Fetchers
                     this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 
                     using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
-                    using (var fs = new FileStream(ImagePath.PlayerIcon, FileMode.Create, FileAccess.Write))
+                    using (var fs = new FileStream(DataFilePath.PlayerIcon, FileMode.Create, FileAccess.Write))
                     {
                         await request.Content.CopyToAsync(fs);
-                        result = Path.GetFullPath(ImagePath.PlayerIcon);
+                        result = Path.GetFullPath(DataFilePath.PlayerIcon);
 
-                        this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", ImagePath.PlayerIcon);
+                        this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", DataFilePath.PlayerIcon);
                     }
                 }
 
@@ -232,13 +232,13 @@ namespace WaccaMyPageScraper.Fetchers
                 var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='user-info__icon__stage']/img");
                 var playerIconSrc = playerIconNode.Attributes["src"].Value;
 
-                this.pageConnector.Logger?.Information("Trying to save player stage image to {Path}", ImagePath.PlayerStageIcon);
+                this.pageConnector.Logger?.Information("Trying to save player stage image to {Path}", DataFilePath.PlayerStageIcon);
 
-                if (!Directory.Exists(ImagePath.Player))
+                if (!Directory.Exists(DataFilePath.PlayerImage))
                 {
-                    Directory.CreateDirectory(ImagePath.Player);
+                    Directory.CreateDirectory(DataFilePath.PlayerImage);
 
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", ImagePath.Player);
+                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", DataFilePath.Player);
                 }
 
                 var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
@@ -250,12 +250,12 @@ namespace WaccaMyPageScraper.Fetchers
                     this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 
                     using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
-                    using (var fs = new FileStream(ImagePath.PlayerStageIcon, FileMode.Create, FileAccess.Write))
+                    using (var fs = new FileStream(DataFilePath.PlayerStageIcon, FileMode.Create, FileAccess.Write))
                     {
                         await request.Content.CopyToAsync(fs);
-                        result = Path.GetFullPath(ImagePath.PlayerStageIcon);
+                        result = Path.GetFullPath(DataFilePath.PlayerStageIcon);
 
-                        this.pageConnector.Logger?.Information("Player stage image has been saved at {Path}", ImagePath.PlayerStageIcon);
+                        this.pageConnector.Logger?.Information("Player stage image has been saved at {Path}", DataFilePath.PlayerStageIcon);
                     }
                 }
 

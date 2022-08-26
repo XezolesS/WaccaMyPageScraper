@@ -15,17 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\ImagePath.Designer.cs">
+    <Compile Update="Resources\DataFilePath.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ImagePath.resx</DependentUpon>
+      <DependentUpon>DataFilePath.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\ImagePath.resx">
+    <EmbeddedResource Update="Resources\DataFilePath.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImagePath.Designer.cs</LastGenOutput>
+      <LastGenOutput>DataFilePath.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
