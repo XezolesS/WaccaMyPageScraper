@@ -10,25 +10,21 @@ using WaccaMyPageScraper.Data;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class TrophiesFetcher : IFetcher<Trophy[]>
+    public sealed class TrophiesFetcher : Fetcher<Trophy[]>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/trophy/index/get";
-        private readonly static string DescriptionUrl = "https://wacca.marv-games.jp/web/modal/trophy/conditionsConfirm";
+        protected override string Url => "https://wacca.marv-games.jp/web/trophy/index/get";
+        private string DescriptionUrl => "https://wacca.marv-games.jp/web/modal/trophy/conditionsConfirm";
 
-        private readonly PageConnector pageConnector;
-
-        public TrophiesFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public TrophiesFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's trophies.
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of trophies listed on My Page in array of <see cref="Trophy"/>s.</returns>
-        public async Task<Trophy[]?> FetchAsync(params object?[] args)
+        public override async Task<Trophy[]?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");

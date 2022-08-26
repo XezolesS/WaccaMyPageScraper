@@ -12,24 +12,20 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class PlayerFetcher : IFetcher<Player>
+    public sealed class PlayerFetcher : Fetcher<Player>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/player";
+        protected override string Url => "https://wacca.marv-games.jp/web/player";
 
-        private readonly PageConnector pageConnector;
-
-        public PlayerFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public PlayerFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's data.
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>Fetched player data in <see cref="Player"/>, null if it's failed.</returns>
-        public async Task<Player?> FetchAsync(params object?[] args)
+        public override async Task<Player?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");

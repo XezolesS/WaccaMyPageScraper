@@ -9,24 +9,20 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class MusicsFetcher : IFetcher<Music[]>
+    public sealed class MusicsFetcher : Fetcher<Music[]>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/music";
+        protected override string Url => "https://wacca.marv-games.jp/web/music";
 
-        private readonly PageConnector pageConnector;
-
-        public MusicsFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public MusicsFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch musics listed on My Page.
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of musics listed on My Page in array of <see cref="Music"/>s.</returns>
-        public async Task<Music[]?> FetchAsync(params object?[] args)
+        public override async Task<Music[]?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
