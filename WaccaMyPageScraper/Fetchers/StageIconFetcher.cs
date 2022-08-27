@@ -35,9 +35,9 @@ namespace WaccaMyPageScraper.Fetchers
             {
                 for (int stage = 1; stage <= 14; stage++)
                 {
-                    for (int rank = 1; rank <= 3; rank++)
+                    for (int grade = 1; grade <= 3; grade++)
                     {
-                        var fileName = $"stage_icon_{stage}_{rank}.png";
+                        var fileName = $"stage_icon_{stage}_{grade}.png";
                         var imagePath = Path.Combine(DataFilePath.StageImage, fileName);
                         var imageUrl = new Uri(new Uri(this.Url), fileName);
 

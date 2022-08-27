@@ -63,16 +63,6 @@ namespace WaccaMyPageScraper.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] AcheiveNo {
-            get {
-                object obj = ResourceManager.GetObject("AcheiveNo", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] AchieveAllMarvelous {
             get {
                 object obj = ResourceManager.GetObject("AchieveAllMarvelous", resourceCulture);
@@ -106,6 +96,16 @@ namespace WaccaMyPageScraper.Wpf.Properties {
         internal static byte[] AchieveMissless {
             get {
                 object obj = ResourceManager.GetObject("AchieveMissless", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AchieveNo {
+            get {
+                object obj = ResourceManager.GetObject("AchieveNo", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -246,6 +246,426 @@ namespace WaccaMyPageScraper.Wpf.Properties {
         internal static byte[] RateSSS_Plus {
             get {
                 object obj = ResourceManager.GetObject("RateSSS_Plus", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageI_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageI_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageI_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageI_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageI_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageI_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageIII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageIII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageIII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIV_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageIV_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIV_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageIV_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIV_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageIV_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIX_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageIX_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIX_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageIX_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageIX_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageIX_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageV_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageV_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageV_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageV_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageV_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageV_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVI_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageVI_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVI_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageVI_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVI_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageVI_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageVII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageVII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageVII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVIII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageVIII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVIII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageVIII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageVIII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageVIII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageX_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageX_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageX_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageX_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageX_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageX_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXI_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageXI_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXI_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageXI_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXI_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageXI_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageXII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageXII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageXII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIII_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageXIII_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIII_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageXIII_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIII_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageXIII_Silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIV_Blue {
+            get {
+                object obj = ResourceManager.GetObject("StageXIV_Blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIV_Gold {
+            get {
+                object obj = ResourceManager.GetObject("StageXIV_Gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageXIV_Silver {
+            get {
+                object obj = ResourceManager.GetObject("StageXIV_Silver", resourceCulture);
                 return ((byte[])(obj));
             }
         }

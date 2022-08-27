@@ -118,61 +118,187 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AcheiveNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\no_achieve.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="AchieveAllMarvelous" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achieve4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\achieveicons\achieve4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AchieveClear" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achieve1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\achieveicons\achieve1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AchieveFullCombo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achieve3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\achieveicons\achieve3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AchieveMissless" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\achieve2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\achieveicons\achieve2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="AchieveNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\achieveicons\no_achieve.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateAA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_5.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_5.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateAAA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_6.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_6.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateMaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_10.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_10.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\no_rate.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\no_rate.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_7.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_7.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_8.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_8.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateSSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_9.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_9.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateSSS_Plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_13.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_13.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateSS_Plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_12.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_12.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RateS_Plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rate_11.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\resources\images\rateicons\rate_11.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_3_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_3_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_3_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_2_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_2_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_2_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIV_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_4_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIV_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_4_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIV_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_4_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIX_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_9_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIX_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_9_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageIX_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_9_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageI_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_1_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageI_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_1_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageI_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_1_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVIII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_8_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVIII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_8_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVIII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_8_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_7_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_7_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_7_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVI_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_6_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVI_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_6_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageVI_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_6_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageV_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_5_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageV_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_5_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageV_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_5_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_13_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_13_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_13_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXII_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_12_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXII_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_12_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXII_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_12_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIV_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_14_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIV_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_14_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXIV_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_14_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXI_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_11_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXI_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_11_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageXI_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_11_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageX_Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_10_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageX_Gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_10_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StageX_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_10_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

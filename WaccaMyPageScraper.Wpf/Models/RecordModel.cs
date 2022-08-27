@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
+using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Models
 {
@@ -66,40 +67,11 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Rate Rate { get; set; }
 
-        public byte[] RateImage 
-        {
-            get => (this.PlayCount, this.Rate) switch
-            {
-                var (p, r) when p > 0 && r == Rate.D => Properties.Resources.RateD,
-                var (p, r) when r == Rate.C => Properties.Resources.RateC,
-                var (p, r) when r == Rate.B => Properties.Resources.RateB,
-                var (p, r) when r == Rate.A => Properties.Resources.RateA,
-                var (p, r) when r == Rate.AA => Properties.Resources.RateAA,
-                var (p, r) when r == Rate.AAA => Properties.Resources.RateAAA,
-                var (p, r) when r == Rate.S => Properties.Resources.RateS,
-                var (p, r) when r == Rate.S_Plus => Properties.Resources.RateS_Plus,
-                var (p, r) when r == Rate.SS => Properties.Resources.RateSS,
-                var (p, r) when r == Rate.SS_Plus => Properties.Resources.RateS_Plus,
-                var (p, r) when r == Rate.SSS => Properties.Resources.RateSSS,
-                var (p, r) when r == Rate.SSS_Plus => Properties.Resources.RateSSS_Plus,
-                var (p, r) when r == Rate.Master => Properties.Resources.RateMaster,
-                _ => Properties.Resources.RateNo
-            };
-        }
+        public byte[] RateIcon  => ImageLocator.LocateRate(this.PlayCount, this.Rate);
 
         public Achieve Achieve { get; set; }
 
-        public byte[] AchieveImage
-        {
-            get => (this.PlayCount, this.Achieve) switch
-            {
-                var (p, a) when p > 0 && a == Achieve.Clear => Properties.Resources.AchieveClear,
-                var (p, a) when a == Achieve.Missless => Properties.Resources.AchieveMissless,
-                var (p, a) when a == Achieve.FullCombo => Properties.Resources.AchieveFullCombo,
-                var (p, a) when a == Achieve.AllMarvelous => Properties.Resources.AchieveAllMarvelous,
-                _ => Properties.Resources.AcheiveNo
-            };
-        }
+        public byte[] AchieveIcon => ImageLocator.LocateAchieve(this.Achieve);
 
         public RecordModel() { }
 

@@ -11,6 +11,7 @@ using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
+using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
@@ -80,15 +81,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             csvHandler.Export(DataFilePath.PlayerData);
 
             var playerIcon = await fetcher.FetchPlayerIconAsync();
-            var stageIcon = await fetcher.FetchStageIconAsync();
 
             // Update properties
-            this.PlayerName = player?.Name;
-            this.PlayerLevel = player?.Level.ToString();
-            this.PlayerRate = player?.Rate.ToString();
+            this.PlayerName = player.Name;
+            this.PlayerLevel = player.Level.ToString();
+            this.PlayerRate = player.Rate.ToString();
 
             this.PlayerIconPath = GetImageByte(playerIcon);
-            this.StageIconPath = GetImageByte(stageIcon);
+            this.StageIconPath = ImageLocator.LocateStage(player.Stage);
         }
 
         private byte[] GetImageByte(string? DataFilePath)
