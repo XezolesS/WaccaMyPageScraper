@@ -4,11 +4,13 @@ using Prism.Mvvm;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Fetchers;
@@ -78,17 +80,18 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             set => SetProperty(ref _musicFetched, value);
         }
 
-        IEnumerable<RecordModel>? _records;
-        public IEnumerable<RecordModel>? Records
+        IEnumerable<RecordModel> _records;
+        public IEnumerable<RecordModel> Records
         {
-            get => _records?
-                .Where(r => (this.FilterDifficultyNormal && r.Difficulty == Difficulty.Normal)
-                        || (this.FilterDifficultyHard && r.Difficulty == Difficulty.Hard)
-                        || (this.FilterDifficultyExpert && r.Difficulty == Difficulty.Expert)
-                        || (this.FilterDifficultyInferno && r.Difficulty == Difficulty.Inferno))
-                .Where(r => r.Title.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase) 
-                        || r.Artist.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase));
-            set => SetProperty(ref _records, value);
+            get => _records;
+            set => SetProperty(ref _records, value, OnFilterChanged);
+        }
+
+        ObservableCollection<RecordModel> _filteredRecords;
+        public ObservableCollection<RecordModel> FilteredRecords
+        {
+            get => _filteredRecords;
+            set => SetProperty(ref _filteredRecords, value);
         }
 
         public DelegateCommand FetchRecordsCommand { get; private set; }
@@ -108,14 +111,26 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.MusicCount = 1;
             this.MusicFetched = 0;
 
+            this.FilteredRecords = new ObservableCollection<RecordModel>();
+
             this.FetchRecordsCommand = new DelegateCommand(ExcuteFetchRecordsCommand);
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
-        private void OnFilterChanged()
+        private async void OnFilterChanged()
         {
-            this.Records = this.Records;
+            if (this.Records is null)
+                return;
+
+            this.FilteredRecords.Clear();
+
+            var asyncRecords = this.Records
+                .ToAsyncEnumerable()
+                .WhereAwait(record => FilterRecords(record));
+
+            await foreach (var r in asyncRecords)
+                this.FilteredRecords.Add(r);
         }
 
         private async void InitializeDataFromFile()
@@ -133,6 +148,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Reset Records
             this.Records = new List<RecordModel>();
+            this.FilteredRecords.Clear();
 
             // Fetch music list
             this.DownloadStateText = "Finding musics...";
@@ -193,5 +209,18 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             return records;
         }
+
+        private async ValueTask<bool> FilterRecords(RecordModel record) => 
+            await FilterDifficultyAsync(record) && await FilterTextAsync(record);
+
+        private async ValueTask<bool> FilterDifficultyAsync(RecordModel record) =>
+            (this.FilterDifficultyNormal && record.Difficulty == Difficulty.Normal)
+            || (this.FilterDifficultyHard && record.Difficulty == Difficulty.Hard)
+            || (this.FilterDifficultyExpert && record.Difficulty == Difficulty.Expert)
+            || (this.FilterDifficultyInferno && record.Difficulty == Difficulty.Inferno);
+
+        private async ValueTask<bool> FilterTextAsync(RecordModel record) =>
+            record.Title.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase)
+            || record.Artist.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase);
     }
 }
