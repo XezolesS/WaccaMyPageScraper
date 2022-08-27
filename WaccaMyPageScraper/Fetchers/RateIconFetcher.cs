@@ -8,13 +8,13 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class AchieveImageFetcher : Fetcher<bool>
+    public class RateIconFetcher : Fetcher<bool>
     {
-        protected override string Url => "https://wacca.marv-games.jp/img/web/music/achieve_icon/";
+        protected override string Url => "https://wacca.marv-games.jp/img/web/music/rate_icon/";
 
         private static readonly string ResourceDirectory = "rsrc/";
 
-        public AchieveImageFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public RateIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         public override async Task<bool> FetchAsync(params object?[] args)
         {
@@ -31,9 +31,9 @@ namespace WaccaMyPageScraper.Fetchers
 
             try
             {
-                for (int i = 1; i <= (int)Achieve.AllMarvelous; i++)
+                for (int i = 1; i <= (int)Rate.SSS_Plus + 1; i++)
                 {
-                    var fileName = $"achieve{i}.png";
+                    var fileName = $"rate_{i}.png";
                     var imagePath = Path.Combine(ResourceDirectory, fileName);
                     var imageUrl = new Uri(new Uri(this.Url), fileName);
 
@@ -48,17 +48,9 @@ namespace WaccaMyPageScraper.Fetchers
                         {
                             await request.Content.CopyToAsync(fs);
 
-                            this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", imagePath);
+                            this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", Path.GetFullPath(imagePath));
                         }
                     }
-                }
-
-                if (!Directory.Exists(ResourceDirectory))
-                {
-                    Directory.CreateDirectory(ResourceDirectory);
-
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}",
-                        Path.GetFullPath(ResourceDirectory));
                 }
             }
             catch (Exception ex)

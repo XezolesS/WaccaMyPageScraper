@@ -149,5 +149,23 @@ namespace WaccaMyPageScraper.Resources {
                 return ResourceManager.GetString("Root", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/stages/.
+        /// </summary>
+        public static string Stage {
+            get {
+                return ResourceManager.GetString("Stage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/stages/image/.
+        /// </summary>
+        public static string StageImage {
+            get {
+                return ResourceManager.GetString("StageImage", resourceCulture);
+            }
+        }
     }
 }

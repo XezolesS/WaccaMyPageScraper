@@ -161,7 +161,8 @@ namespace WaccaMyPageScraper.Fetchers
                         await request.Content.CopyToAsync(fs);
                         result = Path.GetFullPath(Path.Combine(DataFilePath.RecordImage, fileName));
 
-                        this.pageConnector.Logger?.Information("Music({Id}) image has been saved at {Path}", musicId, DataFilePath.RecordImage);
+                        this.pageConnector.Logger?.Information("Music({Id}) image has been saved at {Path}",
+                            musicId, Path.GetFullPath(DataFilePath.RecordImage));
                     }
                 }
             }

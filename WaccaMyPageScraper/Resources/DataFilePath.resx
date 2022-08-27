@@ -147,4 +147,10 @@
   <data name="Root" xml:space="preserve">
     <value>data/</value>
   </data>
+  <data name="Stage" xml:space="preserve">
+    <value>data/stages/</value>
+  </data>
+  <data name="StageImage" xml:space="preserve">
+    <value>data/stages/image/</value>
+  </data>
 </root>

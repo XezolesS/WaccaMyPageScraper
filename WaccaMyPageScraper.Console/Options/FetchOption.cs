@@ -113,18 +113,26 @@ namespace WaccaMyPageScraper.Console.Options
                         return trophies;
                     }
 
-                case "image_rate":
+                case "icon_rate":
                     {
-                        var rateImageFetcher = new RateImageFetcher(pageConnector);
-                        var result = Task.Run(async () => await rateImageFetcher.FetchAsync()).Result;
+                        var rateIconFetcher = new RateIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await rateIconFetcher.FetchAsync()).Result;
 
                         return result;
                     }
 
-                case "image_achieve":
+                case "icon_achieve":
                     {
-                        var achieveImageFetcher = new AchieveImageFetcher(pageConnector);
-                        var result = Task.Run(async () => await achieveImageFetcher.FetchAsync()).Result;
+                        var achieveIconFetcher = new AchieveIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await achieveIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
+                case "icon_stage":
+                    {
+                        var stageIconFetcher = new StageIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await stageIconFetcher.FetchAsync()).Result;
 
                         return result;
                     }

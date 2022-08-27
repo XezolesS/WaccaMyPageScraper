@@ -8,13 +8,13 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class RateImageFetcher : Fetcher<bool>
+    public class AchieveIconFetcher : Fetcher<bool>
     {
-        protected override string Url => "https://wacca.marv-games.jp/img/web/music/rate_icon/";
+        protected override string Url => "https://wacca.marv-games.jp/img/web/music/achieve_icon/";
 
         private static readonly string ResourceDirectory = "rsrc/";
 
-        public RateImageFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public AchieveIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         public override async Task<bool> FetchAsync(params object?[] args)
         {
@@ -27,13 +27,18 @@ namespace WaccaMyPageScraper.Fetchers
             }
 
             if (!Directory.Exists(ResourceDirectory))
+            {
                 Directory.CreateDirectory(ResourceDirectory);
+
+                this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}",
+                    Path.GetFullPath(ResourceDirectory));
+            }
 
             try
             {
-                for (int i = 1; i <= (int)Rate.SSS_Plus + 1; i++)
+                for (int i = 1; i <= (int)Achieve.AllMarvelous; i++)
                 {
-                    var fileName = $"rate_{i}.png";
+                    var fileName = $"achieve{i}.png";
                     var imagePath = Path.Combine(ResourceDirectory, fileName);
                     var imageUrl = new Uri(new Uri(this.Url), fileName);
 
@@ -48,17 +53,9 @@ namespace WaccaMyPageScraper.Fetchers
                         {
                             await request.Content.CopyToAsync(fs);
 
-                            this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", imagePath);
+                            this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", Path.GetFullPath(imagePath));
                         }
                     }
-                }
-
-                if (!Directory.Exists(ResourceDirectory))
-                {
-                    Directory.CreateDirectory(ResourceDirectory);
-
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}",
-                        Path.GetFullPath(ResourceDirectory));
                 }
             }
             catch (Exception ex)
