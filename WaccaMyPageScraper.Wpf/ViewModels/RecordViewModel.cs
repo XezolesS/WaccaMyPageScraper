@@ -31,35 +31,40 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public bool FilterDifficultyNormal
         {
             get => _filterDifficultyNormal;
-            set => SetProperty(ref _filterDifficultyNormal, value, OnFilterChanged);
+            set => SetProperty(ref _filterDifficultyNormal, value, 
+                OnFilterAndSorterChanged);
         }
 
         private bool _filterDifficultyHard;
         public bool FilterDifficultyHard
         {
             get => _filterDifficultyHard;
-            set => SetProperty(ref _filterDifficultyHard, value, OnFilterChanged);
+            set => SetProperty(ref _filterDifficultyHard, value, 
+                OnFilterAndSorterChanged);
         }
 
         private bool _filterDifficultyExpert;
         public bool FilterDifficultyExpert
         {
             get => _filterDifficultyExpert;
-            set => SetProperty(ref _filterDifficultyExpert, value, OnFilterChanged);
+            set => SetProperty(ref _filterDifficultyExpert, value, 
+                OnFilterAndSorterChanged);
         }
 
         private bool _filterDifficultyInferno;
         public bool FilterDifficultyInferno
         {
             get => _filterDifficultyInferno;
-            set => SetProperty(ref _filterDifficultyInferno, value, OnFilterChanged);
+            set => SetProperty(ref _filterDifficultyInferno, value, 
+                OnFilterAndSorterChanged);
         }
 
         private string _filterSearchText;
         public string FilterSearchText
         {
             get => _filterSearchText;
-            set => SetProperty(ref _filterSearchText, value, OnFilterChanged);
+            set => SetProperty(ref _filterSearchText, value, 
+                OnFilterAndSorterChanged);
         }
 
         private string _downloadStateText;
@@ -75,14 +80,16 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public SortRecordBy SelectedSortBy
         {
             get => _selectedSortBy;
-            set => SetProperty(ref _selectedSortBy, value, OnSortChanged);
+            set => SetProperty(ref _selectedSortBy, value, 
+                OnFilterAndSorterChanged);
         }
 
         private bool _isSortDescending;
         public bool IsSortDescending
         {
             get => _isSortDescending;
-            set => SetProperty(ref _isSortDescending, value, OnSortChanged);
+            set => SetProperty(ref _isSortDescending, value, 
+                OnFilterAndSorterChanged);
         }
 
         private int _musicCount;
@@ -103,7 +110,8 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public IEnumerable<RecordModel> Records
         {
             get => _records;
-            set => SetProperty(ref _records, value, OnFilterChanged);
+            set => SetProperty(ref _records, value, 
+                OnFilterAndSorterChanged);
         }
 
         ObservableCollection<RecordModel> _filteredRecords;
@@ -138,12 +146,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
-        private async void OnFilterChanged()
+        private async void OnFilterAndSorterChanged()
         {
             if (this.Records is null)
                 return;
 
-            this.FilteredRecords.Clear();
+            // Filtering
+            var filtered = new List<RecordModel>();
 
             var asyncRecords = this.Records
                 .ToAsyncEnumerable()
@@ -151,56 +160,35 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 .ConfigureAwait(false);
 
             await foreach (var r in asyncRecords)
-                this.FilteredRecords.Add(r);
+                filtered.Add(r);
             
-            if (this.SelectedSortBy != SortRecordBy.Default)
-                OnSortChanged();
-        }
-
-        private async void OnSortChanged()
-        {
-            IEnumerable<RecordModel> sorted = null;
-            switch (this.SelectedSortBy)
+            // Sorting
+            IEnumerable<RecordModel> sorted = this.SelectedSortBy switch
             {
-                case SortRecordBy.Title:
-                    sorted = this.IsSortDescending ?
-                        this.FilteredRecords.OrderByDescending(r => r.Title)
-                        : this.FilteredRecords.OrderBy(r => r.Title);
+                SortRecordBy.Title => sorted = this.IsSortDescending ?
+                    filtered.OrderByDescending(r => r.Title)
+                    : filtered.OrderBy(r => r.Title),
 
-                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted); 
-                    break;
-                case SortRecordBy.Artist:
-                        sorted = this.IsSortDescending ? 
-                            this.FilteredRecords.OrderByDescending(r => r.Artist) 
-                            : this.FilteredRecords.OrderBy(r => r.Artist);
+                SortRecordBy.Artist => sorted = this.IsSortDescending ?
+                    filtered.OrderByDescending(r => r.Artist)
+                    : filtered.OrderBy(r => r.Artist),
 
-                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
-                    break;
-                case SortRecordBy.Level:
-                    sorted = this.IsSortDescending ?
-                        this.FilteredRecords.OrderByDescending(r => r.LevelToNumber())
-                        : this.FilteredRecords.OrderBy(r => r.LevelToNumber());
+                SortRecordBy.Level => sorted = this.IsSortDescending ?
+                    filtered.OrderByDescending(r => r.LevelToNumber())
+                    : filtered.OrderBy(r => r.LevelToNumber()),
 
-                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
-                    break;
-                case SortRecordBy.Score:
-                    sorted = this.IsSortDescending ?
-                        this.FilteredRecords.OrderByDescending(r => r.Score)
-                        : this.FilteredRecords.OrderBy(r => r.Score);
+                SortRecordBy.Score => sorted = this.IsSortDescending ?
+                    filtered.OrderByDescending(r => r.Score)
+                    : filtered.OrderBy(r => r.Score),
 
-                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
-                    break;
-                case SortRecordBy.PlayCount:
-                    sorted = this.IsSortDescending ?
-                        this.FilteredRecords.OrderByDescending(r => r.PlayCount)
-                        : this.FilteredRecords.OrderBy(r => r.PlayCount);
+                SortRecordBy.PlayCount => sorted = this.IsSortDescending ?
+                    filtered.OrderByDescending(r => r.PlayCount)
+                    : filtered.OrderBy(r => r.PlayCount),
 
-                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
-                    break;
+                _ => sorted = filtered,
+            };
 
-
-                default: OnFilterChanged(); break;
-            }
+            this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
         }
 
         private async void InitializeDataFromFile()

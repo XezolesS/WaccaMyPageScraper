@@ -40,10 +40,10 @@
             <Views:LoginView Grid.Row="1" />
         </Grid>
 
-        <mah:MetroTabControl Grid.Column="1"
-                             Margin="5"
-                             Padding="10"
-                             Background="Transparent">
+        <mah:MetroAnimatedTabControl Grid.Column="1"
+                                     Margin="5"
+                                     Padding="10"
+                                     Background="Transparent">
             <mah:MetroTabItem Header="Record">
                 <Views:RecordView />
             </mah:MetroTabItem>
@@ -55,6 +55,6 @@
             <mah:MetroTabItem Header="Trophy">
 
             </mah:MetroTabItem>
-        </mah:MetroTabControl>
+        </mah:MetroAnimatedTabControl>
     </Grid>
 </mah:MetroWindow>
