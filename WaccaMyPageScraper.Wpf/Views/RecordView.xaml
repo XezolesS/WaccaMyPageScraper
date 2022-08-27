@@ -112,8 +112,6 @@
         </Style>
     </UserControl.Resources>
     
-    
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -220,20 +218,28 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0"
-                                           Text="{Binding Title}" 
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Left"
-                                           Foreground="{Binding DifficultyColor}"
-                                           FontSize="14"
-                                           FontWeight="Bold" />
+                                <TextBox Grid.Row="0"
+                                         Text="{Binding Title}" 
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Left"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="{Binding DifficultyColor}"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         FontSize="14"
+                                         FontWeight="Bold" />
 
-                                <TextBlock Grid.Row="1"
-                                           Text="{Binding Artist}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Left"
-                                           Foreground="LightGray"
-                                           FontSize="10" />
+                                <TextBox Grid.Row="1"
+                                         Text="{Binding Artist}"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Left"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="LightGray"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         FontSize="10" />
 
                                 <StackPanel Grid.Row="1"
                                             Orientation="Horizontal"
