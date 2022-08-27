@@ -11,6 +11,8 @@ namespace WaccaMyPageScraper.Wpf.Enums
         Default,
         Title,
         Artist,
-        Level
+        Level,
+        Score,
+        PlayCount,
     }
 }

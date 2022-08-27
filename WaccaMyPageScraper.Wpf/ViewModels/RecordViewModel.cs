@@ -183,6 +183,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
                     this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
                     break;
+                case SortRecordBy.Score:
+                    sorted = this.IsSortDescending ?
+                        this.FilteredRecords.OrderByDescending(r => r.Score)
+                        : this.FilteredRecords.OrderBy(r => r.Score);
+
+                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
+                    break;
+                case SortRecordBy.PlayCount:
+                    sorted = this.IsSortDescending ?
+                        this.FilteredRecords.OrderByDescending(r => r.PlayCount)
+                        : this.FilteredRecords.OrderBy(r => r.PlayCount);
+
+                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
+                    break;
+
+
                 default: OnFilterChanged(); break;
             }
         }
