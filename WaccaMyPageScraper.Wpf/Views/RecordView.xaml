@@ -43,7 +43,7 @@
                                 <Setter Property="Background" TargetName="DifficultyCheckBoxBorderFill" Value="{StaticResource MahApps.Brushes.Accent}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="1.0" /> 
+                                <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="1.0" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="0.0" />
@@ -53,7 +53,66 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="DescendingCheckBox" TargetType="{x:Type CheckBox}">
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Width" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="DescendingCheckBoxBorder"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                Background="#252525"
+                                BorderBrush="AliceBlue"
+                                BorderThickness="2"
+                                CornerRadius="12">
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Margin="1,1,0,0">
+                                <Path x:Name="DescendingCheckBoxCheckAscend"
+                                      Stroke="AliceBlue"
+                                      StrokeThickness="2">
+                                    <Path.Data>
+                                        <PathGeometry Figures="M 0,0 5,5 10,0" />
+                                    </Path.Data>
+                                </Path>
+                                <Path x:Name="DescendingCheckBoxCheckDescend"
+                                      Stroke="AliceBlue"
+                                      StrokeThickness="2">
+                                    <Path.Data>
+                                        <PathGeometry Figures="M 0,5 5,0 10,5" />
+                                    </Path.Data>
+                                </Path>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="DescendingCheckBoxBorder" Value="0.7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderBrush" TargetName="DescendingCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckAscend" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckDescend" Value="{StaticResource MahApps.Brushes.Accent}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckAscend" Value="0.0" />
+                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckDescend" Value="1.0" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckAscend" Value="1.0" />
+                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckDescend" Value="0.0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
+    
+    
     
     <Grid>
         <Grid.RowDefinitions>
@@ -68,7 +127,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="140" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0"
@@ -98,7 +157,17 @@
                      HorizontalAlignment="Stretch"/>
             
             <Grid Grid.Column="2">
-                <ComboBox />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0"
+                          ItemsSource="{Binding SortOptions}"
+                          SelectedValue="{Binding SelectedSortBy}" />
+                <CheckBox Grid.Column="1"
+                          Style="{StaticResource DescendingCheckBox}"
+                          IsChecked="{Binding IsSortDescending}" />
             </Grid>
         </Grid>
         

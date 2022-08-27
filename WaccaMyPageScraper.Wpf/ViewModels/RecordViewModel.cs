@@ -12,9 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
+using WaccaMyPageScraper.Enums;
+using WaccaMyPageScraper.Wpf.Enums;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
 
@@ -66,6 +67,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             set => SetProperty(ref _downloadStateText, value);
         }
 
+        public SortRecordBy[] SortOptions => Enum.GetValues<SortRecordBy>();
+
+        private SortRecordBy _selectedSortBy;
+        public SortRecordBy SelectedSortBy
+        {
+            get => _selectedSortBy;
+            set => SetProperty(ref _selectedSortBy, value, OnSortChanged);
+        }
+
+        private bool _isSortDescending;
+        public bool IsSortDescending
+        {
+            get => _isSortDescending;
+            set => SetProperty(ref _isSortDescending, value, OnSortChanged);
+        }
+
         private int _musicCount;
         public int MusicCount
         {
@@ -112,6 +129,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.MusicFetched = 0;
 
             this.FilteredRecords = new ObservableCollection<RecordModel>();
+            this.IsSortDescending = false;
 
             this.FetchRecordsCommand = new DelegateCommand(ExcuteFetchRecordsCommand);
 
@@ -131,6 +149,39 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             await foreach (var r in asyncRecords)
                 this.FilteredRecords.Add(r);
+
+            if (this.SelectedSortBy != SortRecordBy.Default)
+                OnSortChanged();
+        }
+
+        private async void OnSortChanged()
+        {
+            IEnumerable<RecordModel> sorted = null;
+            switch (this.SelectedSortBy)
+            {
+                case SortRecordBy.Title:
+                    sorted = this.IsSortDescending ?
+                        this.FilteredRecords.OrderByDescending(r => r.Title)
+                        : this.FilteredRecords.OrderBy(r => r.Title);
+
+                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted); 
+                    break;
+                case SortRecordBy.Artist:
+                        sorted = this.IsSortDescending ? 
+                            this.FilteredRecords.OrderByDescending(r => r.Artist) 
+                            : this.FilteredRecords.OrderBy(r => r.Artist);
+
+                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
+                    break;
+                case SortRecordBy.Level:
+                    sorted = this.IsSortDescending ?
+                        this.FilteredRecords.OrderByDescending(r => r.LevelToNumber())
+                        : this.FilteredRecords.OrderBy(r => r.LevelToNumber());
+
+                    this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
+                    break;
+                default: OnFilterChanged(); break;
+            }
         }
 
         private async void InitializeDataFromFile()

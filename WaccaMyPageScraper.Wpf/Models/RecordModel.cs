@@ -131,5 +131,7 @@ namespace WaccaMyPageScraper.Wpf.Models
                 data.Rates[(int)difficulty],
                 data.Achieves[(int)difficulty]);
         }
+
+        public double LevelToNumber() => double.Parse(this.Level.Replace("+", ".1"));
     }
 }
