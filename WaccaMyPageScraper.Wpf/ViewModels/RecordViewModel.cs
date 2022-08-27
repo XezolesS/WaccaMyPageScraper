@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
@@ -18,6 +19,7 @@ using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Wpf.Enums;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
+using System.Threading;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
@@ -145,11 +147,12 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             var asyncRecords = this.Records
                 .ToAsyncEnumerable()
-                .WhereAwait(record => FilterRecords(record));
+                .WhereAwait(record => FilterRecords(record))
+                .ConfigureAwait(false);
 
             await foreach (var r in asyncRecords)
                 this.FilteredRecords.Add(r);
-
+            
             if (this.SelectedSortBy != SortRecordBy.Default)
                 OnSortChanged();
         }
