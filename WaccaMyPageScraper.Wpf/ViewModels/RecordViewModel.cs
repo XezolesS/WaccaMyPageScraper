@@ -81,14 +81,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         IEnumerable<RecordModel>? _records;
         public IEnumerable<RecordModel>? Records
         {
-            get => _records?
-                .Where(r => (this.FilterDifficultyNormal && r.Difficulty == Difficulty.Normal)
-                        || (this.FilterDifficultyHard && r.Difficulty == Difficulty.Hard)
-                        || (this.FilterDifficultyExpert && r.Difficulty == Difficulty.Expert)
-                        || (this.FilterDifficultyInferno && r.Difficulty == Difficulty.Inferno))
-                .Where(r => r.Title.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase) 
-                        || r.Artist.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase));
+            get => _records;
             set => SetProperty(ref _records, value);
+        }
+
+        private Predicate<object> _recordFilter;
+        public Predicate<object> RecordFilter
+        {
+            get => _recordFilter;
+            set => SetProperty(ref _recordFilter, value);
         }
 
         public DelegateCommand FetchRecordsCommand { get; private set; }
@@ -99,10 +100,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
-            this.FilterDifficultyExpert = false;
-            this.FilterDifficultyInferno = false;
+            this.FilterDifficultyExpert = true;
+            this.FilterDifficultyInferno = true;
 
-            this.FilterSearchText = string.Empty;
+            this.FilterSearchText = "Srav3r";
 
             this.DownloadStateText = "Not Logged In";
             this.MusicCount = 1;
@@ -115,7 +116,8 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         private void OnFilterChanged()
         {
-            this.Records = this.Records;
+            this.RecordFilter = null;
+            this.RecordFilter = this.IsRecordMatch;
         }
 
         private async void InitializeDataFromFile()
@@ -192,6 +194,24 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             }
 
             return records;
+        }
+
+        private bool IsRecordMatch(object item)
+        {
+            if (item is not RecordModel)
+                return false;
+
+            var record = item as RecordModel;
+
+            var isNormal = this.FilterDifficultyNormal && record.Difficulty == Difficulty.Normal;
+            var isHard = this.FilterDifficultyHard && record.Difficulty == Difficulty.Hard;
+            var isExpert = this.FilterDifficultyExpert && record.Difficulty == Difficulty.Expert;
+            var isInferno = this.FilterDifficultyInferno && record.Difficulty == Difficulty.Inferno;
+            
+            var contains = record.Title.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase)
+                        || record.Artist.Contains(this.FilterSearchText, StringComparison.CurrentCultureIgnoreCase);
+
+            return (isNormal || isHard || isExpert || isInferno) && contains;
         }
     }
 }

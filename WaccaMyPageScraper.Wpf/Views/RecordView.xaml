@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+             xmlns:Prop="clr-namespace:WaccaMyPageScraper.Wpf.Views.Properties"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -106,7 +106,8 @@
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="recordsControl"
-                          ItemsSource="{Binding Records}">
+                          ItemsSource="{Binding Records}"
+                          Prop:Filter.By="{Binding RecordFilter}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" />
