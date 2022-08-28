@@ -49,7 +49,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         {
             var playerRecords = await new CsvHandler<Player>(Log.Logger)
                 .ImportAsync(DataFilePath.PlayerData);
-
+            
             if (playerRecords is null)
                 return;
 
@@ -65,6 +65,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         {
             PlayerFetcher fetcher = new PlayerFetcher(connector);
             var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
+
+            // Save player
+            if (!Directory.Exists(DataFilePath.Player))
+                Directory.CreateDirectory(DataFilePath.Player);
 
             var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
             csvHandler.Export(DataFilePath.PlayerData);

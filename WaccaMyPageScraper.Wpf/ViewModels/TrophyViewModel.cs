@@ -144,10 +144,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (pageConnector is null)
                 return;
 
-            // Reset Records
+            // Reset Trophies
             this.Trophies = new List<TrophyModel>();
 
-            // Fetch music list
+            // Fetch trophies
             this.DownloadStateText = "Fetching trophies...";
 
             TrophiesFetcher trophiesFetcher = new TrophiesFetcher(this.pageConnector);
@@ -156,15 +156,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.TrophyCount = trophies.Length;
             this.DownloadStateText = string.Format("Total {0} trophies fetched.", this.TrophyCount);
 
-            // Save records
+            // Save trophies
             if (!Directory.Exists(DataFilePath.Trophy))
                 Directory.CreateDirectory(DataFilePath.Trophy);
 
-            // Convert MusicDetails to RecordModels
-            this.Trophies = TrophyModel.FromTrophies(trophies);
-
             var csvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
             csvHandler.Export(DataFilePath.TrophyData);
+
+            // Convert Trophies to TrophyModels
+            this.Trophies = TrophyModel.FromTrophies(trophies);
 
             this.DownloadStateText = "Download Complete";
         }

@@ -239,11 +239,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (!Directory.Exists(DataFilePath.Record))
                 Directory.CreateDirectory(DataFilePath.Record);
 
-            // Convert MusicDetails to RecordModels
-            this.Records = RecordModel.FromMusicDetails(musicDetails);
-
             var csvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
             csvHandler.Export(DataFilePath.RecordData);
+
+            // Convert MusicDetails to RecordModels
+            this.Records = RecordModel.FromMusicDetails(musicDetails);
 
             this.DownloadStateText = "Download Complete";
         }

@@ -78,11 +78,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (pageConnector is null)
                 return;
 
-            // Reset Records
+            // Reset Stages
             this.Stages = new List<StageModel>();
             this.StageFetched = 0;
 
-            // Fetch music list
+            // Fetch stage list
             this.DownloadStateText = "Finding stages...";
 
             StagesFetcher stagesFetcher = new StagesFetcher(this.pageConnector);
@@ -91,7 +91,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.StageCount = stageList.Length;
             this.DownloadStateText = string.Format("Total {0} stages found.", this.StageCount);
 
-            // Fetch records
+            // Fetch stages
             var stageDetails = new List<StageDetail>();
             StageDetailFetcher stageDetailFetcher = new StageDetailFetcher(this.pageConnector);
             foreach (var stage in stageList)
@@ -104,15 +104,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                     this.StageCount, this.StageFetched, stage.Name);
             }
 
-            // Save records
+            // Save stages
             if (!Directory.Exists(DataFilePath.Stage))
                 Directory.CreateDirectory(DataFilePath.Stage);
 
-            // Convert MusicDetails to RecordModels
-            this.Stages = StageModel.FromStageDetails(stageDetails);
-
             var csvHandler = new CsvHandler<StageDetail>(stageDetails, Log.Logger);
             csvHandler.Export(DataFilePath.StageData);
+
+            // Convert StageDetails to StageModels
+            this.Stages = StageModel.FromStageDetails(stageDetails);
 
             this.DownloadStateText = "Download Complete";
         }
