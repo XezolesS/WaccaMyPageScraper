@@ -115,6 +115,9 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public static IEnumerable<RecordModel> FromMusicDetails(IEnumerable<MusicDetail> data)
         {
+            if (data is null)
+                return null;
+
             var records = new List<RecordModel>();
             foreach (var musicDetail in data)
                 records.AddRange(FromMusicDetail(musicDetail));

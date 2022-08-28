@@ -49,6 +49,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         {
             var playerRecords = await new CsvHandler<Player>(Log.Logger)
                 .ImportAsync(DataFilePath.PlayerData);
+
+            if (playerRecords is null)
+                return;
+
             var player = playerRecords.First();
 
             this.Player = PlayerModel.FromPlayer(player);
