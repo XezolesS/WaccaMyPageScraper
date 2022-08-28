@@ -11,45 +11,32 @@ using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
+using WaccaMyPageScraper.Wpf.Models;
 using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public class PlayerViewModel : BindableBase
     {
-        private string _playerName;
-        public string PlayerName
+        private Player _player;
+        public Player Player
         {
-            get => _playerName;
-            set => this.SetProperty(ref _playerName, value);
+            get => _player;
+            set => SetProperty(ref _player, value);
         }
 
-        private string _playerLevel;
-        public string PlayerLevel
+        private byte[] _playerIcon;
+        public byte[] PlayerIcon
         {
-            get => "Lv." + _playerLevel;
-            set => this.SetProperty(ref _playerLevel, value);
+            get => _playerIcon;
+            set => this.SetProperty(ref _playerIcon, value);
         }
 
-        private string _playerRate;
-        public string PlayerRate
+        private byte[] _stageIcon;
+        public byte[] StageIcon
         {
-            get => "Rate " + _playerRate;
-            set => this.SetProperty(ref _playerRate, value);
-        }
-
-        private byte[] _playerIconPath;
-        public byte[] PlayerIconPath
-        {
-            get => _playerIconPath;
-            set => this.SetProperty(ref _playerIconPath, value);
-        }
-
-        private byte[] _stageIconPath;
-        public byte[] StageIconPath
-        {
-            get => _stageIconPath;
-            set => this.SetProperty(ref _stageIconPath, value);
+            get => _stageIcon;
+            set => this.SetProperty(ref _stageIcon, value);
         }
 
         public PlayerViewModel(IEventAggregator ea)
@@ -64,12 +51,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 .ImportAsync(DataFilePath.PlayerData);
             var player = playerRecords.First();
 
-            this.PlayerName = player?.Name;
-            this.PlayerLevel = player?.Level.ToString();
-            this.PlayerRate = player?.Rate.ToString();
+            this.Player = PlayerModel.FromPlayer(player);
 
-            this.PlayerIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
-            this.StageIconPath = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
+            this.PlayerIcon = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
+            this.StageIcon = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
         }
 
         private async void UpdatePlayerData(PageConnector connector)
@@ -83,12 +68,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var playerIcon = await fetcher.FetchPlayerIconAsync();
 
             // Update properties
-            this.PlayerName = player.Name;
-            this.PlayerLevel = player.Level.ToString();
-            this.PlayerRate = player.Rate.ToString();
+            this.Player = PlayerModel.FromPlayer(player);
 
-            this.PlayerIconPath = GetImageByte(playerIcon);
-            this.StageIconPath = ImageLocator.LocateStage(player.Stage);
+            this.PlayerIcon = GetImageByte(playerIcon);
+            this.StageIcon = ImageLocator.LocateStage(player.Stage);
         }
 
         private byte[] GetImageByte(string? DataFilePath)

@@ -13,7 +13,8 @@
         Height="500" Width="800"
         MinHeight="500" MinWidth="800"
         Background="#252538"
-        GlowBrush="{DynamicResource MahApps.Brushes.Accent}">
+        GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+        Title="WACCA My Page Scraper">
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
@@ -36,8 +37,10 @@
             </Grid.RowDefinitions>
 
             <Views:PlayerView Grid.Row="0" 
-                              VerticalAlignment="Center" />
-            <Views:LoginView Grid.Row="1" />
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch" />
+            <Views:LoginView Grid.Row="1" 
+                             VerticalAlignment="Bottom" />
         </Grid>
 
         <mah:MetroAnimatedTabControl Grid.Column="1"
