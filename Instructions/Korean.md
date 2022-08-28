@@ -20,8 +20,8 @@ WACCA 마이페이지에 로그인하면 아래와 같은 페이지가 나타납
 
 
 ### 프로그램 설명
-[다운로드(최신 릴리즈) 바로가기](https://github.com/XezolesS/WaccaMyPageScraper/releases/latest)
-[.NET 6 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+[다운로드(최신 릴리즈) 바로가기](https://github.com/XezolesS/WaccaMyPageScraper/releases/latest)<br>
+[.NET 6 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)<br>
 
 ![alt text](Images/AppScreen1.png)
 
