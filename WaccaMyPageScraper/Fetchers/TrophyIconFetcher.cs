@@ -7,11 +7,11 @@ using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class StageIconFetcher : Fetcher<bool>
+    public class TrophyIconFetcher : Fetcher<bool>
     {
         protected override string Url => "https://wacca.marv-games.jp/img/trophy/";
 
-        public StageIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public TrophyIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         public override async Task<bool> FetchAsync(params object?[] args)
         {
@@ -23,33 +23,36 @@ namespace WaccaMyPageScraper.Fetchers
                 return false;
             }
 
-            if (!Directory.Exists(DataFilePath.StageImage))
+            if (!Directory.Exists(DataFilePath.TrophyImage))
             {
-                Directory.CreateDirectory(DataFilePath.StageImage);
+                Directory.CreateDirectory(DataFilePath.TrophyImage);
 
                 this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}",
-                    Path.GetFullPath(DataFilePath.StageImage));
+                    Path.GetFullPath(DataFilePath.TrophyImage));
             }
 
             try
             {
-                for (int stage = 1; stage <= 14; stage++)
+                for (int categroy = 1; categroy <= 6; categroy++)
                 {
-                    for (int grade = 1; grade <= 3; grade++)
+                    for (int rarity = 1; rarity <= 4; rarity++)
                     {
-                        var fileName = $"stage_icon_{stage}_{grade}.png";
-                        var imagePath = Path.Combine(DataFilePath.StageImage, fileName);
+                        var fileName = $"{categroy}_{rarity}.png";
+                        var imagePath = Path.Combine(DataFilePath.TrophyImage, fileName);
                         var imageUrl = new Uri(new Uri(this.Url), fileName);
 
                         using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
                         {
-                            msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/stageup");
+                            msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/trophy");
 
                             this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 
                             using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
                             using (var fs = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                             {
+                                if (!request.IsSuccessStatusCode)
+                                    break;
+
                                 await request.Content.CopyToAsync(fs);
 
                                 this.pageConnector.Logger?.Information("Stage icon has been saved at {Path}", Path.GetFullPath(imagePath));

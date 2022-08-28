@@ -137,6 +137,14 @@ namespace WaccaMyPageScraper.Console.Options
                         return result;
                     }
 
+                case "icon_trophy":
+                    {
+                        var trophyIconFetcher = new TrophyIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await trophyIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
                 default:
                     this.logger?.Error("Invalid data information.");
 

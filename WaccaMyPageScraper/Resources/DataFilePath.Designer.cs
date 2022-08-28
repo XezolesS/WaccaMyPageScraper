@@ -176,5 +176,32 @@ namespace WaccaMyPageScraper.Resources {
                 return ResourceManager.GetString("StageImage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/trophies/.
+        /// </summary>
+        public static string Trophy {
+            get {
+                return ResourceManager.GetString("Trophy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/trophies/trophies.csv.
+        /// </summary>
+        public static string TrophyData {
+            get {
+                return ResourceManager.GetString("TrophyData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/trophies/image/.
+        /// </summary>
+        public static string TrophyImage {
+            get {
+                return ResourceManager.GetString("TrophyImage", resourceCulture);
+            }
+        }
     }
 }
