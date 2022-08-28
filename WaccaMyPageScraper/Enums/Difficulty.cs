@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.Enums
 {
-    public interface IFetcher<T>
+    public enum Difficulty
     {
-        public Task<T?> FetchAsync(params object?[] args);
+        Normal,
+        Hard,
+        Expert,
+        Inferno
     }
 }

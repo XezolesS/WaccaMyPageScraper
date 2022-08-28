@@ -1,0 +1,153 @@
+﻿<UserControl x:Class="WaccaMyPageScraper.Wpf.Views.PlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="240">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Image Source="{Binding PlayerIcon}"
+                   Margin="20"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+            <Image Source="{Binding StageIcon}"
+                   Margin="60,20"
+                   Height="60" Width="60"
+                   Stretch="Fill"
+                   VerticalAlignment="Bottom" 
+                   HorizontalAlignment="Right"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="10,0"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch">
+            <Separator />
+
+            <TextBlock Text="{Binding Player.Name}" 
+                       Margin="0,10"
+                       HorizontalAlignment="Center"
+                       Foreground="AliceBlue"
+                       FontSize="24"
+                       FontWeight="Bold" />
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="{Binding Player.LevelText}"
+                           Padding="20,0"
+                           HorizontalAlignment="Left"
+                           Foreground="Yellow"
+                           FontSize="16" />
+
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Player.RateText}"
+                           Padding="20,0"
+                           HorizontalAlignment="Right"
+                           Foreground="{Binding Player.RateBrush}"
+                           FontSize="16" />
+
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="Play Count" 
+                           Margin="10, 0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           FontSize="16" />
+                <TextBlock Grid.Row="0" Grid.Column="1"
+                           Text="{Binding Player.PlayCount}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left" 
+                           FontSize="16 "/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="Versus Mode" 
+                           Margin="10, 0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+                <TextBlock Grid.Row="1" Grid.Column="1"
+                           Text="{Binding Player.PlayCountVersus}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="Co-op Mode" 
+                           Margin="10, 0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+                <TextBlock Grid.Row="2" Grid.Column="1"
+                           Text="{Binding Player.PlayCountCoop}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+            </Grid>
+            
+            <Grid Margin="0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="RP Earned" 
+                           Margin="10, 0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           FontSize="16" />
+                <TextBlock Grid.Row="0" Grid.Column="1"
+                           Text="{Binding Player.TotalRpEarned}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left" 
+                           FontSize="16 "/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="RP Spent" 
+                           Margin="10, 0" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+                <TextBlock Grid.Row="1" Grid.Column="1"
+                           Text="{Binding Player.TotalRpSpent}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="Gray" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

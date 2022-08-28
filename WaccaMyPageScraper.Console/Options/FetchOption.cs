@@ -113,6 +113,38 @@ namespace WaccaMyPageScraper.Console.Options
                         return trophies;
                     }
 
+                case "icon_rate":
+                    {
+                        var rateIconFetcher = new RateIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await rateIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
+                case "icon_achieve":
+                    {
+                        var achieveIconFetcher = new AchieveIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await achieveIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
+                case "icon_stage":
+                    {
+                        var stageIconFetcher = new StageIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await stageIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
+                case "icon_trophy":
+                    {
+                        var trophyIconFetcher = new TrophyIconFetcher(pageConnector);
+                        var result = Task.Run(async () => await trophyIconFetcher.FetchAsync()).Result;
+
+                        return result;
+                    }
+
                 default:
                     this.logger?.Error("Invalid data information.");
 

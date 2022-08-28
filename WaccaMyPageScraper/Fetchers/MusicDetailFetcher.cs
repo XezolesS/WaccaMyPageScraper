@@ -7,27 +7,26 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
+using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class MusicDetailFetcher : IFetcher<MusicDetail>
+    public sealed class MusicDetailFetcher : Fetcher<MusicDetail>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/music/detail";
+        protected override string Url => "https://wacca.marv-games.jp/web/music/detail";
 
-        private readonly PageConnector pageConnector;
+        private string ImageUrl => "https://wacca.marv-games.jp/img/music/";
 
-        public MusicDetailFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public MusicDetailFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's play record of the music.
         /// </summary>
         /// <param name="args"><see cref="Music"/> is needed.</param>
         /// <returns>Fetched player's record of given <see cref="Music"/> in <see cref="MusicDetail"/>.</returns>
-        public async Task<MusicDetail?> FetchAsync(params object?[] args)
+        public override async Task<MusicDetail?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
@@ -49,7 +48,7 @@ namespace WaccaMyPageScraper.Fetchers
             var parameters = new Dictionary<string, string> { { "musicId", musicArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.pageConnector.PostAsync(Url, encodedContent);
+            var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
             MusicDetail? result = null;
 
             if (!response.IsSuccessStatusCode)
@@ -120,6 +119,59 @@ namespace WaccaMyPageScraper.Fetchers
             }
 
             this.pageConnector.Logger?.Information("Successfully fetched music data: {Result}", result);
+
+            return result;
+        }
+
+        public async Task<string> FetchMusicImageAsync(string musicId)
+        {
+            // Connect to the page and get an HTML document.
+            if (!this.pageConnector.IsLoggedOn())
+            {
+                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+
+                return null;
+            }
+
+            string? result = null;
+
+            try
+            {
+                this.pageConnector.Logger?.Information("Trying to save music image to {Path}", DataFilePath.RecordImage);
+
+                if (!Directory.Exists(DataFilePath.RecordImage))
+                {
+                    Directory.CreateDirectory(DataFilePath.RecordImage);
+
+                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", DataFilePath.RecordImage);
+                }
+
+                var fileName = musicId + ".png";
+                var imageUrl = new Uri(new Uri(this.ImageUrl), fileName);
+
+                using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
+                {
+                    msg.Headers.Referrer = new Uri(this.Url);
+
+                    this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
+
+                    using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
+                    using (var fs = new FileStream(Path.Combine(DataFilePath.RecordImage, fileName), FileMode.Create, FileAccess.Write))
+                    {
+                        await request.Content.CopyToAsync(fs);
+                        result = Path.GetFullPath(Path.Combine(DataFilePath.RecordImage, fileName));
+
+                        this.pageConnector.Logger?.Information("Music({Id}) image has been saved at {Path}",
+                            musicId, Path.GetFullPath(DataFilePath.RecordImage));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.pageConnector.Logger?.Error(ex.Message);
+
+                return null;
+            }
 
             return result;
         }

@@ -10,24 +10,20 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class StageDetailFetcher : IFetcher<StageDetail>
+    public sealed class StageDetailFetcher : Fetcher<StageDetail>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/stageup/detail";
+        protected override string Url => "https://wacca.marv-games.jp/web/stageup/detail";
 
-        private readonly PageConnector pageConnector;
-
-        public StageDetailFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public StageDetailFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's stage record.
         /// </summary>
         /// <param name="args"><see cref="Stage"/> is needed.</param>
         /// <returns>Fetched player's stage record of given <see cref="Stage"/> in <see cref="StageDetail"/>.</returns>
-        public async Task<StageDetail?> FetchAsync(params object?[] args)
+        public override async Task<StageDetail?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
@@ -55,7 +51,7 @@ namespace WaccaMyPageScraper.Fetchers
             var parameters = new Dictionary<string, string> { { "trialClass", stageArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.pageConnector.PostAsync(Url, encodedContent);
+            var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
             StageDetail? result = null;
 
             if (!response.IsSuccessStatusCode)

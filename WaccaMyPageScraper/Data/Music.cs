@@ -18,7 +18,7 @@ namespace WaccaMyPageScraper.Data
         /// <summary>
         /// Music Id.
         /// </summary>
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Music title.
@@ -41,12 +41,12 @@ namespace WaccaMyPageScraper.Data
             this.Levels = new string[4];
         }
 
-        public Music(int id, string title, Genre genre, string[] levels)
+        public Music(string id, string title, Genre genre, string[] levels)
         {
-            Id = id;
-            Title = title;
-            Genre = genre;
-            Levels = levels;
+            this.Id = id;
+            this.Title = title;
+            this.Genre = genre;
+            this.Levels = levels;
         }
 
         public override string ToString() => string.Format("[{0},{1},{2},[{3}]]", 

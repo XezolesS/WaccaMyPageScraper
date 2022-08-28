@@ -9,24 +9,20 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class MusicsFetcher : IFetcher<Music[]>
+    public sealed class MusicsFetcher : Fetcher<Music[]>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/music";
+        protected override string Url => "https://wacca.marv-games.jp/web/music";
 
-        private readonly PageConnector pageConnector;
-
-        public MusicsFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public MusicsFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch musics listed on My Page.
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of musics listed on My Page in array of <see cref="Music"/>s.</returns>
-        public async Task<Music[]?> FetchAsync(params object?[] args)
+        public override async Task<Music[]?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
@@ -36,7 +32,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var response = await pageConnector.GetStringAsync(Url);
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<Music> result = new List<Music>();
 
             if (string.IsNullOrEmpty(response))
@@ -88,7 +84,7 @@ namespace WaccaMyPageScraper.Fetchers
                 int count = 0;
                 foreach (var node in musicItemNodes)
                 {
-                    int id = int.Parse(node.SelectSingleNode("./div/form/input").Attributes["value"].Value);
+                    string id = node.SelectSingleNode("./div/form/input").Attributes["value"].Value;
                     string title = node.SelectSingleNode("./div/a/div/div[@class='playdata__score-list__song-info__name']").InnerText;
                     Genre genre = int.Parse(node.Attributes["data-sequence_number"].Value) switch
                     {

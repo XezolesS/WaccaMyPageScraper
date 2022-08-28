@@ -11,24 +11,20 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class StagesFetcher : IFetcher<Stage[]>
+    public sealed class StagesFetcher : Fetcher<Stage[]>
     {
-        private readonly static string Url = "https://wacca.marv-games.jp/web/stageup";
+        protected override string Url => "https://wacca.marv-games.jp/web/stageup";
 
-        private readonly PageConnector pageConnector;
-
-        public StagesFetcher(PageConnector pageConnector)
-        {
-            this.pageConnector = pageConnector;
-        }
+        public StagesFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch stages listed on My Page.
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of stages listed on My Page in array of <see cref="Stage"/>s.</returns>
-        public async Task<Stage[]?> FetchAsync(params object?[] args)
+        public override async Task<Stage[]?> FetchAsync(params object?[] args)
         {
+            // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
                 this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
@@ -38,7 +34,7 @@ namespace WaccaMyPageScraper.Fetchers
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var response = await pageConnector.GetStringAsync(Url);
+            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<Stage> result = new List<Stage>();
 
             if (string.IsNullOrEmpty(response))

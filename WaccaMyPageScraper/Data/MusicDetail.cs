@@ -75,24 +75,26 @@ namespace WaccaMyPageScraper.Data
             this.Achieves = new Achieve[4];
         }
 
-        public MusicDetail(int id, string title, Genre genre, string[] levels,
+        public MusicDetail(string id, string title, Genre genre, string[] levels,
             string artist, int[] playCounts, int[] scores, Achieve[] achieves)
             : base(id, title, genre, levels)
         {
-            Artist = artist;
-            PlayCounts = playCounts;
-            Scores = scores;
-            Achieves = achieves;
+            this.Artist = artist;
+            this.PlayCounts = playCounts;
+            this.Scores = scores;
+            this.Achieves = achieves;
         }
 
         public MusicDetail(Music music, string artist, int[] playCounts, int[] scores, Achieve[] achieves)
             : base(music.Id, music.Title, music.Genre, music.Levels)
         {
-            Artist = artist;
-            PlayCounts = playCounts;
-            Scores = scores;
-            Achieves = achieves;
+            this.Artist = artist;
+            this.PlayCounts = playCounts;
+            this.Scores = scores;
+            this.Achieves = achieves;
         }
+
+        public bool HasInferno() => this.Levels.Length == 4 && this.Levels[(int)Difficulty.Inferno] != "0";
 
         public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}],[{5}],[{6}],[{7}],[{8}]]",
             this.Id, this.Title, this.Artist, (int)this.Genre, string.Join(",", this.Levels),
@@ -101,6 +103,7 @@ namespace WaccaMyPageScraper.Data
             string.Join(",", this.Rates),
             string.Join(",", Array.ConvertAll(this.Achieves, s => (int)s)));
     }
+
     public sealed class MusicDetailMap : ClassMap<MusicDetail>
     {
         public MusicDetailMap()
