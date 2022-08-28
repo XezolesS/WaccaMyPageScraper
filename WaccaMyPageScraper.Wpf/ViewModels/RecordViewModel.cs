@@ -27,6 +27,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
     {
         private PageConnector pageConnector;
 
+        #region Properties
         private bool _filterDifficultyNormal;
         public bool FilterDifficultyNormal
         {
@@ -122,6 +123,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         }
 
         public DelegateCommand FetchRecordsCommand { get; private set; }
+        #endregion
 
         public RecordViewModel(IEventAggregator ea)
         {
@@ -129,7 +131,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
-            this.FilterDifficultyExpert = false;
+            this.FilterDifficultyExpert = true;
             this.FilterDifficultyInferno = false;
 
             this.FilterSearchText = string.Empty;
@@ -139,6 +141,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.MusicFetched = 0;
 
             this.FilteredRecords = new ObservableCollection<RecordModel>();
+            this.SelectedSortBy = SortRecordBy.Default;
             this.IsSortDescending = false;
 
             this.FetchRecordsCommand = new DelegateCommand(ExcuteFetchRecordsCommand);
@@ -196,7 +199,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var musicDetails = await new CsvHandler<MusicDetail>(Log.Logger)
                 .ImportAsync(DataFilePath.RecordData);
 
-            this.Records = ConvertAllMusicDetailsToRecords(musicDetails);
+            this.Records = RecordModel.FromMusicDetails(musicDetails);
         }
 
         private async void ExcuteFetchRecordsCommand()
@@ -236,7 +239,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 Directory.CreateDirectory(DataFilePath.Record);
 
             // Convert MusicDetails to RecordModels
-            this.Records = ConvertAllMusicDetailsToRecords(musicDetails);
+            this.Records = RecordModel.FromMusicDetails(musicDetails);
 
             var csvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
             csvHandler.Export(DataFilePath.RecordData);
@@ -250,22 +253,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             if (connector.IsLoggedOn())
                 this.DownloadStateText = "Logged In";
-        }
-
-        private IList<RecordModel> ConvertAllMusicDetailsToRecords(IEnumerable<MusicDetail> musicDetails)
-        {
-            var records = new List<RecordModel>();
-            foreach (var musicDetail in musicDetails)
-            {
-                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Normal));
-                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Hard));
-                records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Expert));
-
-                if (musicDetail.HasInferno())
-                    records.Add(RecordModel.FromMusicDetail(musicDetail, Difficulty.Inferno));
-            }
-
-            return records;
         }
 
         private async ValueTask<bool> FilterRecords(RecordModel record) => 

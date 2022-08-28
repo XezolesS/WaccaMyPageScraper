@@ -150,6 +150,9 @@
   <data name="Stage" xml:space="preserve">
     <value>data/stages/</value>
   </data>
+  <data name="StageData" xml:space="preserve">
+    <value>data/stages/stages.csv</value>
+  </data>
   <data name="StageImage" xml:space="preserve">
     <value>data/stages/image/</value>
   </data>

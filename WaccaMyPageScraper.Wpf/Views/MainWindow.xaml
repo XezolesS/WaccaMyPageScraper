@@ -49,7 +49,7 @@
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Stage">
-
+                <Views:StageView />
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Trophy">

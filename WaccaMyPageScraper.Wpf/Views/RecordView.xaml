@@ -257,7 +257,7 @@
                                 <Grid Grid.Row="2">
                                     <Border Background="{Binding DifficultyColor}"
                                                 CornerRadius="15"
-                                                Height="30" Width="80"
+                                                Height="30" Width="90"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left">
                                         <TextBlock Text="{Binding LevelText}"
@@ -273,7 +273,7 @@
                                                Margin="100,0"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left"
-                                               FontSize="20"
+                                               FontSize="24"
                                                FontWeight="Bold" />
 
                                     <Grid VerticalAlignment="Center"

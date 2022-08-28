@@ -12,18 +12,20 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        private ConsoleWindow Console;
+
         public DelegateCommand OpenConsoleCommand { get; private set; }
 
         public MainWindowViewModel()
         {
+            this.Console = new ConsoleWindow();
             this.OpenConsoleCommand = new DelegateCommand(ExecuteOpenConsoleCommand);
         }
 
         private void ExecuteOpenConsoleCommand()
         {
-            ConsoleWindow console = new ConsoleWindow();
-            console.Owner = Application.Current.MainWindow;
-            console.Show();
+            this.Console.Owner = Application.Current.MainWindow;
+            this.Console.Show();
         }
     }
 }

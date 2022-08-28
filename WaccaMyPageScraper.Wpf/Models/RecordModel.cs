@@ -46,20 +46,18 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Difficulty Difficulty { get; set; }
 
-        public string DifficultyColor 
+        public string DifficultyColor  => this.Difficulty switch 
         { 
-            get => this.Difficulty switch 
-            { 
-                Difficulty.Normal => "#009DE6",
-                Difficulty.Hard => "#FED131",
-                Difficulty.Expert => "#FC06A3",
-                Difficulty.Inferno => "#4A004F"
-            }; 
-        }
+            Difficulty.Normal => "#009DE6",
+            Difficulty.Hard => "#FED131",
+            Difficulty.Expert => "#FC06A3",
+            Difficulty.Inferno => "#4A004F"
+        }; 
 
         public string Level { get; set; }
 
-        public string LevelText { get => string.Format("{0} {1}", this.Difficulty.ToString(), this.Level); }
+        public string LevelText => string.Format("{0} {1}", 
+            this.Difficulty.ToString().ToUpperInvariant(), this.Level);
 
         public int Score { get; set; }
 
@@ -102,6 +100,26 @@ namespace WaccaMyPageScraper.Wpf.Models
                 data.PlayCounts[(int)difficulty],
                 data.Rates[(int)difficulty],
                 data.Achieves[(int)difficulty]);
+        }
+
+        public static RecordModel[] FromMusicDetail(MusicDetail data)
+        {
+            var toConvert = data.HasInferno() ? 4 : 3;
+
+            var converted = new RecordModel[toConvert];
+            for (int i = 0; i < toConvert; i++)
+                converted[i] = FromMusicDetail(data, (Difficulty)i);
+
+            return converted;
+        }
+
+        public static IEnumerable<RecordModel> FromMusicDetails(IEnumerable<MusicDetail> data)
+        {
+            var records = new List<RecordModel>();
+            foreach (var musicDetail in data)
+                records.AddRange(FromMusicDetail(musicDetail));
+
+            return records;
         }
 
         public double LevelToNumber() => double.Parse(this.Level.Replace("+", ".1"));

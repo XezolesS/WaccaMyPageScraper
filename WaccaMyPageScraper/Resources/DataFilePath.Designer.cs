@@ -160,6 +160,15 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/stages/stages.csv.
+        /// </summary>
+        public static string StageData {
+            get {
+                return ResourceManager.GetString("StageData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to data/stages/image/.
         /// </summary>
         public static string StageImage {
