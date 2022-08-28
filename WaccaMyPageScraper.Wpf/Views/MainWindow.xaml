@@ -53,7 +53,7 @@
             </mah:MetroTabItem>
 
             <mah:MetroTabItem Header="Trophy">
-
+                <Views:TrophyView />
             </mah:MetroTabItem>
         </mah:MetroAnimatedTabControl>
     </Grid>

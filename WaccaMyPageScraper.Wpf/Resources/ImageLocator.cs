@@ -126,5 +126,59 @@ namespace WaccaMyPageScraper.Wpf.Resources
             },
             _ => new byte[0],
         };
+
+        public static byte[] LocateTrophy(Trophy trophy) => (trophy.Category, trophy.Rarity) switch
+        {
+            var (c, r) when c == 1 => r switch
+            {
+                1 => Properties.Resources.Trophy_1_1,
+                2 => Properties.Resources.Trophy_1_2,
+                3 => Properties.Resources.Trophy_1_3,
+                4 => Properties.Resources.Trophy_1_4,
+            },
+            var (c, r) when c == 2 => r switch
+            {
+                1 => Properties.Resources.Trophy_2_1,
+                2 => Properties.Resources.Trophy_2_2,
+                3 => Properties.Resources.Trophy_2_3,
+                4 => Properties.Resources.Trophy_2_4,
+            },
+            var (c, r) when c == 3 => r switch
+            {
+                1 => Properties.Resources.Trophy_3_1,
+                2 => Properties.Resources.Trophy_3_2,
+                3 => Properties.Resources.Trophy_3_3,
+                4 => Properties.Resources.Trophy_3_4,
+            },
+            var (c, r) when c == 4 => r switch
+            {
+                1 => Properties.Resources.Trophy_4_1,
+                2 => Properties.Resources.Trophy_4_2,
+                3 => Properties.Resources.Trophy_4_3,
+                4 => Properties.Resources.Trophy_4_4,
+            },
+            var (c, r) when c == 5 => r switch
+            {
+                1 => Properties.Resources.Trophy_5_1,
+                2 => Properties.Resources.Trophy_5_2,
+                3 => Properties.Resources.Trophy_5_3,
+                4 => Properties.Resources.Trophy_5_4,
+            },
+            var (c, r) when c == 6 => r switch
+            {
+                1 => Properties.Resources.Trophy_6_1,
+                2 => Properties.Resources.Trophy_6_2,
+                3 => Properties.Resources.Trophy_6_3,
+                4 => Properties.Resources.Trophy_6_4,
+            },
+        };
+
+        public static byte[] LocateTrophyBronze() => Properties.Resources.TrophyBronze;
+
+        public static byte[] LocateTrophySilver() => Properties.Resources.TrophySilver;
+
+        public static byte[] LocateTrophyGold() => Properties.Resources.TrophyGold;
+
+        public static byte[] LocateTrophyPlatinum() => Properties.Resources.TrophyPlatinum;
     }
 }

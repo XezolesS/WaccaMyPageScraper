@@ -80,15 +80,16 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Reset Records
             this.Stages = new List<StageModel>();
+            this.StageFetched = 0;
 
             // Fetch music list
-            this.DownloadStateText = "Finding musics...";
+            this.DownloadStateText = "Finding stages...";
 
             StagesFetcher stagesFetcher = new StagesFetcher(this.pageConnector);
             var stageList = await stagesFetcher.FetchAsync();
 
             this.StageCount = stageList.Length;
-            this.DownloadStateText = string.Format("Total {0} musics found.", this.StageCount);
+            this.DownloadStateText = string.Format("Total {0} stages found.", this.StageCount);
 
             // Fetch records
             var stageDetails = new List<StageDetail>();

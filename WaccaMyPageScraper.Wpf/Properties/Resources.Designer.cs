@@ -678,5 +678,285 @@ namespace WaccaMyPageScraper.Wpf.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_1_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_1_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_1_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_1_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_1_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_1_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_1_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_1_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_2_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_2_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_2_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_2_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_2_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_2_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_2_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_2_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_3_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_3_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_3_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_3_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_3_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_3_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_3_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_3_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_4_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_4_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_4_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_4_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_4_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_4_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_4_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_4_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_5_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_5_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_5_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_5_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_5_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_5_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_5_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_5_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_6_1 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_6_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_6_2 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_6_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_6_3 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_6_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Trophy_6_4 {
+            get {
+                object obj = ResourceManager.GetObject("Trophy_6_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TrophyBronze {
+            get {
+                object obj = ResourceManager.GetObject("TrophyBronze", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TrophyGold {
+            get {
+                object obj = ResourceManager.GetObject("TrophyGold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TrophyPlatinum {
+            get {
+                object obj = ResourceManager.GetObject("TrophyPlatinum", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TrophySilver {
+            get {
+                object obj = ResourceManager.GetObject("TrophySilver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

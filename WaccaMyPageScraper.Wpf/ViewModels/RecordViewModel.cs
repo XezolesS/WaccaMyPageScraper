@@ -209,6 +209,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Reset Records
             this.Records = new List<RecordModel>();
+            this.MusicFetched = 0;
             this.FilteredRecords.Clear();
 
             // Fetch music list

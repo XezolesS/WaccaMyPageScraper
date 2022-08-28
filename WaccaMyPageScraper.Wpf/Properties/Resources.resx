@@ -304,4 +304,88 @@
   <data name="StageX_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\stageicons\stage_icon_10_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="TrophyBronze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\bronze.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TrophyGold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\gold.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TrophyPlatinum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\platinum.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TrophySilver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\silver.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_1_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\1_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_1_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\1_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_1_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\1_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_1_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\1_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_2_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\2_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_2_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\2_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_2_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\2_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_2_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\2_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_3_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\3_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_3_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\3_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_3_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\3_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_3_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\3_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_4_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\4_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_4_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\4_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_4_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\4_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_4_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\4_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_5_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\5_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_5_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\5_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_5_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\5_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_5_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\5_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_6_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\6_1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_6_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\6_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_6_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\6_3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Trophy_6_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\trophyicons\6_4.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

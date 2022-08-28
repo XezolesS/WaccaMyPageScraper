@@ -27,9 +27,12 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public static IEnumerable<StageModel> FromStageDetails(IEnumerable<StageDetail> data)
         {
+            if (data is null)
+                return null;
+
             var stages = new List<StageModel>();
             foreach (var stageDetail in data)
-                stages.Add(new StageModel(stageDetail));
+                stages.Add(FromStageDetail(stageDetail));
 
             return stages;
         }
