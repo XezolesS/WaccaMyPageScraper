@@ -9,7 +9,7 @@ Save your WACCA records before the server dies.
 
 ## How to use?
 Check here:
-- Korean
+- [Korean](Instructions/Korean.md)
 
 ## Requirements
 [.NET 6 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
