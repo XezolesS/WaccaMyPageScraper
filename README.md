@@ -9,7 +9,8 @@ Save your WACCA records before the server dies.
 
 ## How to use?
 Check here:
-- [Korean](Instructions/Korean.md)
+- [한국어](Instructions/Korean.md)
+- [日本語](Instructions/Japanese.md)
 
 ## Requirements
 [.NET 6 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
