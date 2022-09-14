@@ -13,8 +13,8 @@ namespace WaccaMyPageScraper.Console.Options
     {
         private readonly string? outputFilePath;
 
-        public FetchOption(ILogger? logger, PageConnector pageConnector, string parameter) 
-            : base(logger, pageConnector, parameter) 
+        public FetchOption(ILogger? logger, PageConnector pageConnector, string parameter)
+            : base(logger, pageConnector, parameter)
         {
             this.outputFilePath = null;
         }
@@ -25,131 +25,112 @@ namespace WaccaMyPageScraper.Console.Options
             this.outputFilePath = outputFilePath;
         }
 
-        public override object Execute()
+        public override object Execute() => this.parameter.ToLower() switch {
+            "player" => FetchPlayerTask(),
+            "record" => FetchRecordsTask(),
+            "stage" => FetchStagesTask(),
+            "trophy" => FetchTrophiesTask(),
+            "icon_rate" => FetchRateIconTask(),
+            "icon_achieve" => FetchAchieveIconTask(),
+            "icon_stage" => FetchStageIconTask(),
+            "icon_trophy" => FetchStageIconTask(),
+            _ => () => this.logger?.Error("Invalid data information.")
+        };
+
+        #region Fetch Tasks
+        private Player FetchPlayerTask()
         {
-            switch (parameter.ToLower())
+            var playerFetcher = new PlayerFetcher(this.pageConnector);
+            var player = Task.Run(async () => await playerFetcher.FetchAsync()).Result;
+
+            if (this.outputFilePath is not null)
             {
-                case "player":
-                    {
-                        var playerFetcher = new PlayerFetcher(this.pageConnector);
-                        var player = Task.Run(async () => await playerFetcher.FetchAsync()).Result;
-
-                        if (this.outputFilePath is not null)
-                        {
-                            var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
-                            csvHandler.Export(this.outputFilePath);
-                        }
-
-                        return player;
-                    }
-
-                case "record":
-                    {
-                        var musicsFetcher = new MusicsFetcher(this.pageConnector);
-                        var musics = Task.Run(async () => await musicsFetcher.FetchAsync()).Result;
-
-                        int count = 0;
-                        var musicDetails = new List<MusicDetail>();
-                        foreach (var music in musics)
-                        {
-                            var musicDetailFetcher = new MusicDetailFetcher(this.pageConnector);
-                            var musicDetail = Task.Run(async () => await musicDetailFetcher.FetchAsync(music)).Result;
-
-                            musicDetails.Add(musicDetail);
-
-                            Log.Information("{Count} out of {Musics} has been fetched", ++count, musics.Length);
-                        }
-
-                        if (this.outputFilePath is not null)
-                        {
-                            var musicDetailCsvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
-                            musicDetailCsvHandler.Export(this.outputFilePath);
-                        }
-
-                        return musicDetails;
-                    }
-
-                case "stage":
-                    {
-                        var stagesFetcher = new StagesFetcher(pageConnector);
-                        var stages = Task.Run(async () => await stagesFetcher.FetchAsync()).Result;
-
-                        Log.Information("{Stages} of stages have been fetched", stages.Length);
-
-                        int count = 0;
-                        var stageDetails = new List<StageDetail>();
-                        foreach (var stage in stages)
-                        {
-                            var stageDetailFetcher = new StageDetailFetcher(pageConnector);
-                            var stageDetail = Task.Run(async () => await stageDetailFetcher.FetchAsync(stage)).Result;
-
-                            stageDetails.Add(stageDetail);
-
-                            Log.Information("{Count} out of {Musics} has been fetched", ++count, stages.Length, stageDetail);
-                        } 
-                        
-                        if (this.outputFilePath is not null)
-                        {
-                            var stageDetailCsvHandler = new CsvHandler<StageDetail>(stageDetails, Log.Logger);
-                            stageDetailCsvHandler.Export(this.outputFilePath);
-                        }
-
-                        return stageDetails;
-                    }
-
-                case "trophy":
-                    {
-                        var trophiesFetcher = new TrophiesFetcher(pageConnector);
-                        var trophies = Task.Run(async () => await trophiesFetcher.FetchAsync()).Result;
-
-                        Log.Information("{Trophies} of trophies have been fetched", trophies.Length);
-
-                        if (this.outputFilePath is not null)
-                        {
-                            var trophyCsvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
-                            trophyCsvHandler.Export(this.outputFilePath);
-                        }
-
-                        return trophies;
-                    }
-
-                case "icon_rate":
-                    {
-                        var rateIconFetcher = new RateIconFetcher(pageConnector);
-                        var result = Task.Run(async () => await rateIconFetcher.FetchAsync()).Result;
-
-                        return result;
-                    }
-
-                case "icon_achieve":
-                    {
-                        var achieveIconFetcher = new AchieveIconFetcher(pageConnector);
-                        var result = Task.Run(async () => await achieveIconFetcher.FetchAsync()).Result;
-
-                        return result;
-                    }
-
-                case "icon_stage":
-                    {
-                        var stageIconFetcher = new StageIconFetcher(pageConnector);
-                        var result = Task.Run(async () => await stageIconFetcher.FetchAsync()).Result;
-
-                        return result;
-                    }
-
-                case "icon_trophy":
-                    {
-                        var trophyIconFetcher = new TrophyIconFetcher(pageConnector);
-                        var result = Task.Run(async () => await trophyIconFetcher.FetchAsync()).Result;
-
-                        return result;
-                    }
-
-                default:
-                    this.logger?.Error("Invalid data information.");
-
-                    return null;
+                var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
+                csvHandler.Export(this.outputFilePath);
             }
+
+            return player;
         }
+
+        private Music[] FetchRecordsTask()
+        {
+            var musicMetadataFetcher = new MusicMetadataFetcher(this.pageConnector);
+            var musicMetadata = Task.Run(async () => await musicMetadataFetcher.FetchAsync()).Result;
+
+            int count = 0;
+            var musics = new List<Music>();
+            foreach (var meta in musicMetadata)
+            {
+                var musicFetcher = new MusicFetcher(this.pageConnector);
+                var music = Task.Run(async () => await musicFetcher.FetchAsync(meta)).Result;
+
+                musics.Add(music);
+
+                Log.Information("{Count} out of {Musics} has been fetched", ++count, musicMetadata.Length);
+            }
+
+            if (this.outputFilePath is not null)
+            {
+                var musicCsvHandler = new CsvHandler<Music>(musics, Log.Logger);
+                musicCsvHandler.Export(this.outputFilePath);
+            }
+
+            return musics.ToArray();
+        }
+
+        private Stage[] FetchStagesTask()
+        {
+            var stageMetadataFetcher = new StageMetadataFetcher(pageConnector);
+            var stageMetadata = Task.Run(async () => await stageMetadataFetcher.FetchAsync()).Result;
+
+            int count = 0;
+            var stages = new List<Stage>();
+            foreach (var meta in stageMetadata)
+            {
+                var stageFetcher = new StageFetcher(pageConnector);
+                var stageDetail = Task.Run(async () => await stageFetcher.FetchAsync(meta)).Result;
+
+                stages.Add(stageDetail);
+
+                Log.Information("{Count} out of {Musics} has been fetched", ++count, stageMetadata.Length, stageDetail);
+            }
+
+            if (this.outputFilePath is not null)
+            {
+                var stageDetailCsvHandler = new CsvHandler<Stage>(stages, Log.Logger);
+                stageDetailCsvHandler.Export(this.outputFilePath);
+            }
+
+            return stages.ToArray();
+        }
+
+        private Trophy[] FetchTrophiesTask()
+        {
+            var trophiesFetcher = new TrophiesFetcher(pageConnector);
+            var trophies = Task.Run(async () => await trophiesFetcher.FetchAsync()).Result;
+
+            Log.Information("{Trophies} of trophies have been fetched", trophies.Length);
+
+            if (this.outputFilePath is not null)
+            {
+                var trophyCsvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
+                trophyCsvHandler.Export(this.outputFilePath);
+            }
+
+            return trophies;
+        }
+
+        private bool FetchRateIconTask() => 
+            Task.Run(async () => await new RateIconFetcher(this.pageConnector).FetchAsync()).Result;
+
+        private bool FetchAchieveIconTask() =>
+            Task.Run(async () => await new AchieveIconFetcher(this.pageConnector).FetchAsync()).Result;
+
+        private bool FetchStageIconTask() =>
+            Task.Run(async () => await new StageIconFetcher(this.pageConnector).FetchAsync()).Result;
+
+        private bool FetchTrophyIconTask() =>
+            Task.Run(async () => await new TrophyIconFetcher(this.pageConnector).FetchAsync()).Result;
+        #endregion
     }
 }

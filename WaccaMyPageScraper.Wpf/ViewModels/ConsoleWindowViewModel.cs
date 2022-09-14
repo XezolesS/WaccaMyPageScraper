@@ -10,7 +10,7 @@ using WaccaMyPageScraper.Wpf.Events;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class ConsoleWindowViewModel : BindableBase
+    public sealed class ConsoleWindowViewModel : BindableBase
     {
         public ConsoleWindowViewModel() { }
     }

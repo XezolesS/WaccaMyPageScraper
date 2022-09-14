@@ -11,18 +11,18 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public sealed class StagesFetcher : Fetcher<Stage[]>
+    public sealed class StageMetadataFetcher : Fetcher<StageMetadata[]>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/stageup";
 
-        public StagesFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public StageMetadataFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch stages listed on My Page.
         /// </summary>
         /// <param name="args">No argument needed.</param>
-        /// <returns>List of stages listed on My Page in array of <see cref="Stage"/>s.</returns>
-        public override async Task<Stage[]?> FetchAsync(params object?[] args)
+        /// <returns>List of stages listed on My Page in array of <see cref="StageMetadata"/>s.</returns>
+        public override async Task<StageMetadata[]?> FetchAsync(params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
@@ -35,7 +35,7 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
             var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
-            List<Stage> result = new List<Stage>();
+            List<StageMetadata> result = new List<StageMetadata>();
 
             if (string.IsNullOrEmpty(response))
             {
@@ -60,12 +60,12 @@ namespace WaccaMyPageScraper.Fetchers
                     var stageNameNode = node.SelectSingleNode("./li/div/div[@class='stageup__list__top__name']");
                     var stageIconNode = node.SelectSingleNode("./li/div[@class='stageup__list__course-icon']/img");
 
-                    Stage stage;
+                    StageMetadata stage;
                     if (stageIconNode is null)
                     {
                         int id = int.Parse(node.Attributes["value"].Value);
                         var name = stageNameNode.InnerText;
-                        stage = new Stage(id, name, StageGrade.NotCleared);
+                        stage = new StageMetadata(id, name, StageGrade.NotCleared);
                     }
                     else
                     {
@@ -79,7 +79,7 @@ namespace WaccaMyPageScraper.Fetchers
                         int id = int.Parse(stageIconNumbers[0]);
                         StageGrade grade = (StageGrade)int.Parse(stageIconNumbers[1]);
 
-                        stage = new Stage(id, grade);
+                        stage = new StageMetadata(id, grade);
                     }
 
                     result.Add(stage);

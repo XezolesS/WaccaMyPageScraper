@@ -53,6 +53,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="DescendingCheckBox" TargetType="{x:Type CheckBox}">
             <Setter Property="Height" Value="20" />
             <Setter Property="Width" Value="20" />
@@ -153,7 +154,7 @@
                      Margin="10,0"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Stretch"/>
-            
+
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
@@ -169,12 +170,12 @@
             </Grid>
         </Grid>
 
-        <ItemsControl x:Name="recordsControl"
+        <ItemsControl x:Name="RecordsControl"
                       Grid.Row="1"
-                          VirtualizingPanel.IsVirtualizing="True"
-                          VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                          ScrollViewer.CanContentScroll="True"
-                          ItemsSource="{Binding FilteredRecords, IsAsync=True}">
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                      ScrollViewer.CanContentScroll="True"
+                      ItemsSource="{Binding FilteredRecords, IsAsync=True}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Vertical" />
@@ -256,10 +257,10 @@
 
                                 <Grid Grid.Row="2">
                                     <Border Background="{Binding DifficultyColor}"
-                                                CornerRadius="15"
-                                                Height="30" Width="90"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left">
+                                            CornerRadius="15"
+                                            Height="30" Width="90"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left">
                                         <TextBlock Text="{Binding LevelText}"
                                                    Foreground="AliceBlue"
                                                    Margin="3"
@@ -277,7 +278,7 @@
                                                FontWeight="Bold" />
 
                                     <Grid VerticalAlignment="Center"
-                                              HorizontalAlignment="Right">
+                                          HorizontalAlignment="Right">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
@@ -289,10 +290,10 @@
                                                Margin="5,0"
                                                RenderOptions.BitmapScalingMode="HighQuality" />
                                         <Image Grid.Column="1" 
-                                                Source="{Binding AchieveImage}"
-                                                Height="35" Width="35"
-                                                Margin="5,0"
-                                                RenderOptions.BitmapScalingMode="HighQuality" />
+                                               Source="{Binding AchieveImage}"
+                                               Height="35" Width="35"
+                                               Margin="5,0"
+                                               RenderOptions.BitmapScalingMode="HighQuality" />
                                     </Grid>
                                 </Grid>
                             </Grid>

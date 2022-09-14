@@ -11,20 +11,20 @@ using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public sealed class MusicDetailFetcher : Fetcher<MusicDetail>
+    public sealed class MusicFetcher : Fetcher<Music>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/music/detail";
 
         private string ImageUrl => "https://wacca.marv-games.jp/img/music/";
 
-        public MusicDetailFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public MusicFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's play record of the music.
         /// </summary>
-        /// <param name="args"><see cref="Music"/> is needed.</param>
-        /// <returns>Fetched player's record of given <see cref="Music"/> in <see cref="MusicDetail"/>.</returns>
-        public override async Task<MusicDetail?> FetchAsync(params object?[] args)
+        /// <param name="args"><see cref="MusicMetadata"/> is needed.</param>
+        /// <returns>Fetched player's record of given <see cref="MusicMetadata"/> in <see cref="Music"/>.</returns>
+        public override async Task<Music?> FetchAsync(params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
@@ -34,22 +34,22 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            if (args[0] is null || args[0] is not Music)
+            if (args[0] is null || args[0] is not MusicMetadata)
             {
-                this.pageConnector.Logger?.Error("MusicDetailFetcher.FetchAsync() must have a Music class argument!");
+                this.pageConnector.Logger?.Error("MusicFetcher.FetchAsync() must have a Music class argument!");
 
                 return null;
             }
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
-            var musicArg = args[0] as Music;
+            var musicArg = args[0] as MusicMetadata;
 
             var parameters = new Dictionary<string, string> { { "musicId", musicArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
-            MusicDetail? result = null;
+            Music? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -109,7 +109,7 @@ namespace WaccaMyPageScraper.Fetchers
                     achieves.Add(achieve);
                 }
 
-                result = new MusicDetail(musicArg, artist, playCounts.ToArray(), scores.ToArray(), achieves.ToArray());        
+                result = new Music(musicArg, artist, playCounts.ToArray(), scores.ToArray(), achieves.ToArray());        
             }
             catch (Exception ex)
             {

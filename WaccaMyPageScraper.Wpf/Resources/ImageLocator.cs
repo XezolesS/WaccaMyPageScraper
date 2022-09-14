@@ -1,16 +1,21 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
+using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Resources
 {
     public static class ImageLocator
     {
-        public static byte[] LocateRate(int playCount, Rate rate) => (playCount, rate) switch 
+        public static byte[] GetPlayerIcon() => GetImage(DataFilePath.PlayerIcon);
+
+        public static byte[] GetRateIcon(int playCount, Rate rate) => (playCount, rate) switch 
         {
             var (p, r) when p > 0 && r == Rate.D => Properties.Resources.RateD,
             var (p, r) when r == Rate.C => Properties.Resources.RateC,
@@ -28,7 +33,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
             _ => Properties.Resources.RateNo
         };
 
-        public static byte[] LocateAchieve(Achieve achieve) => achieve switch
+        public static byte[] GetAchieveIcon(Achieve achieve) => achieve switch
         {
             Achieve.Clear => Properties.Resources.AchieveClear,
             Achieve.Missless => Properties.Resources.AchieveMissless,
@@ -37,7 +42,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
             _ => Properties.Resources.AchieveNo
         };
 
-        public static byte[] LocateStage(Stage stage) => (stage.Id, stage.Grade) switch 
+        public static byte[] GetStageIcon(StageMetadata stage) => (stage.Id, stage.Grade) switch 
         {
             var (id, grade) when id == 1 => grade switch
             {
@@ -127,7 +132,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
             _ => new byte[0],
         };
 
-        public static byte[] LocateTrophy(Trophy trophy) => (trophy.Category, trophy.Rarity) switch
+        public static byte[] GetTrophyIcon(Trophy trophy) => (trophy.Category, trophy.Rarity) switch
         {
             var (c, r) when c == 1 => r switch
             {
@@ -173,12 +178,39 @@ namespace WaccaMyPageScraper.Wpf.Resources
             },
         };
 
-        public static byte[] LocateTrophyBronze() => Properties.Resources.TrophyBronze;
+        public static byte[] GetTrophyBronzeIcon() => Properties.Resources.TrophyBronze;
 
-        public static byte[] LocateTrophySilver() => Properties.Resources.TrophySilver;
+        public static byte[] GetTrophySilverIcon() => Properties.Resources.TrophySilver;
 
-        public static byte[] LocateTrophyGold() => Properties.Resources.TrophyGold;
+        public static byte[] GetTrophyGoldIcon() => Properties.Resources.TrophyGold;
 
-        public static byte[] LocateTrophyPlatinum() => Properties.Resources.TrophyPlatinum;
+        public static byte[] GetTrophyPlatinumIcon() => Properties.Resources.TrophyPlatinum;
+
+        /// <summary>
+        /// Get byte data of an located image file.
+        /// </summary>
+        /// <param name="file">Path of an image to get.</param>
+        /// <returns>Byte data of an image.</returns>
+        public static byte[] GetImage(string? file)
+        {
+            if (!File.Exists(file))
+            {
+                Log.Warning("There's no such image file: {Path}", Path.GetFullPath(file));
+
+                return null;
+            }
+
+            byte[] image = null;
+            using (FileStream? fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                image = new byte[fs.Length];
+                while (fs.Read(image, 0, image.Length) > 0)
+                {
+                    image[image.Length - 1] = (byte)fs.ReadByte();
+                }
+            }
+
+            return image;
+        }
     }
 }

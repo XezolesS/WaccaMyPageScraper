@@ -7,7 +7,7 @@ using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class StageIconFetcher : Fetcher<bool>
+    public sealed class StageIconFetcher : Fetcher<bool>
     {
         protected override string Url => "https://wacca.marv-games.jp/img/trophy/";
 

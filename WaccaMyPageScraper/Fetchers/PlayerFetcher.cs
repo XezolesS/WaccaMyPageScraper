@@ -74,7 +74,7 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var userIconImgNode = userIconNode.SelectSingleNode("./div[@class='user-info__icon__stage']/img");
 
-                Stage stage = new Stage();
+                StageMetadata stage = new StageMetadata();
                 if (userIconImgNode is not null)
                 {
                     var stageIconImgSrc = userIconImgNode.Attributes["src"].Value;
@@ -87,7 +87,7 @@ namespace WaccaMyPageScraper.Fetchers
                     int id = int.Parse(stageIconNumbers[0]);
                     StageGrade grade = (StageGrade)int.Parse(stageIconNumbers[1]);
 
-                    stage = new Stage(id, grade);
+                    stage = new StageMetadata(id, grade);
                 }
 
                 // Fetch player's play counts

@@ -34,23 +34,23 @@ namespace WaccaMyPageScraper.Console.Options
                     }
                 case "record":
                     {
-                        var musicDetailCsvHandler = new CsvHandler<MusicDetail>(Log.Logger);
-                        var musicDetailRecords = musicDetailCsvHandler.Import(this.inputFilePath);
+                        var musicCsvHandler = new CsvHandler<Music>(Log.Logger);
+                        var musicRecords = musicCsvHandler.Import(this.inputFilePath);
 
-                        if (musicDetailRecords is not null)
-                            Log.Information("\n{Records}", string.Join("\n", musicDetailRecords));
+                        if (musicRecords is not null)
+                            Log.Information("\n{Records}", string.Join("\n", musicRecords));
 
-                        return musicDetailRecords;
+                        return musicRecords;
                     }
                 case "stage":
                     {
-                        var stageDetailCsvHandler = new CsvHandler<StageDetail>(Log.Logger);
-                        var stageDetailRecords = stageDetailCsvHandler.Import(this.inputFilePath);
+                        var stageCsvHandler = new CsvHandler<Stage>(Log.Logger);
+                        var stageRecords = stageCsvHandler.Import(this.inputFilePath);
 
-                        if (stageDetailRecords is not null)
-                            Log.Information("\n{Records}", string.Join("\n", stageDetailRecords));
+                        if (stageRecords is not null)
+                            Log.Information("\n{Records}", string.Join("\n", stageRecords));
 
-                        return stageDetailRecords;
+                        return stageRecords;
                     }
                 case "trophy":
                     {

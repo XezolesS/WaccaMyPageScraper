@@ -8,7 +8,7 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public class RateIconFetcher : Fetcher<bool>
+    public sealed class RateIconFetcher : Fetcher<bool>
     {
         protected override string Url => "https://wacca.marv-games.jp/img/web/music/rate_icon/";
 

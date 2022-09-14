@@ -1,8 +1,7 @@
 {
   "profiles": {
     "WaccaMyPageScraper.Console": {
-      "commandName": "Project",
-      "commandLineArgs": "-u 8249565 -f icon_trophy"
+      "commandName": "Project"
     }
   }
 }

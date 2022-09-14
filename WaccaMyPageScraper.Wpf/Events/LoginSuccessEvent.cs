@@ -7,8 +7,5 @@ using System.Threading.Tasks;
 
 namespace WaccaMyPageScraper.Wpf.Events
 {
-    public class LoginSuccessEvent : PubSubEvent<PageConnector>
-    {
-
-    }
+    public sealed class LoginSuccessEvent : PubSubEvent<PageConnector> { }
 }

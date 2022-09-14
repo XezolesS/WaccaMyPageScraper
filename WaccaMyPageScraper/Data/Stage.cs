@@ -11,67 +11,43 @@ using WaccaMyPageScraper.Enums;
 namespace WaccaMyPageScraper.Data
 {
     /// <summary>
-    /// Structure data for stage records.
+    /// Structure data for detailed stage record.
     /// </summary>
-    public class Stage
+    public class Stage : StageMetadata
     {
         /// <summary>
-        /// Stage Id.
+        /// Scores for each tracks (Max 3).
         /// </summary>
-        public int Id { get; set; }
+        public int[] Scores { get; set; }
 
         /// <summary>
-        /// Stage Name.
+        /// Total score of the stage.
         /// </summary>
-        public string Name { get; set; }
+        public int TotalScore { get => Scores.Sum(); }
 
-        /// <summary>
-        /// Stage Grade. <br/>
-        /// <b><see cref="StageGrade"/></b>: NotCleared(0), Blue(1), Silver(2), Gold(3)
-        /// </summary>
-        public StageGrade Grade { get; set; }
-
-        public Stage()
+        public Stage() : base()
         {
-            this.Id = 0;
-            this.Name = string.Empty;
-            this.Grade = StageGrade.NotCleared;
+            this.Scores = new int[3]; 
         }
 
-        public Stage(int id, StageGrade grade)
+        public Stage(int id, StageGrade grade) : base(id, grade)
         {
-            this.Id = id;
-            this.Name = "ステージ" + id switch
-            {
-                1 => "I",
-                2 => "II",
-                3 => "III",
-                4 => "IV",
-                5 => "V",
-                6 => "VI",
-                7 => "VII",
-                8 => "VIII",
-                9 => "IX",
-                10 => "X",
-                11 => "XI",
-                12 => "XII",
-                13 => "XIII",
-                14 => "XIV",
-                _ => "???"
-            };
-
-            this.Grade = grade;
+            this.Scores = new int[3];
         }
 
-        public Stage(int id, string name, StageGrade grade)
+        public Stage(int id, string name, StageGrade grade, int[] scores) : base(id, name, grade)
         {
-            this.Id = id;
-            this.Name = name;
-            this.Grade = grade;
+            this.Scores = scores;
         }
 
-        public override string ToString() => string.Format("[{0},{1},{2}]", 
-            this.Id, this.Name, (int)this.Grade);
+        public Stage(StageMetadata stage, int[] scores) : base(stage.Id, stage.Name, stage.Grade)
+        {
+            this.Scores = scores;
+        }
+
+        public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}]]",
+            this.Id, this.Name, this.Grade, this.TotalScore,
+            string.Join(",", Scores));
     }
 
     public sealed class StageMap : ClassMap<Stage>
@@ -82,6 +58,9 @@ namespace WaccaMyPageScraper.Data
             Map(m => m.Name).Index(1).Name("stage_name");
             Map(m => m.Grade).Index(2).Name("stage_grade")
                 .TypeConverter<EnumConverter<StageGrade>>();
+            Map(m => m.Scores).Index(3).Name("stage_scores")
+                .TypeConverter<Int32ArrayConverter>();
+            Map(m => m.TotalScore).Index(4).Name("stage_total_score");
         }
     }
 }

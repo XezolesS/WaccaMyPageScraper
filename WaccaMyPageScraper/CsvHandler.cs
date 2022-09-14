@@ -19,19 +19,19 @@ namespace WaccaMyPageScraper
 
         public CsvHandler()
         {
-            Records = new List<T>();
+            this.Records = new List<T>();
         }
 
         public CsvHandler(ILogger? _logger)
         {
             this._logger = _logger;
-            Records = new List<T>();
+            this.Records = new List<T>();
         }
 
         public CsvHandler(IEnumerable<T> records, ILogger? _logger = null)
         {
             this._logger = _logger;
-            Records = records;
+            this.Records = records;
         }
 
         public IEnumerable<T>? Import(string? filePath)
@@ -204,10 +204,10 @@ namespace WaccaMyPageScraper
         private Type? GetClassMap<T>() => typeof(T) switch
         {
             var t when t.Name == typeof(Player).Name => typeof(PlayerMap),
+            var t when t.Name == typeof(StageMetadata).Name => typeof(StageMetadataMap),
             var t when t.Name == typeof(Stage).Name => typeof(StageMap),
-            var t when t.Name == typeof(StageDetail).Name => typeof(StageDetailMap),
+            var t when t.Name == typeof(MusicMetadata).Name => typeof(MusicMetadataMap),
             var t when t.Name == typeof(Music).Name => typeof(MusicMap),
-            var t when t.Name == typeof(MusicDetail).Name => typeof(MusicDetailMap),
             var t when t.Name == typeof(Trophy).Name => typeof(TrophyMap),
             _ => null
         };

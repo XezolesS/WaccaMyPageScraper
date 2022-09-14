@@ -13,7 +13,7 @@ using WaccaMyPageScraper.Wpf.Events;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class LoginViewModel : BindableBase
+    public sealed class LoginViewModel : FetcherViewModel
     {
         private string _aimeId;
         public string AimeId
@@ -31,16 +31,33 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         IEventAggregator _eventAggregator;
 
-        public LoginViewModel(IEventAggregator ea)
+        public LoginViewModel(IEventAggregator ea) : base()
         {
-            this.AimeId = ReadAimeFile();
-
-            this.LoginCommand = new DelegateCommand(ExecuteLoginCommand);
+            this.LoginCommand = new DelegateCommand(FetcherEvent);
 
             this._eventAggregator = ea;
         }
 
-        private async void ExecuteLoginCommand()
+        public override void InitializeData()
+        {
+            // Read AimeId from the file.
+            if (!File.Exists(DataFilePath.AimeId))
+                return;
+
+            string aimeId = null;
+            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Open, FileAccess.Read))
+            {
+                var buffer = new byte[fs.Length];
+
+                while (fs.Read(buffer, 0, buffer.Length) > 0)
+                    aimeId = Encoding.UTF8.GetString(buffer);
+            }
+
+            // Update AimeId
+            this.AimeId = aimeId;
+        }
+
+        public override async void FetcherEvent()
         {
             var connector = new PageConnector(this.AimeId, Log.Logger);
             var loginResult = await connector.LoginAsync();
@@ -48,34 +65,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (loginResult)
             {
                 this._eventAggregator.GetEvent<LoginSuccessEvent>().Publish(connector);
-                WriteAimeFile();
+
+                // Save AimeId as a text file.
+                if (!Directory.Exists(DataFilePath.Root))
+                    Directory.CreateDirectory(DataFilePath.Root);
+
+                using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Create, FileAccess.Write))
+                    fs.Write(Encoding.UTF8.GetBytes(this.AimeId));
             }
-        }
-
-        private void WriteAimeFile()
-        {
-            if (!Directory.Exists(DataFilePath.Root))
-                Directory.CreateDirectory(DataFilePath.Root);
-            
-            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Create, FileAccess.Write))
-                fs.Write(Encoding.UTF8.GetBytes(this.AimeId));
-        }
-
-        private string ReadAimeFile()
-        {
-            if (!File.Exists(DataFilePath.AimeId))
-                return null;
-
-            string result = null;
-            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Open, FileAccess.Read))
-            {
-                var buffer = new byte[fs.Length];
-
-                while (fs.Read(buffer, 0, buffer.Length) > 0)
-                    result = Encoding.UTF8.GetString(buffer);
-            }
-
-            return result;
         }
     }
 }

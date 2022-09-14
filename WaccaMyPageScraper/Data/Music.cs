@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,46 +10,98 @@ using WaccaMyPageScraper.Enums;
 namespace WaccaMyPageScraper.Data
 {
     /// <summary>
-    /// Structured data for the musics.
+    /// Structured data for the detailed music data.
     /// </summary>
-    public class Music
+    public class Music : MusicMetadata
     {
         /// <summary>
-        /// Music Id.
+        /// Artist of the music.
         /// </summary>
-        public string Id { get; set; }
+        public string Artist { get; set; }
 
         /// <summary>
-        /// Music title.
+        /// Play counts for each difficulties. (Max 4)
         /// </summary>
-        public string Title { get; set; }
+        public int[] PlayCounts { get; set; }
 
         /// <summary>
-        /// Music Genre. <br/>
-        /// <see cref="Genre"/>
+        /// Scores for each difficulties. (Max 4)
         /// </summary>
-        public Genre Genre { get; set; }
+        public int[] Scores { get; set; }
 
         /// <summary>
-        /// Levels for each difficulties. (Max 4)
+        /// Rates for each difficulties. (Max 4) <br/>
+        /// Automatically calculate from scores.
         /// </summary>
-        public string[] Levels { get; set; }
-
-        public Music()
+        public Rate[] Rates
         {
-            this.Levels = new string[4];
+            get
+            {
+                var rates = new Rate[this.Scores.Length];
+                for (int i = 0; i < rates.Length; i++)
+                {
+                    rates[i] = this.Scores[i] switch
+                    {
+                        var s when s == 1000000 => Rate.Master,
+                        var s when s >= 990000 => Rate.SSS_Plus,
+                        var s when s >= 980000 => Rate.SSS,
+                        var s when s >= 970000 => Rate.SS_Plus,
+                        var s when s >= 950000 => Rate.SS,
+                        var s when s >= 930000 => Rate.S_Plus,
+                        var s when s >= 900000 => Rate.S,
+                        var s when s >= 850000 => Rate.AAA,
+                        var s when s >= 800000 => Rate.AA,
+                        var s when s >= 700000 => Rate.A,
+                        var s when s >= 300000 => Rate.B,
+                        var s when s >= 1 => Rate.C,
+                        _ => Rate.D
+                    };
+                }
+
+                return rates;
+            }
         }
 
-        public Music(string id, string title, Genre genre, string[] levels)
+        /// <summary>
+        /// Achieved rate for each difficulties. (Max 4) <br/>
+        /// <see cref="Achieve"/>
+        /// </summary>
+        public Achieve[] Achieves { get; set; }
+
+        public Music() : base()
         {
-            this.Id = id;
-            this.Title = title;
-            this.Genre = genre;
-            this.Levels = levels;
+            this.PlayCounts = new int[4];
+            this.Scores = new int[4];
+            this.Achieves = new Achieve[4];
         }
 
-        public override string ToString() => string.Format("[{0},{1},{2},[{3}]]", 
-            this.Id, this.Title, (int)this.Genre, string.Join(",", this.Levels));
+        public Music(string id, string title, Genre genre, string[] levels,
+            string artist, int[] playCounts, int[] scores, Achieve[] achieves)
+            : base(id, title, genre, levels)
+        {
+            this.Artist = artist;
+            this.PlayCounts = playCounts;
+            this.Scores = scores;
+            this.Achieves = achieves;
+        }
+
+        public Music(MusicMetadata music, string artist, int[] playCounts, int[] scores, Achieve[] achieves)
+            : base(music.Id, music.Title, music.Genre, music.Levels)
+        {
+            this.Artist = artist;
+            this.PlayCounts = playCounts;
+            this.Scores = scores;
+            this.Achieves = achieves;
+        }
+
+        public bool HasInferno() => this.Levels.Length == 4 && this.Levels[(int)Difficulty.Inferno] != "0";
+
+        public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}],[{5}],[{6}],[{7}],[{8}]]",
+            this.Id, this.Title, this.Artist, (int)this.Genre, string.Join(",", this.Levels),
+            string.Join(",", this.PlayCounts),
+            string.Join(",", this.Scores),
+            string.Join(",", this.Rates),
+            string.Join(",", Array.ConvertAll(this.Achieves, s => (int)s)));
     }
 
     public sealed class MusicMap : ClassMap<Music>
@@ -59,10 +110,17 @@ namespace WaccaMyPageScraper.Data
         {
             Map(m => m.Id).Index(0).Name("music_id");
             Map(m => m.Title).Index(1).Name("music_title");
-            Map(m => m.Genre).Index(2).Name("music_genre")
+            Map(m => m.Artist).Index(2).Name("music_artist");
+            Map(m => m.Genre).Index(3).Name("music_genre")
                 .TypeConverter<EnumConverter<Genre>>();
-            Map(m => m.Levels).Index(3).Name("music_levels")
+            Map(m => m.Levels).Index(4).Name("music_levels")
                 .TypeConverter<StringArrayConverter>();
+            Map(m => m.PlayCounts).Index(5).Name("music_play_counts")
+                .TypeConverter<Int32ArrayConverter>();
+            Map(m => m.Scores).Index(6).Name("music_scores")
+                .TypeConverter<Int32ArrayConverter>();
+            Map(m => m.Achieves).Index(7).Name("music_achieves")
+                .TypeConverter<EnumArrayConverter<Achieve>>();
         }
     }
 }

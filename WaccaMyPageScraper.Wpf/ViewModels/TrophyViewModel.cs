@@ -18,10 +18,11 @@ using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class TrophyViewModel : BindableBase
+    public sealed class TrophyViewModel : FetcherViewModel
     {
         private PageConnector pageConnector;
 
+        #region Properties
         private string[] _seasons;
         public string[] Seasons => new string[3]
         {
@@ -44,10 +45,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public byte[][] TrophyRarityIcons => new byte[4][]
         {
-            ImageLocator.LocateTrophyBronze(),
-            ImageLocator.LocateTrophySilver(),
-            ImageLocator.LocateTrophyGold(),
-            ImageLocator.LocateTrophyPlatinum(),
+            ImageLocator.GetTrophyBronzeIcon(),
+            ImageLocator.GetTrophySilverIcon(),
+            ImageLocator.GetTrophyGoldIcon(),
+            ImageLocator.GetTrophyPlatinumIcon(),
         };
 
         private string _downloadStateText;
@@ -86,52 +87,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         }
 
         public DelegateCommand FetchTrophiesCommand { get; private set; }
+        #endregion
 
-        public TrophyViewModel(IEventAggregator ea)
+        public TrophyViewModel(IEventAggregator ea) : base()
         {
-            InitializeDataFromFile();
-
             this.SelectedSeason = "Season 1";
 
             this.DownloadStateText = "Not Logged In";
             this.TrophyCount = 1;
             this.TrophyFetched = 0;
 
-            this.FetchTrophiesCommand = new DelegateCommand(ExcuteFetchTrophiesCommand);
+            this.FetchTrophiesCommand = new DelegateCommand(FetcherEvent);
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
-        private void OnSeasonChanged()
-        {
-            if (this.Trophies is null)
-                return;
-
-            var filtered = _trophies.Where(t => 
-                (this.SelectedSeason.Equals("Season 1") && t.Id.ToString().StartsWith("10"))
-                || (this.SelectedSeason.Equals("Season 2") && t.Id.ToString().StartsWith("20"))
-                || (this.SelectedSeason.Equals("Season 3") && t.Id.ToString().StartsWith("30")));
-
-            var bronzes = filtered.Where(t => t.Rarity == 1);
-            var silver = filtered.Where(t => t.Rarity == 2);
-            var gold = filtered.Where(t => t.Rarity == 3);
-            var platinum = filtered.Where(t => t.Rarity == 4);
-
-            var clearRates = new string[4];
-            clearRates[0] = string.Format("{0}/{1}", 
-                bronzes.Where(t => t.Obtained).Count(), bronzes.Count());
-            clearRates[1] = string.Format("{0}/{1}", 
-                silver.Where(t => t.Obtained).Count(), silver.Count());
-            clearRates[2] = string.Format("{0}/{1}", 
-                gold.Where(t => t.Obtained).Count(), gold.Count());
-            clearRates[3] = string.Format("{0}/{1}", 
-                platinum.Where(t => t.Obtained).Count(), platinum.Count());
-
-            this.FilteredTrophies = new ObservableCollection<TrophyModel>(filtered);
-            this.ClearRates = clearRates;
-        }
-
-        private async void InitializeDataFromFile()
+        public override async void InitializeData()
         {
             var trophies = await new CsvHandler<Trophy>(Log.Logger)
                 .ImportAsync(DataFilePath.TrophyData);
@@ -139,7 +110,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.Trophies = TrophyModel.FromTrophies(trophies);
         }
 
-        private async void ExcuteFetchTrophiesCommand()
+        public override async void FetcherEvent()
         {
             if (pageConnector is null)
                 return;
@@ -175,6 +146,35 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             if (connector.IsLoggedOn())
                 this.DownloadStateText = "Logged In";
+        }
+
+        private void OnSeasonChanged()
+        {
+            if (this.Trophies is null)
+                return;
+
+            var filtered = _trophies.Where(t => 
+                (this.SelectedSeason.Equals("Season 1") && t.Id.ToString().StartsWith("10"))
+                || (this.SelectedSeason.Equals("Season 2") && t.Id.ToString().StartsWith("20"))
+                || (this.SelectedSeason.Equals("Season 3") && t.Id.ToString().StartsWith("30")));
+
+            var bronzes = filtered.Where(t => t.Rarity == 1);
+            var silver = filtered.Where(t => t.Rarity == 2);
+            var gold = filtered.Where(t => t.Rarity == 3);
+            var platinum = filtered.Where(t => t.Rarity == 4);
+
+            var clearRates = new string[4];
+            clearRates[0] = string.Format("{0}/{1}", 
+                bronzes.Where(t => t.Obtained).Count(), bronzes.Count());
+            clearRates[1] = string.Format("{0}/{1}", 
+                silver.Where(t => t.Obtained).Count(), silver.Count());
+            clearRates[2] = string.Format("{0}/{1}", 
+                gold.Where(t => t.Obtained).Count(), gold.Count());
+            clearRates[3] = string.Format("{0}/{1}", 
+                platinum.Where(t => t.Obtained).Count(), platinum.Count());
+
+            this.FilteredTrophies = new ObservableCollection<TrophyModel>(filtered);
+            this.ClearRates = clearRates;
         }
     }
 }

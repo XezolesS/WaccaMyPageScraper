@@ -50,6 +50,11 @@ namespace WaccaMyPageScraper.Console.Options
             helpTextBuilder.AppendLine("\tStage\t\tAll of the stage records that the player has passed.");
             helpTextBuilder.AppendLine("\tTrophy\t\tAll of the trophies that the player has obtained.");
             helpTextBuilder.AppendLine();
+            helpTextBuilder.AppendLine("\tIcon_Rate\t\tClear rate icon images(D ~ MASTER).");
+            helpTextBuilder.AppendLine("\tIcon_Achieve\t\tClear achieve level icon images(C ~ AM).");
+            helpTextBuilder.AppendLine("\tIcon_Stage\t\tStage icons.");
+            helpTextBuilder.AppendLine("\tIcon_Trophy\t\tTrophy icons.");
+            helpTextBuilder.AppendLine();
 
             logger?.Information(helpTextBuilder.ToString());
 

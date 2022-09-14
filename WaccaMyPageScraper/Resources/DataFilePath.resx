@@ -132,9 +132,6 @@
   <data name="PlayerImage" xml:space="preserve">
     <value>data/player/image/</value>
   </data>
-  <data name="PlayerStageIcon" xml:space="preserve">
-    <value>data/player/image/player_stage.png</value>
-  </data>
   <data name="Record" xml:space="preserve">
     <value>data/records/</value>
   </data>

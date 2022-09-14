@@ -11,7 +11,7 @@ using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Models
 {
-    public class RecordModel
+    public sealed class RecordModel
     {
         public string Id { get; set; }
 
@@ -65,11 +65,11 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Rate Rate { get; set; }
 
-        public byte[] RateIcon  => ImageLocator.LocateRate(this.PlayCount, this.Rate);
+        public byte[] RateIcon  => ImageLocator.GetRateIcon(this.PlayCount, this.Rate);
 
         public Achieve Achieve { get; set; }
 
-        public byte[] AchieveIcon => ImageLocator.LocateAchieve(this.Achieve);
+        public byte[] AchieveIcon => ImageLocator.GetAchieveIcon(this.Achieve);
 
         public RecordModel() { }
 
@@ -87,7 +87,7 @@ namespace WaccaMyPageScraper.Wpf.Models
             this.Achieve = achieve;
         }
 
-        public static RecordModel FromMusicDetail(MusicDetail data, Difficulty difficulty)
+        public static RecordModel FromMusic(Music data, Difficulty difficulty)
         {
             return new RecordModel(
                 data.Id.ToString(),
@@ -102,25 +102,25 @@ namespace WaccaMyPageScraper.Wpf.Models
                 data.Achieves[(int)difficulty]);
         }
 
-        public static RecordModel[] FromMusicDetail(MusicDetail data)
+        public static RecordModel[] FromMusic(Music data)
         {
             var toConvert = data.HasInferno() ? 4 : 3;
 
             var converted = new RecordModel[toConvert];
             for (int i = 0; i < toConvert; i++)
-                converted[i] = FromMusicDetail(data, (Difficulty)i);
+                converted[i] = FromMusic(data, (Difficulty)i);
 
             return converted;
         }
 
-        public static IEnumerable<RecordModel> FromMusicDetails(IEnumerable<MusicDetail> data)
+        public static IEnumerable<RecordModel> FromMusics(IEnumerable<Music> data)
         {
             if (data is null)
                 return null;
 
             var records = new List<RecordModel>();
             foreach (var musicDetail in data)
-                records.AddRange(FromMusicDetail(musicDetail));
+                records.AddRange(FromMusic(musicDetail));
 
             return records;
         }

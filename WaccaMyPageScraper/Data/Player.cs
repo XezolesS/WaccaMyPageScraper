@@ -32,7 +32,7 @@ namespace WaccaMyPageScraper.Data
         /// <summary>
         /// A simple information of a stage that player has cleard.
         /// </summary>
-        public Stage Stage { get; set; }
+        public StageMetadata Stage { get; set; }
 
         /// <summary>
         /// How many times the player has played a game.
@@ -61,7 +61,7 @@ namespace WaccaMyPageScraper.Data
 
         public Player() { }
 
-        public Player(string name, int level, int rate, Stage stage, int playCount, int playCountVersus, int playCountCoop, int totalRpEarned, int totalRpSpent)
+        public Player(string name, int level, int rate, StageMetadata stage, int playCount, int playCountVersus, int playCountCoop, int totalRpEarned, int totalRpSpent)
         {
             Name = name;
             Level = level;

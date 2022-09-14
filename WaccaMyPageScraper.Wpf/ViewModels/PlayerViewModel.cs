@@ -1,6 +1,7 @@
 ﻿using Prism.Events;
 using Prism.Mvvm;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class PlayerViewModel : BindableBase
+    public sealed class PlayerViewModel : FetcherViewModel
     {
         private Player _player;
         public Player Player
@@ -25,41 +26,28 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             set => SetProperty(ref _player, value);
         }
 
-        private byte[] _playerIcon;
-        public byte[] PlayerIcon
+        public PlayerViewModel(IEventAggregator ea) : base()
         {
-            get => _playerIcon;
-            set => this.SetProperty(ref _playerIcon, value);
-        }
-
-        private byte[] _stageIcon;
-        public byte[] StageIcon
-        {
-            get => _stageIcon;
-            set => this.SetProperty(ref _stageIcon, value);
-        }
-
-        public PlayerViewModel(IEventAggregator ea)
-        {
-            InitializeDataFromFile();
-
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePlayerData);
         }
-        private async void InitializeDataFromFile()
+
+        public override async void InitializeData()
         {
             var playerRecords = await new CsvHandler<Player>(Log.Logger)
                 .ImportAsync(DataFilePath.PlayerData);
-            
+
             if (playerRecords is null)
                 return;
 
             var player = playerRecords.First();
 
+            // Update properties
             this.Player = PlayerModel.FromPlayer(player);
-
-            this.PlayerIcon = GetImageByte(Path.GetFullPath(DataFilePath.PlayerIcon));
-            this.StageIcon = GetImageByte(Path.GetFullPath(DataFilePath.PlayerStageIcon));
         }
+
+        // There is no fether in this ViewModel.
+        // UpdatePlayerData() will do the tasks instead.
+        public override void FetcherEvent() => throw new NotImplementedException();
 
         private async void UpdatePlayerData(PageConnector connector)
         {
@@ -77,27 +65,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Update properties
             this.Player = PlayerModel.FromPlayer(player);
-
-            this.PlayerIcon = GetImageByte(playerIcon);
-            this.StageIcon = ImageLocator.LocateStage(player.Stage);
-        }
-
-        private byte[] GetImageByte(string? DataFilePath)
-        {
-            if (!File.Exists(DataFilePath))
-                return null;
-
-            byte[] image = null;
-            using (var fs = new FileStream(DataFilePath, FileMode.Open, FileAccess.Read))
-            {
-                image = new byte[fs.Length];
-                while(fs.Read(image, 0, image.Length) > 0)
-                {
-                    image[image.Length - 1] = (byte)fs.ReadByte();
-                }
-            }
-
-            return image;
         }
     }
 }

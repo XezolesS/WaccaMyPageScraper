@@ -9,18 +9,18 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public sealed class MusicsFetcher : Fetcher<Music[]>
+    public sealed class MusicMetadataFetcher : Fetcher<MusicMetadata[]>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/music";
 
-        public MusicsFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public MusicMetadataFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch musics listed on My Page.
         /// </summary>
         /// <param name="args">No argument needed.</param>
-        /// <returns>List of musics listed on My Page in array of <see cref="Music"/>s.</returns>
-        public override async Task<Music[]?> FetchAsync(params object?[] args)
+        /// <returns>List of musics listed on My Page in array of <see cref="MusicMetadata"/>s.</returns>
+        public override async Task<MusicMetadata[]?> FetchAsync(params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
@@ -33,7 +33,7 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
 
             var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
-            List<Music> result = new List<Music>();
+            List<MusicMetadata> result = new List<MusicMetadata>();
 
             if (string.IsNullOrEmpty(response))
             {
@@ -105,7 +105,7 @@ namespace WaccaMyPageScraper.Fetchers
                         node.Attributes["data-rank_inferno_level"].Value.Replace(".1", "+"),
                     };
 
-                    Music music = new Music(id, title, genre, levels);
+                    MusicMetadata music = new MusicMetadata(id, title, genre, levels);
                     result.Add(music);
 
                     this.pageConnector.Logger?.Information("Fetching music data... ({Count} out of {MusicTotal})", 

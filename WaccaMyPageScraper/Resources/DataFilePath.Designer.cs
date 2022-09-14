@@ -106,15 +106,6 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/player/image/player_stage.png.
-        /// </summary>
-        public static string PlayerStageIcon {
-            get {
-                return ResourceManager.GetString("PlayerStageIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to data/records/.
         /// </summary>
         public static string Record {

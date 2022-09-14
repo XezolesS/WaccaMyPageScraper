@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WaccaMyPageScraper.Converter
 {
-    public class StringArrayConverter : TypeConverter
+    public sealed class StringArrayConverter : TypeConverter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {

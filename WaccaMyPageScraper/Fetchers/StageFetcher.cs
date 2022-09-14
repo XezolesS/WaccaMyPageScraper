@@ -10,18 +10,18 @@ using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.Fetchers
 {
-    public sealed class StageDetailFetcher : Fetcher<StageDetail>
+    public sealed class StageFetcher : Fetcher<Stage>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/stageup/detail";
 
-        public StageDetailFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public StageFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
         /// <summary>
         /// Fetch player's stage record.
         /// </summary>
-        /// <param name="args"><see cref="Stage"/> is needed.</param>
-        /// <returns>Fetched player's stage record of given <see cref="Stage"/> in <see cref="StageDetail"/>.</returns>
-        public override async Task<StageDetail?> FetchAsync(params object?[] args)
+        /// <param name="args"><see cref="StageMetadata"/> is needed.</param>
+        /// <returns>Fetched player's stage record of given <see cref="StageMetadata"/> in <see cref="Stage"/>.</returns>
+        public override async Task<Stage?> FetchAsync(params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
@@ -31,19 +31,19 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            if (args[0] is null || args[0] is not Stage)
+            if (args[0] is null || args[0] is not StageMetadata)
             {
-                this.pageConnector.Logger?.Error("StageDetailFetcher.FetchAsync() must have a Stage class argument!");
+                this.pageConnector.Logger?.Error("StageFetcher.FetchAsync() must have a Stage class argument!");
 
                 return null;
             }
 
-            var stageArg = args[0] as Stage;
+            var stageArg = args[0] as StageMetadata;
             if (stageArg.Grade == StageGrade.NotCleared)
             {
                 this.pageConnector.Logger?.Information("There is no record of {StageName}.", stageArg.Name);
 
-                return new StageDetail(stageArg, new int[3] { 0, 0, 0 });
+                return new Stage(stageArg, new int[3] { 0, 0, 0 });
             }
 
             this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
@@ -52,7 +52,7 @@ namespace WaccaMyPageScraper.Fetchers
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
-            StageDetail? result = null;
+            Stage? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -80,7 +80,7 @@ namespace WaccaMyPageScraper.Fetchers
                 for (int i = 0; i < 3; i++)
                     scores[i] = int.Parse(numericRegex.Match(scoreNodes[i].InnerText).Value);
                
-                result = new StageDetail(stageArg, scores);
+                result = new Stage(stageArg, scores);
             }
             catch (Exception ex)
             {

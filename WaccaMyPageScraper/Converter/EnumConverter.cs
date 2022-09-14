@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WaccaMyPageScraper.Converter
 {
-    public class EnumConverter<TEnum> : TypeConverter where TEnum : Enum
+    public sealed class EnumConverter<TEnum> : TypeConverter where TEnum : Enum
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {

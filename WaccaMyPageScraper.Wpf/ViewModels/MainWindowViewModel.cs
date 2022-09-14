@@ -10,7 +10,7 @@ using WaccaMyPageScraper.Wpf.Views;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public sealed class MainWindowViewModel : BindableBase
     {
         private ConsoleWindow Console;
 

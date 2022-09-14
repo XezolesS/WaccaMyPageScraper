@@ -13,13 +13,15 @@ using WaccaMyPageScraper.Fetchers;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
+using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class StageViewModel : BindableBase
+    public sealed class StageViewModel : FetcherViewModel
     {
         private PageConnector pageConnector;
 
+        #region Properties
         private string _downloadStateText;
         public string DownloadStateText
         {
@@ -49,31 +51,32 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         }
 
         public DelegateCommand FetchStagesCommand { get; private set; }
+        #endregion
 
-        public StageViewModel(IEventAggregator ea)
+        public StageViewModel(IEventAggregator ea) : base()
         {
-            InitializeDataFromFile();
-
             this.Stages = new List<StageModel>();
 
             this.DownloadStateText = "Not Logged In";
             this.StageCount = 1;
             this.StageFetched = 0;
 
-            this.FetchStagesCommand = new DelegateCommand(ExcuteFetchStagesCommand);
+            this.FetchStagesCommand = new DelegateCommand(FetcherEvent);
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
-        private async void InitializeDataFromFile()
+        public override async void InitializeData()
         {
-            var stageDetails = await new CsvHandler<StageDetail>(Log.Logger)
+            StageDataMap.Initialize(); // Initialize stage data.
+
+            var stages = await new CsvHandler<Stage>(Log.Logger)
                 .ImportAsync(DataFilePath.StageData);
 
-            this.Stages = StageModel.FromStageDetails(stageDetails);
+            this.Stages = StageModel.FromStages(stages);
         }
 
-        private async void ExcuteFetchStagesCommand()
+        public override async void FetcherEvent()
         {
             if (pageConnector is null)
                 return;
@@ -85,34 +88,34 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             // Fetch stage list
             this.DownloadStateText = "Finding stages...";
 
-            StagesFetcher stagesFetcher = new StagesFetcher(this.pageConnector);
-            var stageList = await stagesFetcher.FetchAsync();
+            StageMetadataFetcher stageMetadataFetcher = new StageMetadataFetcher(this.pageConnector);
+            var stageMetadata = await stageMetadataFetcher.FetchAsync();
 
-            this.StageCount = stageList.Length;
+            this.StageCount = stageMetadata.Length;
             this.DownloadStateText = string.Format("Total {0} stages found.", this.StageCount);
 
             // Fetch stages
-            var stageDetails = new List<StageDetail>();
-            StageDetailFetcher stageDetailFetcher = new StageDetailFetcher(this.pageConnector);
-            foreach (var stage in stageList)
+            var stages = new List<Stage>();
+            StageFetcher stageDetailFetcher = new StageFetcher(this.pageConnector);
+            foreach (var meta in stageMetadata)
             {
-                stageDetails.Add(await stageDetailFetcher.FetchAsync(stage));
+                stages.Add(await stageDetailFetcher.FetchAsync(meta));
 
                 this.StageFetched++;
 
                 this.DownloadStateText = string.Format("({0}/{1}) Fetching {2}",
-                    this.StageCount, this.StageFetched, stage.Name);
+                    this.StageFetched, this.StageCount, meta.Name);
             }
 
             // Save stages
             if (!Directory.Exists(DataFilePath.Stage))
                 Directory.CreateDirectory(DataFilePath.Stage);
 
-            var csvHandler = new CsvHandler<StageDetail>(stageDetails, Log.Logger);
+            var csvHandler = new CsvHandler<Stage>(stages, Log.Logger);
             csvHandler.Export(DataFilePath.StageData);
 
-            // Convert StageDetails to StageModels
-            this.Stages = StageModel.FromStageDetails(stageDetails);
+            // Convert Stage to StageModels
+            this.Stages = StageModel.FromStages(stages);
 
             this.DownloadStateText = "Download Complete";
         }

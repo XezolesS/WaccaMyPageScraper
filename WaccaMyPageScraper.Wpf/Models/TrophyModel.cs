@@ -8,9 +8,9 @@ using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Models
 {
-    public class TrophyModel : Trophy
+    public sealed class TrophyModel : Trophy
     {
-        public byte[] TrophyIcon => ImageLocator.LocateTrophy(this);
+        public byte[] TrophyIcon => ImageLocator.GetTrophyIcon(this);
 
         public string RarityStars => new string('★', this.Rarity);
 

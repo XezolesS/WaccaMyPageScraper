@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Wpf.Resources;
 
 namespace WaccaMyPageScraper.Wpf.Models
 {
-    public class PlayerModel : Player
+    public sealed class PlayerModel : Player
     {
         #region Rate Colors
         private static LinearGradientBrush RateColor1 = new LinearGradientBrush(
@@ -72,9 +73,14 @@ namespace WaccaMyPageScraper.Wpf.Models
                 new GradientStop(Color.FromArgb(255,0,255,255), 1.0),
             }, 45.0);
         #endregion
+
         public string LevelText => "Lv. " + this.Level;
 
         public string RateText => "Rate " + this.Rate;
+
+        public byte[] Icon => ImageLocator.GetPlayerIcon();
+
+        public byte[] StageIcon => ImageLocator.GetStageIcon(this.Stage);
 
         public LinearGradientBrush RateBrush => this.Rate switch
         {

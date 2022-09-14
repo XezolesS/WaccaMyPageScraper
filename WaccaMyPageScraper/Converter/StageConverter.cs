@@ -17,7 +17,7 @@ namespace WaccaMyPageScraper.Converter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
-            var textRegex = new Regex(@"^\[\d*,.*,[1-4]\]$");
+            var textRegex = new Regex(@"^\[\d*,.*,[0-3]\]$");
             if (!textRegex.IsMatch(text))
             {
                 string message = "Converting WaccaMyPageScraper.Data.Stage is not supported.";
@@ -30,18 +30,18 @@ namespace WaccaMyPageScraper.Converter
             string name = splitted[1];
             StageGrade grade = (StageGrade)int.Parse(splitted[2]);
 
-            return new Stage(id, name, grade);
+            return new StageMetadata(id, name, grade);
         }
 
         public override string ConvertToString(object value, IWriterRow row, MemberMapData memberMapData)
         {
-            if (value is not Stage)
+            if (value is not StageMetadata)
             {
                 string message = "Converting WaccaMyPageScraper.Data.Stage is not supported.";
                 throw new TypeConverterException(this, memberMapData, value, row.Context, message);
             }
 
-            return (value as Stage).ToString();
+            return (value as StageMetadata).ToString();
         }
     }
 }

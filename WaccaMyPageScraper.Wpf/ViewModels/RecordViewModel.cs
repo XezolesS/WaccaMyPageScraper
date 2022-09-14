@@ -23,7 +23,7 @@ using System.Threading;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public class RecordViewModel : BindableBase
+    public sealed class RecordViewModel : FetcherViewModel
     {
         private PageConnector pageConnector;
 
@@ -125,10 +125,8 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public DelegateCommand FetchRecordsCommand { get; private set; }
         #endregion
 
-        public RecordViewModel(IEventAggregator ea)
+        public RecordViewModel(IEventAggregator ea) : base()
         {
-            InitializeDataFromFile();
-
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
             this.FilterDifficultyExpert = true;
@@ -144,9 +142,75 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.SelectedSortBy = SortRecordBy.Default;
             this.IsSortDescending = false;
 
-            this.FetchRecordsCommand = new DelegateCommand(ExcuteFetchRecordsCommand);
+            this.FetchRecordsCommand = new DelegateCommand(FetcherEvent);
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
+        }
+
+        public override async void InitializeData()
+        {
+            var musics = await new CsvHandler<Music>(Log.Logger)
+                .ImportAsync(DataFilePath.RecordData);
+
+            if (musics is null)
+                return;
+
+            // Update a property
+            this.Records = RecordModel.FromMusics(musics);
+        }
+
+        public override async void FetcherEvent()
+        {
+            if (this.pageConnector is null)
+                return;
+
+            // Reset Records
+            this.Records = new List<RecordModel>();
+            this.MusicFetched = 0;
+            this.FilteredRecords.Clear();
+
+            // Fetch music list
+            this.DownloadStateText = "Finding musics...";
+
+            MusicMetadataFetcher musicMetadataFetcher = new MusicMetadataFetcher(this.pageConnector);
+            var musicMetadata = await musicMetadataFetcher.FetchAsync();
+
+            this.MusicCount = musicMetadata.Length;
+            this.DownloadStateText = string.Format("Total {0} musics found.", this.MusicCount);
+
+            // Fetch records
+            var musics = new List<Music>();
+            MusicFetcher musicFetcher = new MusicFetcher(this.pageConnector);
+            foreach (var meta in musicMetadata)
+            {
+                musics.Add(await musicFetcher.FetchAsync(meta));
+                await musicFetcher.FetchMusicImageAsync(meta.Id);
+
+                this.MusicFetched++;
+
+                this.DownloadStateText = string.Format("({0}/{1}) Fetching {2}",
+                    this.MusicFetched, this.MusicCount, meta.Title);
+            }
+
+            // Save records
+            if (!Directory.Exists(DataFilePath.Record))
+                Directory.CreateDirectory(DataFilePath.Record);
+
+            var csvHandler = new CsvHandler<Music>(musics, Log.Logger);
+            csvHandler.Export(DataFilePath.RecordData);
+
+            // Convert Music to RecordModels
+            this.Records = RecordModel.FromMusics(musics);
+
+            this.DownloadStateText = "Download Complete";
+        }
+
+        private void UpdatePageConnector(PageConnector connector)
+        {
+            this.pageConnector = connector;
+
+            if (connector.IsLoggedOn())
+                this.DownloadStateText = "Logged In";
         }
 
         private async void OnFilterAndSorterChanged()
@@ -192,68 +256,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             };
 
             this.FilteredRecords = new ObservableCollection<RecordModel>(sorted);
-        }
-
-        private async void InitializeDataFromFile()
-        {
-            var musicDetails = await new CsvHandler<MusicDetail>(Log.Logger)
-                .ImportAsync(DataFilePath.RecordData);
-
-            this.Records = RecordModel.FromMusicDetails(musicDetails);
-        }
-
-        private async void ExcuteFetchRecordsCommand()
-        {
-            if (pageConnector is null)
-                return;
-
-            // Reset Records
-            this.Records = new List<RecordModel>();
-            this.MusicFetched = 0;
-            this.FilteredRecords.Clear();
-
-            // Fetch music list
-            this.DownloadStateText = "Finding musics...";
-
-            MusicsFetcher musicsFetcher = new MusicsFetcher(this.pageConnector);
-            var musicList = await musicsFetcher.FetchAsync();
-
-            this.MusicCount = musicList.Length;
-            this.DownloadStateText = string.Format("Total {0} musics found.", this.MusicCount);
-
-            // Fetch records
-            var musicDetails = new List<MusicDetail>();
-            MusicDetailFetcher musicDetailFetcher = new MusicDetailFetcher(this.pageConnector);
-            foreach (var music in musicList)
-            {
-                musicDetails.Add(await musicDetailFetcher.FetchAsync(music));
-                await musicDetailFetcher.FetchMusicImageAsync(music.Id);
-
-                this.MusicFetched++;
-
-                this.DownloadStateText = string.Format("({0}/{1}) Fetching {2}", 
-                    this.MusicCount, this.MusicFetched, music.Title);
-            }
-            
-            // Save records
-            if (!Directory.Exists(DataFilePath.Record))
-                Directory.CreateDirectory(DataFilePath.Record);
-
-            var csvHandler = new CsvHandler<MusicDetail>(musicDetails, Log.Logger);
-            csvHandler.Export(DataFilePath.RecordData);
-
-            // Convert MusicDetails to RecordModels
-            this.Records = RecordModel.FromMusicDetails(musicDetails);
-
-            this.DownloadStateText = "Download Complete";
-        }
-
-        private void UpdatePageConnector(PageConnector connector)
-        {
-            this.pageConnector = connector;
-
-            if (connector.IsLoggedOn())
-                this.DownloadStateText = "Logged In";
         }
 
         private async ValueTask<bool> FilterRecords(RecordModel record) => 
