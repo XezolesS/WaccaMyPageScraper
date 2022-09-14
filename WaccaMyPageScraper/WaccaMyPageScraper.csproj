@@ -15,17 +15,53 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\DataFilePath.Designer.cs">
+    <Compile Update="Localization\Connector.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DataFilePath.resx</DependentUpon>
+      <DependentUpon>Connector.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Converter.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Converter.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Data.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Data.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Fetcher.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Fetcher.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Directories.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Directories.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\DataFilePath.resx">
+    <EmbeddedResource Update="Localization\Connector.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>DataFilePath.Designer.cs</LastGenOutput>
+      <LastGenOutput>Connector.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Converter.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Converter.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Data.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Data.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Fetcher.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Fetcher.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Directories.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Directories.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

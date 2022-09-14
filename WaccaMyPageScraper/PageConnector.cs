@@ -58,7 +58,7 @@ namespace WaccaMyPageScraper
 
             if (!response.IsSuccessStatusCode)
             {
-                this.Logger?.Error("Error occured while connecting to the page!");
+                this.Logger?.Error(Localization.Connector.ConnectionError);
 
                 return false;
             }

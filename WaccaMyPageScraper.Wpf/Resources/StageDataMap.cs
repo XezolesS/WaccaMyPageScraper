@@ -39,7 +39,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
                 for (int i = 0; i < 3; i++)
                 {
                     var musicId = this.Tracks[i].Id;
-                    var filePath = Path.Combine(DataFilePath.RecordImage, musicId + ".png");
+                    var filePath = Path.Combine(Directories.RecordImage, musicId + ".png");
 
                     if (!File.Exists(filePath))
                         return null;

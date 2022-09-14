@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
@@ -193,20 +193,23 @@
         </ItemsControl>
 
         <Grid Grid.Row="2"
-              Margin="0,10">
+              Margin="0,10"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Stretch"
+              Visibility="{Binding FetcherVisibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" 
-                       Text="{Binding DownloadStateText}"
+                       Text="{Binding FetchProgressText}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Panel.ZIndex="1" />
             <mah:MetroProgressBar Grid.Column="0" 
-                                  Maximum="{Binding TrophyCount}"
-                                  Value="{Binding TrophyFetched}"
+                                  Maximum="100"
+                                  Value="{Binding FetchProgressPercent}"
                                   Margin="10,0" />
 
             <Button Grid.Column="1"

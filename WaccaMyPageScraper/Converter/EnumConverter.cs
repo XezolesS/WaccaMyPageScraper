@@ -16,7 +16,7 @@ namespace WaccaMyPageScraper.Converter
         {
             if (text is not string)
             {
-                string message = "Converting System.Enum[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.Enum");
                 throw new TypeConverterException(this, memberMapData, text, row.Context, message);
             }
 
@@ -27,7 +27,7 @@ namespace WaccaMyPageScraper.Converter
         {
             if (value is not TEnum)
             {
-                string message = "Converting System.Enum[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.Enum");
                 throw new TypeConverterException(this, memberMapData, value, row.Context, message);
             }
 

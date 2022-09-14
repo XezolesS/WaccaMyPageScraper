@@ -41,11 +41,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public override void InitializeData()
         {
             // Read AimeId from the file.
-            if (!File.Exists(DataFilePath.AimeId))
+            if (!File.Exists(Directories.AimeId))
                 return;
 
             string aimeId = null;
-            using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(Directories.AimeId, FileMode.Open, FileAccess.Read))
             {
                 var buffer = new byte[fs.Length];
 
@@ -67,10 +67,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 this._eventAggregator.GetEvent<LoginSuccessEvent>().Publish(connector);
 
                 // Save AimeId as a text file.
-                if (!Directory.Exists(DataFilePath.Root))
-                    Directory.CreateDirectory(DataFilePath.Root);
+                if (!Directory.Exists(Directories.Root))
+                    Directory.CreateDirectory(Directories.Root);
 
-                using (var fs = new FileStream(DataFilePath.AimeId, FileMode.Create, FileAccess.Write))
+                using (var fs = new FileStream(Directories.AimeId, FileMode.Create, FileAccess.Write))
                     fs.Write(Encoding.UTF8.GetBytes(this.AimeId));
             }
         }

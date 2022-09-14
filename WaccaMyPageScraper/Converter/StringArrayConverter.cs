@@ -17,7 +17,7 @@ namespace WaccaMyPageScraper.Converter
             var textRegex = new Regex(@"^\[(.+||,)\]$");
             if (!textRegex.IsMatch(text))
             {
-                string message = "Converting System.String[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.String[]");
                 throw new TypeConverterException(this, memberMapData, text, row.Context, message);
             }
 
@@ -30,7 +30,7 @@ namespace WaccaMyPageScraper.Converter
         {
             if (value is not string[])
             {
-                string message = "Converting System.String[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.String[]");
                 throw new TypeConverterException(this, memberMapData, value, row.Context, message);
             }
 

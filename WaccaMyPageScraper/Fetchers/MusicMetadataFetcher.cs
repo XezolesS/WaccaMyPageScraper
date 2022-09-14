@@ -20,29 +20,33 @@ namespace WaccaMyPageScraper.Fetchers
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of musics listed on My Page in array of <see cref="MusicMetadata"/>s.</returns>
-        public override async Task<MusicMetadata[]?> FetchAsync(params object?[] args)
+        public override async Task<MusicMetadata[]?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+                // Logging and Reporting progress.
+                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+
+                progressText.Report(Localization.Connector.LoggedOff);
+                progressPercent.Report(0);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
+            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
             var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<MusicMetadata> result = new List<MusicMetadata>();
 
             if (string.IsNullOrEmpty(response))
             {
-                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Connection successful");
+            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -52,8 +56,14 @@ namespace WaccaMyPageScraper.Fetchers
                 var scoreListNode = document.DocumentNode.SelectSingleNode("//section[@class='playdata']/div[@class='contents-wrap']/div[@class='playdata__score-list']/ul");
                 var musicItemNodes = scoreListNode.SelectNodes("./li");
 
+                // Reporting progress.
+                progressText.Report(string.Format(Localization.Fetcher.Fetching, 
+                    Localization.Data.StageMetadata));
+                progressPercent.Report(0);
+
                 // Fetch genre data
-                this.pageConnector.Logger?.Information("Fetching genre data...");
+                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                    Localization.Data.Genre);
 
                 var genreListsNodes = scoreListNode.SelectNodes("./h2");
                 var genreOffsets = new Dictionary<Genre, int>();
@@ -78,7 +88,8 @@ namespace WaccaMyPageScraper.Fetchers
                     genreOffsets.Add(genreTitle, genreOffset);
                 }
 
-                this.pageConnector.Logger?.Information("Genre has successfully fetched.");
+                this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched1,
+                    Localization.Data.Genre);
 
                 // Fetch music data
                 int count = 0;
@@ -105,12 +116,18 @@ namespace WaccaMyPageScraper.Fetchers
                         node.Attributes["data-rank_inferno_level"].Value.Replace(".1", "+"),
                     };
 
-                    MusicMetadata music = new MusicMetadata(id, title, genre, levels);
-                    result.Add(music);
+                    MusicMetadata meta = new MusicMetadata(id, title, genre, levels);
+                    result.Add(meta);
+                    ++count;
 
-                    this.pageConnector.Logger?.Information("Fetching music data... ({Count} out of {MusicTotal})", 
-                        ++count, musicItemNodes.Count);
-                    this.pageConnector.Logger?.Debug("Data: {Music}", music);
+                    // Logging and Reporting progress.
+                    this.pageConnector.Logger?.Information(Localization.Fetcher.FetchingMany, 
+                        Localization.Data.MusicMetadata, count, musicItemNodes.Count);
+                    this.pageConnector.Logger?.Debug("Data: {MusicMetadata}", meta);
+
+                    progressText.Report(string.Format(Localization.Fetcher.FetchingProgress,
+                       count, musicItemNodes.Count, $"{Localization.Data.MusicMetadata}({meta.Title})"));
+                    progressPercent.Report(CalculatePercent(count, musicItemNodes.Count));
                 }
             }
             catch (Exception ex)
@@ -120,7 +137,11 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Successfully fetched {ResultCount} of musics.", result.Count);
+            // Logging and Reporting progress.
+            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched3,
+                result.Count, Localization.Data.MusicMetadata);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched3, 
+                result.Count, Localization.Data.MusicMetadata));
 
             return result.ToArray();
         }

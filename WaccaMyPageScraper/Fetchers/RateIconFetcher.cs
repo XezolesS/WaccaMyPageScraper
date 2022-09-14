@@ -16,18 +16,26 @@ namespace WaccaMyPageScraper.Fetchers
 
         public RateIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
 
-        public override async Task<bool> FetchAsync(params object?[] args)
+        public override async Task<bool> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+                // Logging and Reporting progress.
+                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+
+                progressText.Report(Localization.Connector.LoggedOff);
+                progressPercent.Report(0);
 
                 return false;
             }
 
             if (!Directory.Exists(ResourceDirectory))
+            {
                 Directory.CreateDirectory(ResourceDirectory);
+
+                this.pageConnector.Logger?.Information(Localization.Fetcher.NoDirectory, Path.GetFullPath(ResourceDirectory));
+            }
 
             try
             {
@@ -41,14 +49,21 @@ namespace WaccaMyPageScraper.Fetchers
                     {
                         msg.Headers.Referrer = this.BaseUrl;
 
-                        this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
+                        this.pageConnector.Logger?.Debug(Localization.Fetcher.SetReferrer, msg.Headers.Referrer);
 
                         using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
                         using (var fs = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                         {
+                            if (!request.IsSuccessStatusCode)
+                            {
+                                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                                continue;
+                            }
+
                             await request.Content.CopyToAsync(fs);
 
-                            this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", Path.GetFullPath(imagePath));
+                            this.pageConnector.Logger?.Information(Localization.Fetcher.DataSaved,
+                                Localization.Data.RateIcon, Path.GetFullPath(imagePath));
                         }
                     }
                 }

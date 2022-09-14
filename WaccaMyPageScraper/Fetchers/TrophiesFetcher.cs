@@ -22,12 +22,16 @@ namespace WaccaMyPageScraper.Fetchers
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>List of trophies listed on My Page in array of <see cref="Trophy"/>s.</returns>
-        public override async Task<Trophy[]?> FetchAsync(params object?[] args)
+        public override async Task<Trophy[]?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+                // Logging and Reporting progress.
+                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+
+                progressText.Report(Localization.Connector.LoggedOff);
+                progressPercent.Report(0);
 
                 return null;
             }
@@ -37,8 +41,14 @@ namespace WaccaMyPageScraper.Fetchers
             // Fetch all trophies from season 1 to season 3
             for (int season = 1; season <= 3; season++)
             {
-                this.pageConnector.Logger?.Information("Sending request to {URL}", Url);
-                this.pageConnector.Logger?.Debug("Trying to fetch season {Season} trophies", season);
+                // Logging and Reporting progress.
+                string textSeasonTrophy = $"{Localization.Data.Trophy}({Localization.Data.Season} {season})";
+
+                this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
+                this.pageConnector.Logger?.Debug(Localization.Fetcher.Fetching, textSeasonTrophy);
+
+                progressText.Report(string.Format(Localization.Fetcher.Fetching, textSeasonTrophy));
+                progressPercent.Report(0);
 
                 var parameters = new Dictionary<string, string> { { "seasonId", season.ToString() } };
                 var encodedContent = new FormUrlEncodedContent(parameters);
@@ -49,7 +59,11 @@ namespace WaccaMyPageScraper.Fetchers
                 var trophyJsonObject = JObject.Parse(responseContent);
                 if (trophyJsonObject is null)
                 {
-                    this.pageConnector.Logger?.Warning("Failed to retrieve trophy data. Skip season {season}", season);
+                    // Logging and Reporting progress.
+                    this.pageConnector.Logger?.Warning(Localization.Fetcher.FetchingFail, textSeasonTrophy);
+
+                    progressText.Report(string.Format(Localization.Fetcher.FetchingFail, textSeasonTrophy));
+                    progressPercent.Report(0);
 
                     continue;
                 }
@@ -75,13 +89,24 @@ namespace WaccaMyPageScraper.Fetchers
                     resultItem.Description = description;
 
                     result.Add(resultItem);
-                    this.pageConnector.Logger?.Information("Fetching season {season} trophy data... ({Count} out of {MusicTotal})",
-                        season, ++count, trophies.Count);
+                    ++count;
+
+                    // Logging and Reporting progress.
+                    this.pageConnector.Logger?.Information(Localization.Fetcher.FetchingMany,
+                        textSeasonTrophy, count, trophies.Count);
                     this.pageConnector.Logger?.Debug("Data: {Trophy}", resultItem);
+
+                    progressText.Report(string.Format(Localization.Fetcher.FetchingProgress,
+                        count, trophies.Count, textSeasonTrophy));
+                    progressPercent.Report(CalculatePercent(count, trophies.Count));
                 }
             }
 
-            this.pageConnector.Logger?.Information("Successfully fetched {ResultCount} of musics.", result.Count);
+            // Logging and Reporting progress.
+            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched3,
+                result.Count, Localization.Data.Trophy);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched3,
+                result.Count, Localization.Data.Trophy));
 
             return result.ToArray();
         }

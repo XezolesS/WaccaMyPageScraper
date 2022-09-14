@@ -20,13 +20,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public sealed class TrophyViewModel : FetcherViewModel
     {
-        private PageConnector pageConnector;
-
         #region Properties
         private string[] _seasons;
         public string[] Seasons => new string[3]
         {
-            "Season 1", "Season 2", "Season 3"
+            $"{WaccaMyPageScraper.Localization.Data.Season} 1", 
+            $"{WaccaMyPageScraper.Localization.Data.Season} 2", 
+            $"{WaccaMyPageScraper.Localization.Data.Season} 3"
         };
 
         private string _selectedSeason;
@@ -51,27 +51,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             ImageLocator.GetTrophyPlatinumIcon(),
         };
 
-        private string _downloadStateText;
-        public string DownloadStateText
-        {
-            get => _downloadStateText;
-            set => SetProperty(ref _downloadStateText, value);
-        }
-
-        private int _trophyCount;
-        public int TrophyCount
-        {
-            get => _trophyCount;
-            set => SetProperty(ref _trophyCount, value);
-        }
-
-        private int _trophyFetched;
-        public int TrophyFetched
-        {
-            get => _trophyFetched;
-            set => SetProperty(ref _trophyFetched, value);
-        }
-
         private IEnumerable<TrophyModel> _trophies;
         public IEnumerable<TrophyModel> Trophies
         {
@@ -89,23 +68,20 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public DelegateCommand FetchTrophiesCommand { get; private set; }
         #endregion
 
-        public TrophyViewModel(IEventAggregator ea) : base()
+        public TrophyViewModel(IEventAggregator ea) : base(ea)
         {
             this.SelectedSeason = "Season 1";
 
-            this.DownloadStateText = "Not Logged In";
-            this.TrophyCount = 1;
-            this.TrophyFetched = 0;
+            this.FetchProgressText = "Not Logged In";
+            this.FetchProgressPercent = 0;
 
             this.FetchTrophiesCommand = new DelegateCommand(FetcherEvent);
-
-            ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
         public override async void InitializeData()
         {
             var trophies = await new CsvHandler<Trophy>(Log.Logger)
-                .ImportAsync(DataFilePath.TrophyData);
+                .ImportAsync(Directories.TrophyData);
 
             this.Trophies = TrophyModel.FromTrophies(trophies);
         }
@@ -119,33 +95,20 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.Trophies = new List<TrophyModel>();
 
             // Fetch trophies
-            this.DownloadStateText = "Fetching trophies...";
-
             TrophiesFetcher trophiesFetcher = new TrophiesFetcher(this.pageConnector);
-            var trophies = await trophiesFetcher.FetchAsync();
-
-            this.TrophyCount = trophies.Length;
-            this.DownloadStateText = string.Format("Total {0} trophies fetched.", this.TrophyCount);
+            var trophies = await trophiesFetcher.FetchAsync(
+                new Progress<string>(progressText => this.FetchProgressText = progressText),
+                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Save trophies
-            if (!Directory.Exists(DataFilePath.Trophy))
-                Directory.CreateDirectory(DataFilePath.Trophy);
+            if (!Directory.Exists(Directories.Trophy))
+                Directory.CreateDirectory(Directories.Trophy);
 
             var csvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
-            csvHandler.Export(DataFilePath.TrophyData);
+            csvHandler.Export(Directories.TrophyData);
 
             // Convert Trophies to TrophyModels
             this.Trophies = TrophyModel.FromTrophies(trophies);
-
-            this.DownloadStateText = "Download Complete";
-        }
-
-        private void UpdatePageConnector(PageConnector connector)
-        {
-            this.pageConnector = connector;
-
-            if (connector.IsLoggedOn())
-                this.DownloadStateText = "Logged In";
         }
 
         private void OnSeasonChanged()

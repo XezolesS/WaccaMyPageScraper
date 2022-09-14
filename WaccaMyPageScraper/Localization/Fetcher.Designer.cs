@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WaccaMyPageScraper.Resources {
+namespace WaccaMyPageScraper.Localization {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WaccaMyPageScraper.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DataFilePath {
+    public class Fetcher {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DataFilePath() {
+        internal Fetcher() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WaccaMyPageScraper.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Resources.DataFilePath", typeof(DataFilePath).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Localization.Fetcher", typeof(Fetcher).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,137 +61,146 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/aime_id.txt.
+        ///   Looks up a localized string similar to Successfully connected..
         /// </summary>
-        public static string AimeId {
+        public static string Connected {
             get {
-                return ResourceManager.GetString("AimeId", resourceCulture);
+                return ResourceManager.GetString("Connected", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/player/.
+        ///   Looks up a localized string similar to Connecting to {0}....
         /// </summary>
-        public static string Player {
+        public static string Connecting {
             get {
-                return ResourceManager.GetString("Player", resourceCulture);
+                return ResourceManager.GetString("Connecting", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/player/player.csv.
+        ///   Looks up a localized string similar to Error occured while connecting to the page!.
         /// </summary>
-        public static string PlayerData {
+        public static string ConnectionError {
             get {
-                return ResourceManager.GetString("PlayerData", resourceCulture);
+                return ResourceManager.GetString("ConnectionError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/player/image/player_icon.png.
+        ///   Looks up a localized string similar to {0} has been fetched..
         /// </summary>
-        public static string PlayerIcon {
+        public static string DataFetched1 {
             get {
-                return ResourceManager.GetString("PlayerIcon", resourceCulture);
+                return ResourceManager.GetString("DataFetched1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/player/image/.
+        ///   Looks up a localized string similar to {0} has been fetched: {1}.
         /// </summary>
-        public static string PlayerImage {
+        public static string DataFetched2 {
             get {
-                return ResourceManager.GetString("PlayerImage", resourceCulture);
+                return ResourceManager.GetString("DataFetched2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/records/.
+        ///   Looks up a localized string similar to {0} of {1} has been fetched..
         /// </summary>
-        public static string Record {
+        public static string DataFetched3 {
             get {
-                return ResourceManager.GetString("Record", resourceCulture);
+                return ResourceManager.GetString("DataFetched3", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/records/records.csv.
+        ///   Looks up a localized string similar to {0} has been saved at {1}.
         /// </summary>
-        public static string RecordData {
+        public static string DataSaved {
             get {
-                return ResourceManager.GetString("RecordData", resourceCulture);
+                return ResourceManager.GetString("DataSaved", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/records/image/.
+        ///   Looks up a localized string similar to Fetching {0}....
         /// </summary>
-        public static string RecordImage {
+        public static string Fetching {
             get {
-                return ResourceManager.GetString("RecordImage", resourceCulture);
+                return ResourceManager.GetString("Fetching", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/.
+        ///   Looks up a localized string similar to Failed to fetch {0}..
         /// </summary>
-        public static string Root {
+        public static string FetchingFail {
             get {
-                return ResourceManager.GetString("Root", resourceCulture);
+                return ResourceManager.GetString("FetchingFail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/stages/.
+        ///   Looks up a localized string similar to Fetcing {0}... ({1} out of {2}).
         /// </summary>
-        public static string Stage {
+        public static string FetchingMany {
             get {
-                return ResourceManager.GetString("Stage", resourceCulture);
+                return ResourceManager.GetString("FetchingMany", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/stages/stages.csv.
+        ///   Looks up a localized string similar to ({0}/{1}) Fetching {2}....
         /// </summary>
-        public static string StageData {
+        public static string FetchingProgress {
             get {
-                return ResourceManager.GetString("StageData", resourceCulture);
+                return ResourceManager.GetString("FetchingProgress", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/stages/image/.
+        ///   Looks up a localized string similar to {0} must have argument(s): {1}!.
         /// </summary>
-        public static string StageImage {
+        public static string NoArgument {
             get {
-                return ResourceManager.GetString("StageImage", resourceCulture);
+                return ResourceManager.GetString("NoArgument", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/trophies/.
+        ///   Looks up a localized string similar to No directory found. Create new directory: {0}.
         /// </summary>
-        public static string Trophy {
+        public static string NoDirectory {
             get {
-                return ResourceManager.GetString("Trophy", resourceCulture);
+                return ResourceManager.GetString("NoDirectory", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/trophies/trophies.csv.
+        ///   Looks up a localized string similar to There is no record of {0}..
         /// </summary>
-        public static string TrophyData {
+        public static string NoStageRecordExists {
             get {
-                return ResourceManager.GetString("TrophyData", resourceCulture);
+                return ResourceManager.GetString("NoStageRecordExists", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/trophies/image/.
+        ///   Looks up a localized string similar to Connector is not logged in to the page!.
         /// </summary>
-        public static string TrophyImage {
+        public static string NotLoggedIn {
             get {
-                return ResourceManager.GetString("TrophyImage", resourceCulture);
+                return ResourceManager.GetString("NotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Referrer as {0} and send request..
+        /// </summary>
+        public static string SetReferrer {
+            get {
+                return ResourceManager.GetString("SetReferrer", resourceCulture);
             }
         }
     }

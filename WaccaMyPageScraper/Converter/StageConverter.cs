@@ -20,7 +20,7 @@ namespace WaccaMyPageScraper.Converter
             var textRegex = new Regex(@"^\[\d*,.*,[0-3]\]$");
             if (!textRegex.IsMatch(text))
             {
-                string message = "Converting WaccaMyPageScraper.Data.Stage is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "WaccaMyPageScraper.Data.Stage");
                 throw new TypeConverterException(this, memberMapData, text, row.Context, message);
             }
 
@@ -37,7 +37,7 @@ namespace WaccaMyPageScraper.Converter
         {
             if (value is not StageMetadata)
             {
-                string message = "Converting WaccaMyPageScraper.Data.Stage is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "WaccaMyPageScraper.Data.Stage");
                 throw new TypeConverterException(this, memberMapData, value, row.Context, message);
             }
 

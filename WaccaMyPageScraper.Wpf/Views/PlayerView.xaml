@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
              mc:Ignorable="d" 
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -73,12 +74,12 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1.4*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="Play Count" 
+                           Text="{x:Static LocalizedText:Data.PlayCount}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
@@ -90,7 +91,7 @@
                            FontSize="16 "/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="Versus Mode" 
+                           Text="{x:Static LocalizedText:Data.PlayCountVersus}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
@@ -102,7 +103,7 @@
                            Foreground="Gray" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
-                           Text="Co-op Mode" 
+                           Text="{x:Static LocalizedText:Data.PlayCountCoop}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
@@ -120,12 +121,12 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1.4*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="RP Earned" 
+                           Text="{x:Static LocalizedText:Data.TotalRpEarned}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
@@ -137,7 +138,7 @@
                            FontSize="16 "/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="RP Spent" 
+                           Text="{x:Static LocalizedText:Data.TotalRpSpent}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"

@@ -19,6 +19,11 @@ namespace WaccaMyPageScraper.Fetchers
             this.pageConnector = pageConnector;
         }
 
-        public abstract Task<T?> FetchAsync(params object?[] args);
+        public async Task<T?> FetchAsync(params object?[] args) => await FetchAsync(new Progress<string>(), new Progress<int>(), args);
+        public abstract Task<T?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args);
+
+        
+
+        protected int CalculatePercent(int count, int total) => (int)(((double)count / total) * 100);
     }
 }

@@ -17,7 +17,7 @@ namespace WaccaMyPageScraper.Converter
             var textRegex = new Regex(@"^\[(\d+||,)+\]$");
             if (!textRegex.IsMatch(text))
             {
-                string message = "Converting System.Int32[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.Int32[]");
                 throw new TypeConverterException(this, memberMapData, text, row.Context, message);
             }
             
@@ -31,7 +31,7 @@ namespace WaccaMyPageScraper.Converter
         {
             if (value is not int[])
             {
-                string message = "Converting System.Int32[] is not supported.";
+                string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.Int32[]");
                 throw new TypeConverterException(this, memberMapData, value, row.Context, message);
             }
 

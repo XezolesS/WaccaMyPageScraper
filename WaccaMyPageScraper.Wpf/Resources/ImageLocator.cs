@@ -13,7 +13,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
 {
     public static class ImageLocator
     {
-        public static byte[] GetPlayerIcon() => GetImage(DataFilePath.PlayerIcon);
+        public static byte[] GetPlayerIcon() => GetImage(Directories.PlayerIcon);
 
         public static byte[] GetRateIcon(int playCount, Rate rate) => (playCount, rate) switch 
         {

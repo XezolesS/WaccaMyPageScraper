@@ -23,7 +23,7 @@ namespace WaccaMyPageScraper.Wpf.Models
         {
             get
             {
-                var filePath = Path.Combine(DataFilePath.RecordImage, this.Id + ".png");
+                var filePath = Path.Combine(Directories.RecordImage, this.Id + ".png");
 
                 if (!File.Exists(filePath))
                     return null;

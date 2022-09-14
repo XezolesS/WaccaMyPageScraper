@@ -25,8 +25,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public sealed class RecordViewModel : FetcherViewModel
     {
-        private PageConnector pageConnector;
-
         #region Properties
         private bool _filterDifficultyNormal;
         public bool FilterDifficultyNormal
@@ -68,13 +66,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 OnFilterAndSorterChanged);
         }
 
-        private string _downloadStateText;
-        public string DownloadStateText
-        {
-            get => _downloadStateText;
-            set => SetProperty(ref _downloadStateText, value);
-        }
-
         public SortRecordBy[] SortOptions => Enum.GetValues<SortRecordBy>();
 
         private SortRecordBy _selectedSortBy;
@@ -91,20 +82,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             get => _isSortDescending;
             set => SetProperty(ref _isSortDescending, value, 
                 OnFilterAndSorterChanged);
-        }
-
-        private int _musicCount;
-        public int MusicCount
-        {
-            get => _musicCount;
-            set => SetProperty(ref _musicCount, value);
-        }
-
-        private int _musicFetched;
-        public int MusicFetched
-        {
-            get => _musicFetched;
-            set => SetProperty(ref _musicFetched, value);
         }
 
         IEnumerable<RecordModel> _records;
@@ -125,7 +102,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public DelegateCommand FetchRecordsCommand { get; private set; }
         #endregion
 
-        public RecordViewModel(IEventAggregator ea) : base()
+        public RecordViewModel(IEventAggregator ea) : base(ea)
         {
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
@@ -134,23 +111,20 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FilterSearchText = string.Empty;
 
-            this.DownloadStateText = "Not Logged In";
-            this.MusicCount = 1;
-            this.MusicFetched = 0;
+            this.FetchProgressText = WaccaMyPageScraper.Localization.Connector.LoggedOff;
+            this.FetchProgressPercent = 0;
 
             this.FilteredRecords = new ObservableCollection<RecordModel>();
             this.SelectedSortBy = SortRecordBy.Default;
             this.IsSortDescending = false;
 
             this.FetchRecordsCommand = new DelegateCommand(FetcherEvent);
-
-            ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
         }
 
         public override async void InitializeData()
         {
             var musics = await new CsvHandler<Music>(Log.Logger)
-                .ImportAsync(DataFilePath.RecordData);
+                .ImportAsync(Directories.RecordData);
 
             if (musics is null)
                 return;
@@ -166,53 +140,44 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Reset Records
             this.Records = new List<RecordModel>();
-            this.MusicFetched = 0;
             this.FilteredRecords.Clear();
 
             // Fetch music list
-            this.DownloadStateText = "Finding musics...";
-
             MusicMetadataFetcher musicMetadataFetcher = new MusicMetadataFetcher(this.pageConnector);
-            var musicMetadata = await musicMetadataFetcher.FetchAsync();
-
-            this.MusicCount = musicMetadata.Length;
-            this.DownloadStateText = string.Format("Total {0} musics found.", this.MusicCount);
+            var musicMetadata = await musicMetadataFetcher.FetchAsync(
+                new Progress<string>(progressText => this.FetchProgressText = progressText),
+                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Fetch records
+            int count = 0;
             var musics = new List<Music>();
             MusicFetcher musicFetcher = new MusicFetcher(this.pageConnector);
             foreach (var meta in musicMetadata)
             {
                 musics.Add(await musicFetcher.FetchAsync(meta));
                 await musicFetcher.FetchMusicImageAsync(meta.Id);
+                ++count;
 
-                this.MusicFetched++;
-
-                this.DownloadStateText = string.Format("({0}/{1}) Fetching {2}",
-                    this.MusicFetched, this.MusicCount, meta.Title);
+                this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,
+                    count, musicMetadata.Length, meta.Title);
+                this.FetchProgressPercent = (int)(((double)count / musicMetadata.Length) * 100);
             }
 
             // Save records
-            if (!Directory.Exists(DataFilePath.Record))
-                Directory.CreateDirectory(DataFilePath.Record);
+            if (!Directory.Exists(Directories.Record))
+                Directory.CreateDirectory(Directories.Record);
 
             var csvHandler = new CsvHandler<Music>(musics, Log.Logger);
-            csvHandler.Export(DataFilePath.RecordData);
+            csvHandler.Export(Directories.RecordData);
 
             // Convert Music to RecordModels
             this.Records = RecordModel.FromMusics(musics);
 
-            this.DownloadStateText = "Download Complete";
+            // Set comlete message
+            this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,
+                this.Records.Count(), WaccaMyPageScraper.Localization.Data.Record);
         }
-
-        private void UpdatePageConnector(PageConnector connector)
-        {
-            this.pageConnector = connector;
-
-            if (connector.IsLoggedOn())
-                this.DownloadStateText = "Logged In";
-        }
-
+        
         private async void OnFilterAndSorterChanged()
         {
             if (this.Records is null)

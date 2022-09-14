@@ -25,29 +25,33 @@ namespace WaccaMyPageScraper.Fetchers
         /// </summary>
         /// <param name="args">No argument needed.</param>
         /// <returns>Fetched player data in <see cref="Player"/>, null if it's failed.</returns>
-        public override async Task<Player?> FetchAsync(params object?[] args)
+        public override async Task<Player?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this.pageConnector.IsLoggedOn())
             {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
+                // Logging and Reporting progress.
+                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+
+                progressText.Report(Localization.Connector.LoggedOff);
+                progressPercent.Report(0);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
+            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
             var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             Player? result = null;
 
             if (string.IsNullOrEmpty(response))
             {
-                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
+                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Connection successful");
+            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -59,6 +63,9 @@ namespace WaccaMyPageScraper.Fetchers
                 var playerDataNode = document.DocumentNode.SelectSingleNode("//div[@class='playdata__playerdata']");
 
                 // Fetch player's name and stuffs
+                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                    Localization.Data.Player);
+
                 var userDetailNode = playerDataNode.SelectSingleNode("./div[@class='user-info']/div[@class='user-info__detail']");
 
                 var userNameNode = userDetailNode.SelectSingleNode(".//div[@class='user-info__detail__name']");
@@ -122,7 +129,8 @@ namespace WaccaMyPageScraper.Fetchers
                 return null;
             }
 
-            this.pageConnector.Logger?.Information("Successfully fetched player data: {Result}", result);
+            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched2,
+                Localization.Data.Player, result);
 
             return result;
         }
@@ -160,14 +168,14 @@ namespace WaccaMyPageScraper.Fetchers
                 var playerIconSrc = playerIconNode.Attributes["src"].Value;
 
                 this.pageConnector.Logger?.Information("Trying to save player icon to {Path}", 
-                    Path.GetFullPath(DataFilePath.PlayerIcon));
+                    Path.GetFullPath(Directories.PlayerIcon));
 
-                if (!Directory.Exists(DataFilePath.PlayerImage))
+                if (!Directory.Exists(Directories.PlayerImage))
                 {
-                    Directory.CreateDirectory(DataFilePath.PlayerImage);
+                    Directory.CreateDirectory(Directories.PlayerImage);
 
                     this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", 
-                        Path.GetFullPath(DataFilePath.Player));
+                        Path.GetFullPath(Directories.Player));
                 }
 
                 var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
@@ -179,13 +187,13 @@ namespace WaccaMyPageScraper.Fetchers
                     this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
 
                     using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
-                    using (var fs = new FileStream(DataFilePath.PlayerIcon, FileMode.Create, FileAccess.Write))
+                    using (var fs = new FileStream(Directories.PlayerIcon, FileMode.Create, FileAccess.Write))
                     {
                         await request.Content.CopyToAsync(fs);
-                        result = Path.GetFullPath(DataFilePath.PlayerIcon);
+                        result = Path.GetFullPath(Directories.PlayerIcon);
 
                         this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", 
-                            Path.GetFullPath(DataFilePath.PlayerIcon));
+                            Path.GetFullPath(Directories.PlayerIcon));
                     }
                 }
 

@@ -34,7 +34,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         public override async void InitializeData()
         {
             var playerRecords = await new CsvHandler<Player>(Log.Logger)
-                .ImportAsync(DataFilePath.PlayerData);
+                .ImportAsync(Directories.PlayerData);
 
             if (playerRecords is null)
                 return;
@@ -55,11 +55,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
 
             // Save player
-            if (!Directory.Exists(DataFilePath.Player))
-                Directory.CreateDirectory(DataFilePath.Player);
+            if (!Directory.Exists(Directories.Player))
+                Directory.CreateDirectory(Directories.Player);
 
             var csvHandler = new CsvHandler<Player>(new List<Player> { player }, Log.Logger);
-            csvHandler.Export(DataFilePath.PlayerData);
+            csvHandler.Export(Directories.PlayerData);
 
             var playerIcon = await fetcher.FetchPlayerIconAsync();
 

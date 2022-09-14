@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
              xmlns:ViewModels="clr-namespace:WaccaMyPageScraper.Wpf.ViewModels"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -36,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0"
-                   Content="Aime ID"
+                   Content="{x:Static LocalizedText:Data.AimeId}"
                    Foreground="AliceBlue" />
 
             <TextBox x:Name="TextBoxAimeId"
