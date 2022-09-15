@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
@@ -44,9 +46,47 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Genre Genre { get; set; }
 
+        public string GenreText => this.Genre switch
+        {
+            Genre.AnimePop => WaccaMyPageScraper.Localization.Data.Genre_AnimePop,
+            Genre.Vocaloid => WaccaMyPageScraper.Localization.Data.Genre_Vocaloid,
+            Genre.Touhou => WaccaMyPageScraper.Localization.Data.Genre_Touhou,
+            Genre.TwoPointFive => WaccaMyPageScraper.Localization.Data.Genre_TwoPointFive,
+            Genre.Variety => WaccaMyPageScraper.Localization.Data.Genre_Variety,
+            Genre.Original => WaccaMyPageScraper.Localization.Data.Genre_Original,
+            Genre.TanoC => WaccaMyPageScraper.Localization.Data.Genre_TanoC,
+        };
+
+        public Brush GenreColor => this.Genre switch
+        {
+            Genre.AnimePop => new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4A8FFF")),
+            Genre.Vocaloid => new LinearGradientBrush(
+                    (Color)ColorConverter.ConvertFromString("#0CB092"), 
+                    (Color)ColorConverter.ConvertFromString("#87FFE9"),
+                    new Point(0, 0), 
+                    new Point(1, 1)),
+            Genre.Touhou => new LinearGradientBrush(
+                    (Color)ColorConverter.ConvertFromString("#E60000"),
+                    (Color)ColorConverter.ConvertFromString("#171212"),
+                    new Point(0, 0),
+                    new Point(1, 1)),
+            Genre.TwoPointFive => new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF970F")),
+            Genre.Variety => new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6EFF81")),
+            Genre.Original => new LinearGradientBrush(
+                    (Color)ColorConverter.ConvertFromString("#FF1C9D"),
+                    (Color)ColorConverter.ConvertFromString("#1CBFFF"),
+                    new Point(0, 0),
+                    new Point(1, 1)),
+            Genre.TanoC => new LinearGradientBrush(
+                    (Color)ColorConverter.ConvertFromString("#787878"),
+                    (Color)ColorConverter.ConvertFromString("#2E2E2E"),
+                    new Point(0, 0),
+                    new Point(1, 1))
+        };
+
         public Difficulty Difficulty { get; set; }
 
-        public string DifficultyColor  => this.Difficulty switch 
+        public string DifficultyColor => this.Difficulty switch 
         { 
             Difficulty.Normal => "#009DE6",
             Difficulty.Hard => "#FED131",

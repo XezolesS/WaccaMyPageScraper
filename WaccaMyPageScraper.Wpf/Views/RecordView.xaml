@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+             xmlns:Converter="clr-namespace:WaccaMyPageScraper.Wpf.Converters"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
@@ -111,6 +112,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Converter:SortRecordByConverter x:Key="SortRecordBy" />
     </UserControl.Resources>
     
     <Grid>
@@ -163,7 +166,13 @@
 
                 <ComboBox Grid.Column="0"
                           ItemsSource="{Binding SortOptions}"
-                          SelectedValue="{Binding SelectedSortBy}" />
+                          SelectedValue="{Binding SelectedSortBy}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=., Converter={StaticResource SortRecordBy}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <CheckBox Grid.Column="1"
                           Style="{StaticResource DescendingCheckBox}"
                           IsChecked="{Binding IsSortDescending}" />
@@ -215,7 +224,7 @@
                                   Margin="20,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="35" />
-                                    <RowDefinition Height="20" />
+                                    <RowDefinition Height="40" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
@@ -233,7 +242,8 @@
 
                                 <TextBox Grid.Row="1"
                                          Text="{Binding Artist}"
-                                         VerticalAlignment="Center"
+                                         Height="40" Width="240"
+                                         VerticalAlignment="Stretch"
                                          HorizontalAlignment="Left"
                                          Background="Transparent"
                                          BorderThickness="0"
@@ -243,16 +253,26 @@
                                          FontSize="10" />
 
                                 <StackPanel Grid.Row="1"
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center"
+                                            Margin="0,0,-10,0"
+                                            VerticalAlignment="Top"
                                             HorizontalAlignment="Right">
-                                    <TextBlock Text="{Binding PlayCount}" />
-                                    <TextBlock Margin="4,0" 
-                                               Text="times played"
-                                               Foreground="Gray"
+                                    <TextBlock Text="{Binding GenreText}" 
+                                               Foreground="{Binding GenreColor}"
                                                FontSize="11"
-                                               FontWeight="Light"
-                                               VerticalAlignment="Bottom" />
+                                               HorizontalAlignment="Right" />
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding PlayCount}" 
+                                                   Foreground="Yellow"
+                                                   FontSize="12" />
+                                        <TextBlock Margin="4,0,0,0" 
+                                                   Text="times played"
+                                                   Foreground="Gray"
+                                                   FontSize="11"
+                                                   FontWeight="Light"
+                                                   VerticalAlignment="Bottom" />
+                                    </StackPanel>
                                 </StackPanel>
 
                                 <Grid Grid.Row="2">
@@ -285,12 +305,12 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Image Grid.Column="0" 
-                                               Source="{Binding RateImage}" 
+                                               Source="{Binding RateIcon}" 
                                                Height="35" Width="35"
                                                Margin="5,0"
                                                RenderOptions.BitmapScalingMode="HighQuality" />
                                         <Image Grid.Column="1" 
-                                               Source="{Binding AchieveImage}"
+                                               Source="{Binding AchieveIcon}"
                                                Height="35" Width="35"
                                                Margin="5,0"
                                                RenderOptions.BitmapScalingMode="HighQuality" />
