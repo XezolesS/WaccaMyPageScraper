@@ -114,13 +114,13 @@ namespace WaccaMyPageScraper.Console.Options
             return trophies;
         }
 
-        private bool FetchRateIconTask() => Task.Run(async () => await this.fetcher.FetchRateIconsAsync()).Result;
+        private string FetchRateIconTask() => Task.Run(async () => await this.fetcher.FetchRateIconsAsync()).Result;
 
-        private bool FetchAchieveIconTask() => Task.Run(async () => await this.fetcher.FetchAchieveIconsAsync()).Result;
+        private string FetchAchieveIconTask() => Task.Run(async () => await this.fetcher.FetchAchieveIconsAsync()).Result;
 
-        private bool FetchStageIconTask() => Task.Run(async () => await this.fetcher.FetchStageIconsAsync()).Result;
+        private string FetchStageIconTask() => Task.Run(async () => await this.fetcher.FetchStageIconsAsync()).Result;
 
-        private bool FetchTrophyIconTask() => Task.Run(async () => await this.fetcher.FetchTrophyIconsAsync()).Result;
+        private string FetchTrophyIconTask() => Task.Run(async () => await this.fetcher.FetchTrophyIconsAsync()).Result;
         #endregion
     }
 }
