@@ -12,7 +12,7 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public StageModel() { }
 
-        public StageModel(Stage stage) : base(stage.Id, stage.Name, stage.Grade, stage.Scores) { }
+        public StageModel(Stage stage) : base(stage.Id, stage.Name, stage.Grade, stage.Scores, stage.TotalScore) { }
 
         public static StageModel FromStage(Stage data) => new StageModel(data);
 

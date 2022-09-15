@@ -169,15 +169,6 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to data/stages/image/.
-        /// </summary>
-        public static string StageImage {
-            get {
-                return ResourceManager.GetString("StageImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to data/trophies/.
         /// </summary>
         public static string Trophy {
@@ -192,15 +183,6 @@ namespace WaccaMyPageScraper.Resources {
         public static string TrophyData {
             get {
                 return ResourceManager.GetString("TrophyData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to data/trophies/image/.
-        /// </summary>
-        public static string TrophyImage {
-            get {
-                return ResourceManager.GetString("TrophyImage", resourceCulture);
             }
         }
     }

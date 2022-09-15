@@ -13,7 +13,7 @@ namespace WaccaMyPageScraper.Console
     {
         private readonly ILogger? _logger;
 
-        private PageConnector pageConnector;
+        private Fetcher fetcher;
 
         public static readonly IDictionary<string, string> CommandMapping = new Dictionary<string, string>()
         {
@@ -45,7 +45,7 @@ namespace WaccaMyPageScraper.Console
         {
             if (IsCommandNull() || Config["Help"] is not null)
             {
-                var helpOption = new HelpOption(_logger, pageConnector, Config["Help"]);
+                var helpOption = new HelpOption(_logger, fetcher, Config["Help"]);
 
                 helpOption.Execute();
                 return;
@@ -68,13 +68,13 @@ namespace WaccaMyPageScraper.Console
                     return;
                 }
 
-                var idOption = new IdOption(_logger, pageConnector, Config["Id"]);
-                this.pageConnector = idOption.Execute() as PageConnector;
+                var idOption = new IdOption(_logger, fetcher, Config["Id"]);
+                this.fetcher = idOption.Execute() as Fetcher;
 
-                var outputOption = new OutputOption(_logger, pageConnector, Config["Output"]);
+                var outputOption = new OutputOption(_logger, fetcher, Config["Output"]);
                 var outputFilePath = outputOption.Execute() as string;
 
-                var fetchOption = new FetchOption(_logger, this.pageConnector, Config["Fetch"], outputFilePath);
+                var fetchOption = new FetchOption(_logger, this.fetcher, Config["Fetch"], outputFilePath);
                 fetchOption.Execute();
 
                 return;
@@ -90,10 +90,10 @@ namespace WaccaMyPageScraper.Console
                     return;
                 }
 
-                var inputOption = new InputOption(_logger, pageConnector, Config["Input"]);
+                var inputOption = new InputOption(_logger, fetcher, Config["Input"]);
                 var inputFilePath = inputOption.Execute() as string;
 
-                var readOption = new ReadOption(_logger, pageConnector, Config["Read"], inputFilePath);
+                var readOption = new ReadOption(_logger, fetcher, Config["Read"], inputFilePath);
                 readOption.Execute();
 
                 return;

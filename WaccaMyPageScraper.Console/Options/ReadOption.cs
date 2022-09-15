@@ -12,8 +12,8 @@ namespace WaccaMyPageScraper.Console.Options
     {
         private string inputFilePath;
 
-        public ReadOption(ILogger? logger, PageConnector pageConnector, string parameter, string inputFilePath) 
-            : base(logger, pageConnector, parameter) 
+        public ReadOption(ILogger? logger, Fetcher fetcher, string parameter, string inputFilePath) 
+            : base(logger, fetcher, parameter) 
         {
             this.inputFilePath = inputFilePath;
         }

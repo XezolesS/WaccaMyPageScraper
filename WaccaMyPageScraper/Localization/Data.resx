@@ -156,6 +156,9 @@
   <data name="Music" xml:space="preserve">
     <value>Music</value>
   </data>
+  <data name="MusicImage" xml:space="preserve">
+    <value>Music Jacket Image</value>
+  </data>
   <data name="MusicMetadata" xml:space="preserve">
     <value>Music Metadata</value>
   </data>

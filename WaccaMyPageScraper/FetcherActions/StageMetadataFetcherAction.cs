@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class StageMetadataFetcher : Fetcher<StageMetadata[]>
+    internal sealed class StageMetadataFetcherAction : FetcherAction<StageMetadata[]>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/stageup";
 
-        public StageMetadataFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public StageMetadataFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch stages listed on My Page.
@@ -25,30 +25,30 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<StageMetadata[]?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
-            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
+            var response = await this._fetcher.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<StageMetadata> result = new List<StageMetadata>();
 
             if (string.IsNullOrEmpty(response))
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -69,13 +69,13 @@ namespace WaccaMyPageScraper.Fetchers
                     {
                         int id = int.Parse(node.Attributes["value"].Value);
                         var name = stageNameNode.InnerText;
-                        meta = new StageMetadata(id, name, StageGrade.NotCleared);
+                        meta = new StageMetadata(id, name, StageGrade.Unknown);
                     }
                     else
                     {
                         var stageIconImgSrc = stageIconNode.Attributes["src"].Value;
 
-                        this.pageConnector.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
+                        this._fetcher.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
 
                         var stageIconFileName = new Regex(@"stage_icon_[0-9]+_[1-3].png").Match(stageIconImgSrc).Value;
                         var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconFileName).Value.Split('_');
@@ -90,9 +90,9 @@ namespace WaccaMyPageScraper.Fetchers
                     ++count;
 
                     // Logging and Reporting progress.
-                    this.pageConnector.Logger?.Information(Localization.Fetcher.FetchingMany,
+                    this._fetcher.Logger?.Information(Localization.Fetcher.FetchingMany,
                         Localization.Data.StageMetadata, count, stageItemNodes.Count);
-                    this.pageConnector.Logger?.Debug("Data: {MusicMetadata}", meta);
+                    this._fetcher.Logger?.Debug("Data: {MusicMetadata}", meta);
 
                     progressText.Report(string.Format(Localization.Fetcher.FetchingProgress,
                        count, stageItemNodes.Count, $"{Localization.Data.StageMetadata}({meta.Name})"));
@@ -101,13 +101,13 @@ namespace WaccaMyPageScraper.Fetchers
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
                 return null;
             }
 
             // Logging and Reporting progress.
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched3,
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched3,
                 result.Count, Localization.Data.StageMetadata);
             progressText.Report(string.Format(Localization.Fetcher.DataFetched3,
                 result.Count, Localization.Data.StageMetadata));

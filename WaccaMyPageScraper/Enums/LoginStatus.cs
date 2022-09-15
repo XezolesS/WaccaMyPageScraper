@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WaccaMyPageScraper.Enums
 {
-    internal enum LoginStatus
+    public enum LoginStatus
     {
         LoggedOff,
         LoggedOn,

@@ -16,7 +16,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
     /// </summary>
     public abstract class FetcherViewModel : BindableBase
     {
-        protected PageConnector pageConnector;
+        protected Fetcher fetcher;
 
         private string _fetchProgressText;
         public string FetchProgressText
@@ -47,7 +47,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FetcherVisibility = Visibility.Collapsed;
 
-            ea.GetEvent<LoginSuccessEvent>().Subscribe(UpdatePageConnector);
+            ea.GetEvent<LoginSuccessEvent>().Subscribe(FetcherLoginEvent);
         }
         /// <summary>
         /// Initialize data and might be processed or showed.
@@ -59,18 +59,18 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         /// </summary>
         public abstract void FetcherEvent();
 
-        private void UpdatePageConnector(PageConnector connector)
+        private void FetcherLoginEvent(Fetcher fetcher)
         {
-            this.pageConnector = connector;
+            this.fetcher = fetcher;
 
-            if (connector.IsLoggedOn())
+            if (fetcher.IsLoggedOn())
             {
-                this.FetchProgressText = WaccaMyPageScraper.Localization.Connector.LoggedIn;
+                this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.LoggedIn;
                 this.FetcherVisibility = Visibility.Visible;
             }
             else
             {
-                this.FetchProgressText = WaccaMyPageScraper.Localization.Connector.LoggedOff;
+                this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.LoggedOff;
                 this.FetcherVisibility = Visibility.Collapsed;
             }
         }

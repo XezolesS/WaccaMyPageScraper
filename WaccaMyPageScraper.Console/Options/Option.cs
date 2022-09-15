@@ -10,13 +10,13 @@ namespace WaccaMyPageScraper.Console.Options
     internal abstract class Option
     {
         internal readonly ILogger? logger;
-        internal readonly PageConnector pageConnector;
+        internal readonly Fetcher fetcher;
         internal readonly string parameter;
 
-        public Option(ILogger? logger, PageConnector pageConnector, string parameter)
+        public Option(ILogger? logger, Fetcher fetcher, string parameter)
         {
             this.logger = logger;
-            this.pageConnector = pageConnector;
+            this.fetcher = fetcher;
             this.parameter = parameter;
         }
 

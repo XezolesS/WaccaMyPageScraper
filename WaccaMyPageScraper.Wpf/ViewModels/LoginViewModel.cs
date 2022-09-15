@@ -59,12 +59,12 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public override async void FetcherEvent()
         {
-            var connector = new PageConnector(this.AimeId, Log.Logger);
-            var loginResult = await connector.LoginAsync();
+            var fetcher = new Fetcher(this.AimeId, Log.Logger);
+            var loginResult = await fetcher.LoginAsync();
 
             if (loginResult)
             {
-                this._eventAggregator.GetEvent<LoginSuccessEvent>().Publish(connector);
+                this._eventAggregator.GetEvent<LoginSuccessEvent>().Publish(fetcher);
 
                 // Save AimeId as a text file.
                 if (!Directory.Exists(Directories.Root))

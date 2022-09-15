@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Fetchers;
+using WaccaMyPageScraper.FetcherActions;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
@@ -34,7 +34,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         {
             this.Stages = new List<StageModel>();
 
-            this.FetchProgressText = WaccaMyPageScraper.Localization.Connector.LoggedOff;
+            this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.LoggedOff;
             this.FetchProgressPercent = 0;
 
             this.FetchStagesCommand = new DelegateCommand(FetcherEvent);
@@ -52,25 +52,23 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public override async void FetcherEvent()
         {
-            if (pageConnector is null)
+            if (this.fetcher is null)
                 return;
 
             // Reset Stages
             this.Stages = new List<StageModel>();
 
             // Fetch stage list
-            StageMetadataFetcher stageMetadataFetcher = new StageMetadataFetcher(this.pageConnector);
-            var stageMetadata = await stageMetadataFetcher.FetchAsync(
+            var stageMetadata = await this.fetcher.FetchStageMetadataAsync(
                 new Progress<string>(progressText => this.FetchProgressText = progressText),
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Fetch stages
             int count = 0;
             var stages = new List<Stage>();
-            StageFetcher stageFetcher = new StageFetcher(this.pageConnector);
             foreach (var meta in stageMetadata)
             {
-                stages.Add(await stageFetcher.FetchAsync(meta));
+                stages.Add(await this.fetcher.FetchStageAsync(meta));
                 ++count;
 
                 this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,

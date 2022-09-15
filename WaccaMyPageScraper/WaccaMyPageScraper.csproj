@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Localization\Connector.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Connector.resx</DependentUpon>
-    </Compile>
     <Compile Update="Localization\Converter.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -43,10 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Localization\Connector.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Connector.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Converter.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Converter.Designer.cs</LastGenOutput>

@@ -3,7 +3,6 @@ using WaccaMyPageScraper;
 using WaccaMyPageScraper.Data;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using WaccaMyPageScraper.Fetchers;
 using Microsoft.Extensions.Configuration;
 using WaccaMyPageScraper.Console;
 

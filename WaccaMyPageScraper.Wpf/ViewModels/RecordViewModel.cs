@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Fetchers;
+using WaccaMyPageScraper.FetcherActions;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Wpf.Enums;
@@ -111,7 +111,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FilterSearchText = string.Empty;
 
-            this.FetchProgressText = WaccaMyPageScraper.Localization.Connector.LoggedOff;
+            this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.LoggedOff;
             this.FetchProgressPercent = 0;
 
             this.FilteredRecords = new ObservableCollection<RecordModel>();
@@ -135,7 +135,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public override async void FetcherEvent()
         {
-            if (this.pageConnector is null)
+            if (this.fetcher is null)
                 return;
 
             // Reset Records
@@ -143,19 +143,17 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.FilteredRecords.Clear();
 
             // Fetch music list
-            MusicMetadataFetcher musicMetadataFetcher = new MusicMetadataFetcher(this.pageConnector);
-            var musicMetadata = await musicMetadataFetcher.FetchAsync(
+            var musicMetadata = await this.fetcher.FetchMusicMetadataAsync(
                 new Progress<string>(progressText => this.FetchProgressText = progressText),
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Fetch records
             int count = 0;
             var musics = new List<Music>();
-            MusicFetcher musicFetcher = new MusicFetcher(this.pageConnector);
             foreach (var meta in musicMetadata)
             {
-                musics.Add(await musicFetcher.FetchAsync(meta));
-                await musicFetcher.FetchMusicImageAsync(meta.Id);
+                musics.Add(await this.fetcher.FetchMusicAsync(meta));
+                await this.fetcher.FetchMusicImageAsync(meta);
                 ++count;
 
                 this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,

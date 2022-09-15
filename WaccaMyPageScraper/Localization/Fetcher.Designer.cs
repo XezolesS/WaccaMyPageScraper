@@ -160,6 +160,24 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logged In.
+        /// </summary>
+        public static string LoggedIn {
+            get {
+                return ResourceManager.GetString("LoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Logged In.
+        /// </summary>
+        public static string LoggedOff {
+            get {
+                return ResourceManager.GetString("LoggedOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must have argument(s): {1}!.
         /// </summary>
         public static string NoArgument {
@@ -187,7 +205,7 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connector is not logged in to the page!.
+        ///   Looks up a localized string similar to Fetcher is not logged in to the page!.
         /// </summary>
         public static string NotLoggedIn {
             get {

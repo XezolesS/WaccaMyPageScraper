@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class MusicMetadataFetcher : Fetcher<MusicMetadata[]>
+    internal sealed class MusicMetadataFetcherAction : FetcherAction<MusicMetadata[]>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/music";
 
-        public MusicMetadataFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public MusicMetadataFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch musics listed on My Page.
@@ -23,30 +23,30 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<MusicMetadata[]?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
-            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
+            var response = await this._fetcher.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             List<MusicMetadata> result = new List<MusicMetadata>();
 
             if (string.IsNullOrEmpty(response))
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -62,7 +62,7 @@ namespace WaccaMyPageScraper.Fetchers
                 progressPercent.Report(0);
 
                 // Fetch genre data
-                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Genre);
 
                 var genreListsNodes = scoreListNode.SelectNodes("./h2");
@@ -88,7 +88,7 @@ namespace WaccaMyPageScraper.Fetchers
                     genreOffsets.Add(genreTitle, genreOffset);
                 }
 
-                this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched1,
+                this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched1,
                     Localization.Data.Genre);
 
                 // Fetch music data
@@ -121,9 +121,9 @@ namespace WaccaMyPageScraper.Fetchers
                     ++count;
 
                     // Logging and Reporting progress.
-                    this.pageConnector.Logger?.Information(Localization.Fetcher.FetchingMany, 
+                    this._fetcher.Logger?.Information(Localization.Fetcher.FetchingMany, 
                         Localization.Data.MusicMetadata, count, musicItemNodes.Count);
-                    this.pageConnector.Logger?.Debug("Data: {MusicMetadata}", meta);
+                    this._fetcher.Logger?.Debug("Data: {MusicMetadata}", meta);
 
                     progressText.Report(string.Format(Localization.Fetcher.FetchingProgress,
                        count, musicItemNodes.Count, $"{Localization.Data.MusicMetadata}({meta.Title})"));
@@ -132,13 +132,13 @@ namespace WaccaMyPageScraper.Fetchers
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
                 return null;
             }
 
             // Logging and Reporting progress.
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched3,
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched3,
                 result.Count, Localization.Data.MusicMetadata);
             progressText.Report(string.Format(Localization.Fetcher.DataFetched3, 
                 result.Count, Localization.Data.MusicMetadata));

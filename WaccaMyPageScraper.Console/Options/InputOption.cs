@@ -9,8 +9,8 @@ namespace WaccaMyPageScraper.Console.Options
 {
     internal class InputOption : Option
     {
-        public InputOption(ILogger? logger, PageConnector pageConnector, string parameter)
-            : base(logger, pageConnector, parameter) { }
+        public InputOption(ILogger? logger, Fetcher fetcher, string parameter)
+            : base(logger, fetcher, parameter) { }
 
         public override object Execute()
         {

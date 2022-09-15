@@ -159,6 +159,12 @@
     <value>({0}/{1}) Fetching {2}...</value>
     <comment>{0}: Count, {1}: Total, {2}: Data</comment>
   </data>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>Logged In</value>
+  </data>
+  <data name="LoggedOff" xml:space="preserve">
+    <value>Not Logged In</value>
+  </data>
   <data name="NoArgument" xml:space="preserve">
     <value>{0} must have argument(s): {1}!</value>
     <comment>{0}: Name of a method, {1}: Arguments</comment>
@@ -172,7 +178,7 @@
     <comment>{0}: Stage name</comment>
   </data>
   <data name="NotLoggedIn" xml:space="preserve">
-    <value>Connector is not logged in to the page!</value>
+    <value>Fetcher is not logged in to the page!</value>
   </data>
   <data name="SetReferrer" xml:space="preserve">
     <value>Set Referrer as {0} and send request.</value>

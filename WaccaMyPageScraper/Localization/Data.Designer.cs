@@ -178,6 +178,15 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Music Jacket Image.
+        /// </summary>
+        public static string MusicImage {
+            get {
+                return ResourceManager.GetString("MusicImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Music Metadata.
         /// </summary>
         public static string MusicMetadata {

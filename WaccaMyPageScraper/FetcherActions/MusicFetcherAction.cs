@@ -10,15 +10,13 @@ using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class MusicFetcher : Fetcher<Music>
+    internal sealed class MusicFetcherAction : FetcherAction<Music>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/music/detail";
 
-        private string ImageUrl => "https://wacca.marv-games.jp/img/music/";
-
-        public MusicFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public MusicFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch player's play record of the music.
@@ -28,12 +26,12 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<Music?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
@@ -41,31 +39,31 @@ namespace WaccaMyPageScraper.Fetchers
 
             if (args[0] is null || args[0] is not MusicMetadata)
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NoArgument,
+                this._fetcher.Logger?.Error(Localization.Fetcher.NoArgument,
                     MethodBase.GetCurrentMethod().Name, 
                     typeof(MusicMetadata));
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
             var musicArg = args[0] as MusicMetadata;
 
             var parameters = new Dictionary<string, string> { { "musicId", musicArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
+            var response = await this._fetcher.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
             Music? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -83,7 +81,7 @@ namespace WaccaMyPageScraper.Fetchers
                 string artist = artistNode.InnerText;
 
                 // Fetch music data
-                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Music + $"({musicArg.Id})");
                 
                 List<int> playCounts = new List<int>();
@@ -101,7 +99,7 @@ namespace WaccaMyPageScraper.Fetchers
                     var achieveNode = songBottomNode.SelectSingleNode("./div[@class='score-detail__icon']/div/img[@alt='achieveimage']");
 
                     var achieveImgSrc = achieveNode.Attributes["src"].Value;
-                    this.pageConnector.Logger?.Debug("Achieve Image Source: {ImageSource}", achieveImgSrc);
+                    this._fetcher.Logger?.Debug("Achieve Image Source: {ImageSource}", achieveImgSrc);
 
                     var playCount = int.Parse(numericRegex.Match(playCountNode.InnerText).Value);
                     var score = int.Parse(numericRegex.Match(scoreNode.InnerText).Value);
@@ -123,67 +121,14 @@ namespace WaccaMyPageScraper.Fetchers
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched2, 
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2, 
                 Localization.Data.Music,
                 result);
-
-            return result;
-        }
-
-        public async Task<string> FetchMusicImageAsync(string musicId)
-        {
-            // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
-            {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
-
-                return null;
-            }
-
-            string? result = null;
-
-            try
-            {
-                this.pageConnector.Logger?.Information("Trying to save music image to {Path}", Directories.RecordImage);
-
-                if (!Directory.Exists(Directories.RecordImage))
-                {
-                    Directory.CreateDirectory(Directories.RecordImage);
-
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", Directories.RecordImage);
-                }
-
-                var fileName = musicId + ".png";
-                var imageUrl = new Uri(new Uri(this.ImageUrl), fileName);
-
-                using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
-                {
-                    msg.Headers.Referrer = new Uri(this.Url);
-
-                    this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
-
-                    using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
-                    using (var fs = new FileStream(Path.Combine(Directories.RecordImage, fileName), FileMode.Create, FileAccess.Write))
-                    {
-                        await request.Content.CopyToAsync(fs);
-                        result = Path.GetFullPath(Path.Combine(Directories.RecordImage, fileName));
-
-                        this.pageConnector.Logger?.Information("Music({Id}) image has been saved at {Path}",
-                            musicId, Path.GetFullPath(Directories.RecordImage));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.pageConnector.Logger?.Error(ex.Message);
-
-                return null;
-            }
 
             return result;
         }

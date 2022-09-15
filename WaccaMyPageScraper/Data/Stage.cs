@@ -23,26 +23,42 @@ namespace WaccaMyPageScraper.Data
         /// <summary>
         /// Total score of the stage.
         /// </summary>
-        public int TotalScore { get => Scores.Sum(); }
+        public int TotalScore { get; set; }
 
         public Stage() : base()
         {
-            this.Scores = new int[3]; 
+            this.Scores = new int[3];
+            this.TotalScore = 0;
         }
 
         public Stage(int id, StageGrade grade) : base(id, grade)
         {
             this.Scores = new int[3];
+            this.TotalScore = 0;
         }
 
         public Stage(int id, string name, StageGrade grade, int[] scores) : base(id, name, grade)
         {
             this.Scores = scores;
+            this.TotalScore = scores.Sum();
+        }
+
+        public Stage(int id, string name, StageGrade grade, int[] scores, int totalScore) : base(id, name, grade)
+        {
+            this.Scores = scores;
+            this.TotalScore = totalScore;
         }
 
         public Stage(StageMetadata stage, int[] scores) : base(stage.Id, stage.Name, stage.Grade)
         {
             this.Scores = scores;
+            this.TotalScore = scores.Sum();
+        }
+
+        public Stage(StageMetadata stage, int[] scores, int totalScore) : base(stage.Id, stage.Name, stage.Grade)
+        {
+            this.Scores = scores;
+            this.TotalScore = totalScore;
         }
 
         public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}]]",

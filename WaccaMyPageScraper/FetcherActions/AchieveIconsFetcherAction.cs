@@ -7,33 +7,40 @@ using System.Threading.Tasks;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class AchieveIconFetcher : Fetcher<bool>
+    internal sealed class AchieveIconsFetcherAction : FetcherAction<string>
     {
         protected override string Url => "https://wacca.marv-games.jp/img/web/music/achieve_icon/";
 
-        public AchieveIconFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public AchieveIconsFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
-        public override async Task<bool> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
+        /// <summary>
+        /// Fetch all achieve icons.
+        /// </summary>
+        /// <param name="progressText"></param>
+        /// <param name="progressPercent"></param>
+        /// <param name="args">None</param>
+        /// <returns>A path where the icon saved at. null if it's failed.</returns>
+        public override async Task<string?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
-                return false;
+                return null;
             }
 
             if (!Directory.Exists(Directories.Resources))
             {
                 Directory.CreateDirectory(Directories.Resources);
 
-                this.pageConnector.Logger?.Information(Localization.Fetcher.NoDirectory, Path.GetFullPath(Directories.Resources));
+                this._fetcher.Logger?.Information(Localization.Fetcher.NoDirectory, Path.GetFullPath(Directories.Resources));
             }
 
             try
@@ -48,34 +55,33 @@ namespace WaccaMyPageScraper.Fetchers
                     {
                         msg.Headers.Referrer = this.BaseUrl;
 
-                        this.pageConnector.Logger?.Debug(Localization.Fetcher.SetReferrer, msg.Headers.Referrer);
+                        this._fetcher.Logger?.Debug(Localization.Fetcher.SetReferrer, msg.Headers.Referrer);
 
-                        using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
+                        using (var request = await this._fetcher.Client.SendAsync(msg).ConfigureAwait(false))
                         using (var fs = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
                         {
                             if (!request.IsSuccessStatusCode)
                             {
-                                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
                                 continue;
                             }
 
                             await request.Content.CopyToAsync(fs);
 
-                            this.pageConnector.Logger?.Information(Localization.Fetcher.DataSaved, 
-                                Localization.Data.AchieveIcon,
-                                Path.GetFullPath(imagePath));
+                            this._fetcher.Logger?.Information(Localization.Fetcher.DataSaved,
+                                $"{Localization.Data.AchieveIcon}({fileName})", Path.GetFullPath(imagePath));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
-                return false;
+                return null;
             }
 
-            return true;
+            return Directories.Resources;
         }
     }
 }

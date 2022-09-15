@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class StageFetcher : Fetcher<Stage>
+    internal sealed class StageFetcherAction : FetcherAction<Stage>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/stageup/detail";
 
-        public StageFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public StageFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch player's stage record.
@@ -25,12 +25,12 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<Stage?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
@@ -38,38 +38,31 @@ namespace WaccaMyPageScraper.Fetchers
 
             if (args[0] is null || args[0] is not StageMetadata)
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NoArgument,
+                this._fetcher.Logger?.Error(Localization.Fetcher.NoArgument,
                     MethodBase.GetCurrentMethod().Name,
                     typeof(StageMetadata));
 
                 return null;
             }
 
-            // Don't connect to the page when the stage is not cleared.
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
+
             var stageArg = args[0] as StageMetadata;
-            if (stageArg.Grade == StageGrade.NotCleared)
-            {
-                this.pageConnector.Logger?.Information(Localization.Fetcher.NoStageRecordExists, stageArg.Name);
-
-                return new Stage(stageArg, new int[3] { 0, 0, 0 });
-            }
-
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
             var parameters = new Dictionary<string, string> { { "trialClass", stageArg.Id.ToString() } };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
+            var response = await this._fetcher.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
             Stage? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -83,25 +76,28 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var stageDetailNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/div[@class='stageup__detail']");
                 var scoreNodes = stageDetailNode.SelectNodes("./ul/li/div/div[@class='stageup__detail__song-info__score']");
+                var totalScoreNode = stageDetailNode.SelectSingleNode("./div/div/div[@class='stageup__detail__top__score']");
 
                 // Fetch stage score data
-                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Stage + $"({stageArg.Id})");
 
                 var scores = new int[3];
                 for (int i = 0; i < 3; i++)
                     scores[i] = int.Parse(numericRegex.Match(scoreNodes[i].InnerText).Value);
-               
-                result = new Stage(stageArg, scores);
+
+                var totalScore = int.Parse(numericRegex.Match(totalScoreNode.InnerText).Value);
+
+                result = new Stage(stageArg, scores, totalScore);
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched2,
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
                 Localization.Data.Stage,
                 result);
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Fetchers;
+using WaccaMyPageScraper.FetcherActions;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
@@ -49,10 +49,9 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         // UpdatePlayerData() will do the tasks instead.
         public override void FetcherEvent() => throw new NotImplementedException();
 
-        private async void UpdatePlayerData(PageConnector connector)
+        private async void UpdatePlayerData(Fetcher fetcher)
         {
-            PlayerFetcher fetcher = new PlayerFetcher(connector);
-            var player = Task.Run(async () => await fetcher.FetchAsync()).Result;
+            var player = Task.Run(async () => await fetcher.FetchPlayerAsync()).Result;
 
             // Save player
             if (!Directory.Exists(Directories.Player))

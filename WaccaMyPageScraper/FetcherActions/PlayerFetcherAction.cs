@@ -12,13 +12,13 @@ using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class PlayerFetcher : Fetcher<Player>
+    internal sealed class PlayerFetcherAction : FetcherAction<Player>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/player";
     
-        public PlayerFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public PlayerFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch player's data.
@@ -28,30 +28,30 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<Player?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
 
-            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
+            var response = await this._fetcher.Client.GetStringAsync(this.Url).ConfigureAwait(false);
             Player? result = null;
 
             if (string.IsNullOrEmpty(response))
             {
-                this.pageConnector.Logger?.Error(Localization.Fetcher.ConnectionError);
+                this._fetcher.Logger?.Error(Localization.Fetcher.ConnectionError);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.Connected);
+            this._fetcher.Logger?.Information(Localization.Fetcher.Connected);
 
             try
             {
@@ -63,7 +63,7 @@ namespace WaccaMyPageScraper.Fetchers
                 var playerDataNode = document.DocumentNode.SelectSingleNode("//div[@class='playdata__playerdata']");
 
                 // Fetch player's name and stuffs
-                this.pageConnector.Logger?.Information(Localization.Fetcher.Fetching,
+                this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Player);
 
                 var userDetailNode = playerDataNode.SelectSingleNode("./div[@class='user-info']/div[@class='user-info__detail']");
@@ -86,7 +86,7 @@ namespace WaccaMyPageScraper.Fetchers
                 {
                     var stageIconImgSrc = userIconImgNode.Attributes["src"].Value;
 
-                    this.pageConnector.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
+                    this._fetcher.Logger?.Debug("Icon Image Source: {UserIconImgNode}", stageIconImgSrc);
 
                     var stageIconFileName = new Regex(@"stage_icon_[0-9]+_[1-3].png").Match(stageIconImgSrc).Value;
                     var stageIconNumbers = new Regex("[0-9]+_[1-3]").Match(stageIconFileName).Value.Split('_');
@@ -102,7 +102,7 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var playCountDetailNodes = playCountNode.SelectNodes(".//dd"); // 0: Total, 1: Versus Mode, 2: Co-op mode
 
-                this.pageConnector.Logger?.Debug("{PlayCountDetailNodes_0}, {PlayCountDetailNodes_1}, {PlayCountDetailNodes_2}",
+                this._fetcher.Logger?.Debug("{PlayCountDetailNodes_0}, {PlayCountDetailNodes_1}, {PlayCountDetailNodes_2}",
                     playCountDetailNodes[0].InnerText, playCountDetailNodes[1].InnerText, playCountDetailNodes[2].InnerText);
 
                 int playCount = int.Parse(numericRegex.Match(playCountDetailNodes[0].InnerText).Value);
@@ -114,7 +114,7 @@ namespace WaccaMyPageScraper.Fetchers
 
                 var pointDetailNodes = pointNode.SelectNodes(".//dd"); // 0: Currently has (not used), 1: Total earend, 2: Total spent
 
-                this.pageConnector.Logger?.Debug("{PointDetailNode_1}, {PointDetailNode_2}",
+                this._fetcher.Logger?.Debug("{PointDetailNode_1}, {PointDetailNode_2}",
                     pointDetailNodes[1].InnerText, pointDetailNodes[2].InnerText);
 
                 int totalRpEarned = int.Parse(numericRegex.Match(pointDetailNodes[1].InnerText).Value);
@@ -124,87 +124,13 @@ namespace WaccaMyPageScraper.Fetchers
             }
             catch (Exception ex)
             {
-                this.pageConnector.Logger?.Error(ex.Message);
+                this._fetcher.Logger?.Error(ex.Message);
 
                 return null;
             }
 
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched2,
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
                 Localization.Data.Player, result);
-
-            return result;
-        }
-
-        public async Task<string> FetchPlayerIconAsync()
-        {
-            // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
-            {
-                this.pageConnector.Logger?.Error("Connector is not logged in to the page!");
-
-                return null;
-            }
-
-            this.pageConnector.Logger?.Information("Trying to connect to {URL}", Url);
-
-            var response = await this.pageConnector.Client.GetStringAsync(this.Url).ConfigureAwait(false);
-            string? result = null;
-
-            if (string.IsNullOrEmpty(response))
-            {
-                this.pageConnector.Logger?.Error("Error occured while connecting to the page!");
-
-                return null;
-            }
-
-            this.pageConnector.Logger?.Information("Connection successful");
-
-            try
-            {
-                var document = new HtmlDocument();
-                document.LoadHtml(response);
-
-                var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='icon__image']/img");
-                var playerIconSrc = playerIconNode.Attributes["src"].Value;
-
-                this.pageConnector.Logger?.Information("Trying to save player icon to {Path}", 
-                    Path.GetFullPath(Directories.PlayerIcon));
-
-                if (!Directory.Exists(Directories.PlayerImage))
-                {
-                    Directory.CreateDirectory(Directories.PlayerImage);
-
-                    this.pageConnector.Logger?.Information("No directory found. Create new directory: {Directory}", 
-                        Path.GetFullPath(Directories.Player));
-                }
-
-                var imageUrl = new Uri(this.BaseUrl, playerIconSrc);
-
-                using (var msg = new HttpRequestMessage(HttpMethod.Get, imageUrl))
-                {
-                    msg.Headers.Referrer = new Uri("https://wacca.marv-games.jp/web/player");
-
-                    this.pageConnector.Logger?.Debug("Set Referrer as {Referrer} and send request.", msg.Headers.Referrer);
-
-                    using (var request = await this.pageConnector.Client.SendAsync(msg).ConfigureAwait(false))
-                    using (var fs = new FileStream(Directories.PlayerIcon, FileMode.Create, FileAccess.Write))
-                    {
-                        await request.Content.CopyToAsync(fs);
-                        result = Path.GetFullPath(Directories.PlayerIcon);
-
-                        this.pageConnector.Logger?.Information("Player icon has been saved at {Path}", 
-                            Path.GetFullPath(Directories.PlayerIcon));
-                    }
-                }
-
-                // var imageResponse = await this.pageConnector.Client.GetStreamAsync(imageUrl).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                this.pageConnector.Logger?.Error(ex.Message);
-
-                return null;
-            }
 
             return result;
         }

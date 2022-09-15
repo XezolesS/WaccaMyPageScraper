@@ -9,8 +9,8 @@ namespace WaccaMyPageScraper.Console.Options
 {
     internal class HelpOption : Option
     {
-        public HelpOption(ILogger? _logger, PageConnector _pageConnector, string _parameter) 
-            : base(_logger, _pageConnector, _parameter) { }
+        public HelpOption(ILogger? logger, Fetcher fetcher, string parameter) 
+            : base(logger, fetcher, parameter) { }
 
         public override object Execute()
         {

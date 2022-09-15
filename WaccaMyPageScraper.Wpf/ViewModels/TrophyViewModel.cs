@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Fetchers;
+using WaccaMyPageScraper.FetcherActions;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
@@ -88,15 +88,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public override async void FetcherEvent()
         {
-            if (pageConnector is null)
+            if (this.fetcher is null)
                 return;
 
             // Reset Trophies
             this.Trophies = new List<TrophyModel>();
 
             // Fetch trophies
-            TrophiesFetcher trophiesFetcher = new TrophiesFetcher(this.pageConnector);
-            var trophies = await trophiesFetcher.FetchAsync(
+            var trophies = await this.fetcher.FetchTrophiesAsync(
                 new Progress<string>(progressText => this.FetchProgressText = progressText),
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 

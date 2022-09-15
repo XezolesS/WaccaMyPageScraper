@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
 
-namespace WaccaMyPageScraper.Fetchers
+namespace WaccaMyPageScraper.FetcherActions
 {
-    public sealed class TrophiesFetcher : Fetcher<Trophy[]>
+    internal sealed class TrophiesFetcherAction : FetcherAction<Trophy[]>
     {
         protected override string Url => "https://wacca.marv-games.jp/web/trophy/index/get";
         private string DescriptionUrl => "https://wacca.marv-games.jp/web/modal/trophy/conditionsConfirm";
 
-        public TrophiesFetcher(PageConnector pageConnector) : base(pageConnector) { }
+        public TrophiesFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
         /// Fetch player's trophies.
@@ -25,12 +25,12 @@ namespace WaccaMyPageScraper.Fetchers
         public override async Task<Trophy[]?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
-            if (!this.pageConnector.IsLoggedOn())
+            if (!this._fetcher.IsLoggedOn())
             {
                 // Logging and Reporting progress.
-                this.pageConnector.Logger?.Error(Localization.Fetcher.NotLoggedIn);
+                this._fetcher.Logger?.Error(Localization.Fetcher.NotLoggedIn);
 
-                progressText.Report(Localization.Connector.LoggedOff);
+                progressText.Report(Localization.Fetcher.LoggedOff);
                 progressPercent.Report(0);
 
                 return null;
@@ -44,8 +44,8 @@ namespace WaccaMyPageScraper.Fetchers
                 // Logging and Reporting progress.
                 string textSeasonTrophy = $"{Localization.Data.Trophy}({Localization.Data.Season} {season})";
 
-                this.pageConnector.Logger?.Information(Localization.Fetcher.Connecting, Url);
-                this.pageConnector.Logger?.Debug(Localization.Fetcher.Fetching, textSeasonTrophy);
+                this._fetcher.Logger?.Information(Localization.Fetcher.Connecting, Url);
+                this._fetcher.Logger?.Debug(Localization.Fetcher.Fetching, textSeasonTrophy);
 
                 progressText.Report(string.Format(Localization.Fetcher.Fetching, textSeasonTrophy));
                 progressPercent.Report(0);
@@ -53,14 +53,14 @@ namespace WaccaMyPageScraper.Fetchers
                 var parameters = new Dictionary<string, string> { { "seasonId", season.ToString() } };
                 var encodedContent = new FormUrlEncodedContent(parameters);
 
-                var response = await this.pageConnector.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
+                var response = await this._fetcher.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 var trophyJsonObject = JObject.Parse(responseContent);
                 if (trophyJsonObject is null)
                 {
                     // Logging and Reporting progress.
-                    this.pageConnector.Logger?.Warning(Localization.Fetcher.FetchingFail, textSeasonTrophy);
+                    this._fetcher.Logger?.Warning(Localization.Fetcher.FetchingFail, textSeasonTrophy);
 
                     progressText.Report(string.Format(Localization.Fetcher.FetchingFail, textSeasonTrophy));
                     progressPercent.Report(0);
@@ -75,9 +75,9 @@ namespace WaccaMyPageScraper.Fetchers
                     var resultItem = trophy.ToObject<Trophy>();
 
                     // Fetch trophy's description
-                    this.pageConnector.Logger?.Debug("Fetching description for trophy ID: {TrophyId}", resultItem.Id);
+                    this._fetcher.Logger?.Debug("Fetching description for trophy ID: {TrophyId}", resultItem.Id);
 
-                    var descResponse = await this.pageConnector.Client
+                    var descResponse = await this._fetcher.Client
                         .GetStringAsync($"{DescriptionUrl}?trid={resultItem.Id}")
                         .ConfigureAwait(false);
                     var descDocument = new HtmlDocument();
@@ -92,9 +92,9 @@ namespace WaccaMyPageScraper.Fetchers
                     ++count;
 
                     // Logging and Reporting progress.
-                    this.pageConnector.Logger?.Information(Localization.Fetcher.FetchingMany,
+                    this._fetcher.Logger?.Information(Localization.Fetcher.FetchingMany,
                         textSeasonTrophy, count, trophies.Count);
-                    this.pageConnector.Logger?.Debug("Data: {Trophy}", resultItem);
+                    this._fetcher.Logger?.Debug("Data: {Trophy}", resultItem);
 
                     progressText.Report(string.Format(Localization.Fetcher.FetchingProgress,
                         count, trophies.Count, textSeasonTrophy));
@@ -103,7 +103,7 @@ namespace WaccaMyPageScraper.Fetchers
             }
 
             // Logging and Reporting progress.
-            this.pageConnector.Logger?.Information(Localization.Fetcher.DataFetched3,
+            this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched3,
                 result.Count, Localization.Data.Trophy);
             progressText.Report(string.Format(Localization.Fetcher.DataFetched3,
                 result.Count, Localization.Data.Trophy));

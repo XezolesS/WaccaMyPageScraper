@@ -27,7 +27,7 @@ namespace WaccaMyPageScraper.Data
 
         /// <summary>
         /// Stage Grade. <br/>
-        /// <b><see cref="StageGrade"/></b>: NotCleared(0), Blue(1), Silver(2), Gold(3)
+        /// <b><see cref="StageGrade"/></b>: Unknown(0), Blue(1), Silver(2), Gold(3)
         /// </summary>
         public StageGrade Grade { get; set; }
 
@@ -35,7 +35,7 @@ namespace WaccaMyPageScraper.Data
         {
             this.Id = 0;
             this.Name = null;
-            this.Grade = StageGrade.NotCleared;
+            this.Grade = StageGrade.Unknown;
         }
 
         public StageMetadata(int id, StageGrade grade)
