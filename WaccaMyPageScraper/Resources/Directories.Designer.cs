@@ -187,6 +187,15 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/player/rp_ranking.csv.
+        /// </summary>
+        public static string TotalRpRanking {
+            get {
+                return ResourceManager.GetString("TotalRpRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to data/trophies/.
         /// </summary>
         public static string Trophy {

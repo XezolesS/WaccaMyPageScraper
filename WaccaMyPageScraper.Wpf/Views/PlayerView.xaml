@@ -67,7 +67,7 @@
 
             </Grid>
 
-            <Grid Margin="0,10">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -115,8 +115,9 @@
                            Foreground="Gray" />
             </Grid>
             
-            <Grid Margin="0,10">
+            <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -125,25 +126,41 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="10,0,0,-10" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
+                    <TextBlock Text="#" 
+                               Foreground="{Binding Player.TotalRpRankingColor}"
+                               FontSize="14"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Player.TotalRpRanking}"
+                               Foreground="{Binding Player.TotalRpRankingColor}"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
                            Text="{x:Static LocalizedText:Data.TotalRpEarned}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            FontSize="16" />
-                <TextBlock Grid.Row="0" Grid.Column="1"
+                <TextBlock Grid.Row="1" Grid.Column="1"
                            Text="{Binding Player.TotalRpEarned}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left" 
                            FontSize="16 "/>
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
+                <TextBlock Grid.Row="2" Grid.Column="0"
                            Text="{x:Static LocalizedText:Data.TotalRpSpent}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Foreground="Gray" />
-                <TextBlock Grid.Row="1" Grid.Column="1"
+                <TextBlock Grid.Row="2" Grid.Column="1"
                            Text="{Binding Player.TotalRpSpent}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"

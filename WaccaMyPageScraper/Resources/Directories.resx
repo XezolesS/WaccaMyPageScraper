@@ -159,6 +159,9 @@
   <data name="StageRankings" xml:space="preserve">
     <value>data/stages/rankings.csv</value>
   </data>
+  <data name="TotalRpRanking" xml:space="preserve">
+    <value>data/player/rp_ranking.csv</value>
+  </data>
   <data name="Trophy" xml:space="preserve">
     <value>data/trophies/</value>
   </data>
