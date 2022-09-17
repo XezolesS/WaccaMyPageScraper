@@ -85,16 +85,14 @@ namespace WaccaMyPageScraper.Data
             this.Achieves = achieves;
         }
 
-        public Music(MusicMetadata music, string artist, int[] playCounts, int[] scores, Achieve[] achieves)
-            : base(music.Id, music.Title, music.Genre, music.Levels)
+        public Music(MusicMetadata meta, string artist, int[] playCounts, int[] scores, Achieve[] achieves)
+            : base(meta.Id, meta.Title, meta.Genre, meta.Levels)
         {
             this.Artist = artist;
             this.PlayCounts = playCounts;
             this.Scores = scores;
             this.Achieves = achieves;
         }
-
-        public bool HasInferno() => this.Levels.Length == 4 && this.Levels[(int)Difficulty.Inferno] != "0";
 
         public override string ToString() => string.Format("[{0},{1},{2},{3},[{4}],[{5}],[{6}],[{7}],[{8}]]",
             this.Id, this.Title, this.Artist, (int)this.Genre, string.Join(",", this.Levels),
@@ -104,7 +102,7 @@ namespace WaccaMyPageScraper.Data
             string.Join(",", Array.ConvertAll(this.Achieves, s => (int)s)));
     }
 
-    public sealed class MusicMap : ClassMap<Music>
+    internal sealed class MusicMap : ClassMap<Music>
     {
         public MusicMap()
         {

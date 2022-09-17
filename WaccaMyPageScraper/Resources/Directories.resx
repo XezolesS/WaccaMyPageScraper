@@ -141,6 +141,9 @@
   <data name="RecordImage" xml:space="preserve">
     <value>data/records/image/</value>
   </data>
+  <data name="RecordRankingData" xml:space="preserve">
+    <value>data/records/rankings.csv</value>
+  </data>
   <data name="Resources" xml:space="preserve">
     <value>rsrc/</value>
   </data>

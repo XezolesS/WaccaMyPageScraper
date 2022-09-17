@@ -162,6 +162,9 @@
   <data name="MusicMetadata" xml:space="preserve">
     <value>Music Metadata</value>
   </data>
+  <data name="MusicRanking" xml:space="preserve">
+    <value>Music Ranking</value>
+  </data>
   <data name="PlayCount" xml:space="preserve">
     <value>Play Count</value>
   </data>
@@ -204,14 +207,23 @@
   <data name="StageMetadata" xml:space="preserve">
     <value>Stage Metadata</value>
   </data>
+  <data name="StageRanking" xml:space="preserve">
+    <value>Stage Ranking</value>
+  </data>
   <data name="TotalRpEarned" xml:space="preserve">
     <value>RP Earned</value>
+  </data>
+  <data name="TotalRpRanking" xml:space="preserve">
+    <value>Total RP Ranking</value>
   </data>
   <data name="TotalRpSpent" xml:space="preserve">
     <value>RP Spent</value>
   </data>
   <data name="TotalScore" xml:space="preserve">
     <value>Total Score</value>
+  </data>
+  <data name="TotalScoreRanking" xml:space="preserve">
+    <value>Total Score Ranking</value>
   </data>
   <data name="Trophy" xml:space="preserve">
     <value>Trophy</value>

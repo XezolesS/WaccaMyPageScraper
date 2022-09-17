@@ -196,6 +196,15 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Music Ranking.
+        /// </summary>
+        public static string MusicRanking {
+            get {
+                return ResourceManager.GetString("MusicRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play Count.
         /// </summary>
         public static string PlayCount {
@@ -322,11 +331,29 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stage Ranking.
+        /// </summary>
+        public static string StageRanking {
+            get {
+                return ResourceManager.GetString("StageRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RP Earned.
         /// </summary>
         public static string TotalRpEarned {
             get {
                 return ResourceManager.GetString("TotalRpEarned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total RP Ranking.
+        /// </summary>
+        public static string TotalRpRanking {
+            get {
+                return ResourceManager.GetString("TotalRpRanking", resourceCulture);
             }
         }
         
@@ -345,6 +372,15 @@ namespace WaccaMyPageScraper.Localization {
         public static string TotalScore {
             get {
                 return ResourceManager.GetString("TotalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Score Ranking.
+        /// </summary>
+        public static string TotalScoreRanking {
+            get {
+                return ResourceManager.GetString("TotalScoreRanking", resourceCulture);
             }
         }
         

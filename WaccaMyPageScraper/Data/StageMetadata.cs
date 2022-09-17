@@ -73,8 +73,7 @@ namespace WaccaMyPageScraper.Data
         public override string ToString() => string.Format("[{0},{1},{2}]", 
             this.Id, this.Name, (int)this.Grade);
     }
-
-    public sealed class StageMetadataMap : ClassMap<StageMetadata>
+    internal sealed class StageMetadataMap : ClassMap<StageMetadata>
     {
         public StageMetadataMap()
         {
