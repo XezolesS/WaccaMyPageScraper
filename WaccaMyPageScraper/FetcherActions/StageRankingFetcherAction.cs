@@ -7,22 +7,21 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.FetcherActions
 {
-    internal sealed class StageFetcherAction : FetcherAction<Stage>
+    internal sealed class StageRankingFetcherAction : FetcherAction<StageRanking>
     {
-        protected override string Url => "https://wacca.marv-games.jp/web/stageup/detail";
+        protected override string Url => "https://wacca.marv-games.jp/web/ranking/stageupScore/detail";
 
-        public StageFetcherAction(Fetcher fetcher) : base(fetcher) { }
+        public StageRankingFetcherAction(Fetcher fetcher) : base(fetcher) { }
 
         /// <summary>
-        /// Fetch player's stage record.
+        /// Fetch player's stage ranking.
         /// </summary>
         /// <param name="args"><see cref="StageMetadata"/> is needed.</param>
         /// <returns>Fetched player's stage record of given <see cref="StageMetadata"/> in <see cref="Stage"/>.</returns>
-        public override async Task<Stage?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
+        public override async Task<StageRanking?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args)
         {
             // Connect to the page and get an HTML document.
             if (!this._fetcher.IsLoggedOn())
@@ -53,7 +52,7 @@ namespace WaccaMyPageScraper.FetcherActions
             var encodedContent = new FormUrlEncodedContent(parameters);
 
             var response = await this._fetcher.Client.PostAsync(this.Url, encodedContent).ConfigureAwait(false);
-            Stage? result = null;
+            StageRanking? result = null;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -74,23 +73,30 @@ namespace WaccaMyPageScraper.FetcherActions
                 var document = new HtmlDocument();
                 document.LoadHtml(responseContent);
 
-                var stageDetailNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/div[@class='stageup__detail']");
-                var scoreNodes = stageDetailNode.SelectNodes("./ul/li/div/div[@class='stageup__detail__song-info__score']");
-                var totalScoreNode = stageDetailNode.SelectSingleNode("./div/div/div[@class='stageup__detail__top__score']");
+                var rankingNode = document.DocumentNode.SelectSingleNode("//div[@class='ranking__score__rank top-rank']");
+                var rankingImageNode = rankingNode.SelectSingleNode("(./img)[last()]");
 
-                // Fetch stage score data
+                // Fetch ranking
                 this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
-                    Localization.Data.Stage + $"({stageArg.Id})");
+                    Localization.Data.StageRanking + $"({stageArg.Id})");
                 progressText.Report(string.Format(Localization.Fetcher.Fetching,
-                    Localization.Data.Stage + $"({stageArg.Id})"));
+                        Localization.Data.StageRanking + $"({stageArg.Id})"));
 
-                var scores = new int[3];
-                for (int i = 0; i < 3; i++)
-                    scores[i] = int.Parse(numericRegex.Match(scoreNodes[i].InnerText).Value);
+                var ranking = -1;
+                if (rankingImageNode is null)
+                {
+                    ranking = numericRegex.IsMatch(rankingNode.InnerText) ?
+                        int.Parse(numericRegex.Match(rankingNode.InnerText).Value) :
+                        -1;
+                }
+                else
+                {
+                    ranking = int.Parse(
+                        numericRegex.Match(rankingImageNode.Attributes["src"].Value)
+                        .Value);
+                }
 
-                var totalScore = int.Parse(numericRegex.Match(totalScoreNode.InnerText).Value);
-
-                result = new Stage(stageArg, scores, totalScore);
+                result = new StageRanking(stageArg, ranking);
             }
             catch (Exception ex)
             {
@@ -100,10 +106,10 @@ namespace WaccaMyPageScraper.FetcherActions
             }
 
             this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
-                Localization.Data.Stage,
+                Localization.Data.StageRanking,
                 result);
             progressText.Report(string.Format(Localization.Fetcher.DataFetched1,
-                Localization.Data.Stage));
+                Localization.Data.StageRanking));
 
             return result;
         }

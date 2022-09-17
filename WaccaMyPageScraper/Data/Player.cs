@@ -81,7 +81,7 @@ namespace WaccaMyPageScraper.Data
             this.TotalRpEarned, this.TotalRpSpent);
     }
 
-    public sealed class PlayerMap : ClassMap<Player>
+    internal sealed class PlayerMap : ClassMap<Player>
     {
         public PlayerMap()
         {

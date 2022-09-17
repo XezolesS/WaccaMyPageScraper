@@ -65,7 +65,7 @@ namespace WaccaMyPageScraper.Data
             this.Id, this.Name, this.Description, this.Category, this.Rarity, this.Obtained);
     }
 
-    public sealed class TrophyMap : ClassMap<Trophy>
+    internal sealed class TrophyMap : ClassMap<Trophy>
     {
         public TrophyMap()
         {

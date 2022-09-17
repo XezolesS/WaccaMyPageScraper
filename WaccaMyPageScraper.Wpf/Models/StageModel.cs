@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Media;
 using WaccaMyPageScraper.Data;
 using WaccaMyPageScraper.Wpf.Resources;
 
@@ -10,20 +13,36 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public StageData StageData => StageDataMap.StageDatas[this.Id];
 
+        public int Ranking { get; set; }
+
+        public Brush RankingColor => RankingColors.GetColor(this.Ranking);
+
         public StageModel() { }
 
-        public StageModel(Stage stage) : base(stage.Id, stage.Name, stage.Grade, stage.Scores, stage.TotalScore) { }
+        public StageModel(Stage stage) : base(stage.Id, stage.Name, stage.Grade, stage.Scores, stage.TotalScore)
+        {
+            this.Ranking = -1;
+        }
 
-        public static StageModel FromStage(Stage data) => new StageModel(data);
+        public StageModel(Stage stage, StageRanking ranking) : base(stage.Id, stage.Name, stage.Grade, stage.Scores, stage.TotalScore) 
+        {
+            this.Ranking = ranking?.Ranking ?? -1;
+        }
 
-        public static IEnumerable<StageModel> FromStages(IEnumerable<Stage> data)
+        public static StageModel FromStage(Stage data, StageRanking ranking) => new StageModel(data, ranking);
+
+        public static IEnumerable<StageModel> FromStages(IEnumerable<Stage> data, IEnumerable<StageRanking> rankings)
         {
             if (data is null)
                 return null;
 
+            if (data.Count() == 0)
+                return null;
+
             var stages = new List<StageModel>();
             foreach (var stage in data)
-                stages.Add(FromStage(stage));
+                stages.Add(FromStage(stage,
+                    rankings?.Count() == 0 ? null : rankings?.First(r => r.Id == stage.Id)));
 
             return stages;
         }

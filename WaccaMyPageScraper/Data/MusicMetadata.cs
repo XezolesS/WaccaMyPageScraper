@@ -36,6 +36,8 @@ namespace WaccaMyPageScraper.Data
         /// </summary>
         public string[] Levels { get; set; }
 
+        public bool HasInferno() => this.Levels.Length == 4 && this.Levels[(int)Difficulty.Inferno] != "0";
+
         public MusicMetadata()
         {
             this.Levels = new string[4];
@@ -53,7 +55,7 @@ namespace WaccaMyPageScraper.Data
             this.Id, this.Title, (int)this.Genre, string.Join(",", this.Levels));
     }
 
-    public sealed class MusicMetadataMap : ClassMap<MusicMetadata>
+    internal sealed class MusicMetadataMap : ClassMap<MusicMetadata>
     {
         public MusicMetadataMap()
         {

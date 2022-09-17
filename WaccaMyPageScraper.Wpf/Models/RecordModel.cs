@@ -111,9 +111,13 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public byte[] AchieveIcon => ImageLocator.GetAchieveIcon(this.Achieve);
 
+        public int Ranking { get; set; }
+
+        public Brush RankingColor => RankingColors.GetColor(this.Ranking);
+
         public RecordModel() { }
 
-        public RecordModel(string id, string title, string artist, Genre genre, Difficulty difficulty, string level, int score, int playCount, Rate rate, Achieve achieve)
+        public RecordModel(string id, string title, string artist, Genre genre, Difficulty difficulty, string level, int score, int playCount, Rate rate, Achieve achieve, int ranking)
         {
             this.Id = id;
             this.Title = title;
@@ -125,11 +129,11 @@ namespace WaccaMyPageScraper.Wpf.Models
             this.PlayCount = playCount;
             this.Rate = rate;
             this.Achieve = achieve;
+            this.Ranking = ranking;
         }
 
-        public static RecordModel FromMusic(Music data, Difficulty difficulty)
-        {
-            return new RecordModel(
+        public static RecordModel FromMusic(Music data, MusicRankings rankings, Difficulty difficulty) => 
+            new RecordModel(
                 data.Id.ToString(),
                 data.Title,
                 data.Artist,
@@ -139,30 +143,34 @@ namespace WaccaMyPageScraper.Wpf.Models
                 data.Scores[(int)difficulty],
                 data.PlayCounts[(int)difficulty],
                 data.Rates[(int)difficulty],
-                data.Achieves[(int)difficulty]);
-        }
+                data.Achieves[(int)difficulty],
+                rankings?.GetRanking(difficulty) ?? -1);
 
-        public static RecordModel[] FromMusic(Music data)
+        public static RecordModel[] FromMusic(Music data, MusicRankings rankings)
         {
             var toConvert = data.HasInferno() ? 4 : 3;
 
             var converted = new RecordModel[toConvert];
             for (int i = 0; i < toConvert; i++)
-                converted[i] = FromMusic(data, (Difficulty)i);
+                converted[i] = FromMusic(data, rankings, (Difficulty)i);
 
             return converted;
         }
 
-        public static IEnumerable<RecordModel> FromMusics(IEnumerable<Music> data)
+        public static IEnumerable<RecordModel> FromMusics(IEnumerable<Music> data, IEnumerable<MusicRankings> rankings)
         {
             if (data is null)
                 return null;
 
-            var records = new List<RecordModel>();
-            foreach (var musicDetail in data)
-                records.AddRange(FromMusic(musicDetail));
+            if (data.Count() == 0)
+                return null;
 
-            return records;
+            var records = new List<RecordModel>();
+            foreach (var music in data)
+                records.AddRange(FromMusic(music, 
+                    rankings?.Count() == 0 ? null : rankings?.First(r => r.Id == music.Id)));
+
+            return records; 
         }
 
         public double LevelToNumber() => double.Parse(this.Level.Replace("+", ".1"));

@@ -204,10 +204,14 @@ namespace WaccaMyPageScraper
         private Type? GetClassMap<T>() => typeof(T) switch
         {
             var t when t.Name == typeof(Player).Name => typeof(PlayerMap),
-            var t when t.Name == typeof(StageMetadata).Name => typeof(StageMetadataMap),
             var t when t.Name == typeof(Stage).Name => typeof(StageMap),
-            var t when t.Name == typeof(MusicMetadata).Name => typeof(MusicMetadataMap),
+            var t when t.Name == typeof(StageMetadata).Name => typeof(StageMetadataMap),
+            var t when t.Name == typeof(StageRanking).Name => typeof(StageRankingMap),
             var t when t.Name == typeof(Music).Name => typeof(MusicMap),
+            var t when t.Name == typeof(MusicMetadata).Name => typeof(MusicMetadataMap),
+            var t when t.Name == typeof(MusicRankings).Name => typeof(MusicRankingsMap),
+            var t when t.Name == typeof(TotalRpRanking).Name => typeof(TotalRpRankingMap),
+            var t when t.Name == typeof(TotalScoreRankings).Name => typeof(TotalScoreRankingsMap),
             var t when t.Name == typeof(Trophy).Name => typeof(TrophyMap),
             _ => null
         };

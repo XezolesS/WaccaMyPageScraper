@@ -133,6 +133,15 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/records/rankings.csv.
+        /// </summary>
+        public static string RecordRankings {
+            get {
+                return ResourceManager.GetString("RecordRankings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to rsrc/.
         /// </summary>
         public static string Resources {
@@ -165,6 +174,24 @@ namespace WaccaMyPageScraper.Resources {
         public static string StageData {
             get {
                 return ResourceManager.GetString("StageData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/stages/rankings.csv.
+        /// </summary>
+        public static string StageRankings {
+            get {
+                return ResourceManager.GetString("StageRankings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data/player/rp_ranking.csv.
+        /// </summary>
+        public static string TotalRpRanking {
+            get {
+                return ResourceManager.GetString("TotalRpRanking", resourceCulture);
             }
         }
         

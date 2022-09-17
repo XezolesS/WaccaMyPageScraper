@@ -221,22 +221,23 @@
                             <Image Grid.Column="0"
                                    Source="{Binding JacketImage}" />
                             <Grid Grid.Column="1"
-                                  Margin="20,0">
+                                  Margin="10,0,20,0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="35" />
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="55" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-
+                                
                                 <TextBox Grid.Row="0"
-                                         Text="{Binding Title}" 
-                                         VerticalAlignment="Center"
+                                         Text="{Binding Title}"
+                                         VerticalAlignment="Top"
                                          HorizontalAlignment="Left"
                                          Background="Transparent"
                                          BorderThickness="0"
                                          Foreground="{Binding DifficultyColor}"
                                          IsReadOnly="True"
-                                         TextWrapping="Wrap"
+                                         TextWrapping="NoWrap"
+                                         MaxLines="1"
                                          FontSize="14"
                                          FontWeight="Bold" />
 
@@ -273,6 +274,19 @@
                                                    FontWeight="Light"
                                                    VerticalAlignment="Bottom" />
                                     </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <TextBlock Text="#" 
+                                                   Foreground="{Binding RankingColor}"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Ranking}"
+                                                   Foreground="{Binding RankingColor}"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Right" />
+                                    </StackPanel>
                                 </StackPanel>
 
                                 <Grid Grid.Row="2">
@@ -294,7 +308,7 @@
                                                Margin="100,0"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left"
-                                               FontSize="24"
+                                               FontSize="20"
                                                FontWeight="Bold" />
 
                                     <Grid VerticalAlignment="Center"
@@ -303,7 +317,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-
+                                        
                                         <Image Grid.Column="0" 
                                                Source="{Binding RateIcon}" 
                                                Height="35" Width="35"
@@ -335,8 +349,10 @@
 
             <TextBlock Grid.Column="0" 
                        Text="{Binding FetchProgressText}"
+                       MaxWidth="380"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
+                       TextAlignment="Left"
                        Panel.ZIndex="1" />
             <mah:MetroProgressBar Grid.Column="0" 
                                   Maximum="100"

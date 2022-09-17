@@ -159,6 +159,10 @@
     <value>({0}/{1}) Fetching {2}...</value>
     <comment>{0}: Count, {1}: Total, {2}: Data</comment>
   </data>
+  <data name="FetchingProgressMsg" xml:space="preserve">
+    <value>({0}/{1}) {2}</value>
+    <comment>{0}: Count, {1}: Total, {2}: Message</comment>
+  </data>
   <data name="LoggedIn" xml:space="preserve">
     <value>Logged In</value>
   </data>

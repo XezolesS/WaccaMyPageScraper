@@ -83,7 +83,9 @@ namespace WaccaMyPageScraper.FetcherActions
                 // Fetch music data
                 this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Music + $"({musicArg.Id})");
-                
+                progressText.Report(string.Format(Localization.Fetcher.Fetching,
+                    Localization.Data.Music + $"({musicArg.Id})"));
+
                 List<int> playCounts = new List<int>();
                 List<int> scores = new List<int>();
                 List<Achieve> achieves = new List<Achieve>();
@@ -129,6 +131,8 @@ namespace WaccaMyPageScraper.FetcherActions
             this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2, 
                 Localization.Data.Music,
                 result);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched1,
+                Localization.Data.Music));
 
             return result;
         }

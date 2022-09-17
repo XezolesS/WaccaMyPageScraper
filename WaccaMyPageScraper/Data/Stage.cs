@@ -49,13 +49,13 @@ namespace WaccaMyPageScraper.Data
             this.TotalScore = totalScore;
         }
 
-        public Stage(StageMetadata stage, int[] scores) : base(stage.Id, stage.Name, stage.Grade)
+        public Stage(StageMetadata meta, int[] scores) : base(meta.Id, meta.Name, meta.Grade)
         {
             this.Scores = scores;
             this.TotalScore = scores.Sum();
         }
 
-        public Stage(StageMetadata stage, int[] scores, int totalScore) : base(stage.Id, stage.Name, stage.Grade)
+        public Stage(StageMetadata meta, int[] scores, int totalScore) : base(meta.Id, meta.Name, meta.Grade)
         {
             this.Scores = scores;
             this.TotalScore = totalScore;
@@ -66,7 +66,7 @@ namespace WaccaMyPageScraper.Data
             string.Join(",", Scores));
     }
 
-    public sealed class StageMap : ClassMap<Stage>
+    internal sealed class StageMap : ClassMap<Stage>
     {
         public StageMap()
         {
