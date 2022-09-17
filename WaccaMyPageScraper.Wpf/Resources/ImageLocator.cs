@@ -49,18 +49,21 @@ namespace WaccaMyPageScraper.Wpf.Resources
                 StageGrade.Blue => Properties.Resources.StageI_Blue,
                 StageGrade.Silver => Properties.Resources.StageI_Silver,
                 StageGrade.Gold => Properties.Resources.StageI_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 2 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageII_Blue,
                 StageGrade.Silver => Properties.Resources.StageII_Silver,
                 StageGrade.Gold => Properties.Resources.StageII_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 3 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageIII_Blue,
                 StageGrade.Silver => Properties.Resources.StageIII_Silver,
                 StageGrade.Gold => Properties.Resources.StageIII_Gold,
+                _ => Properties.Resources.StageNone,
 
             },
             var (id, grade) when id == 4 => grade switch
@@ -68,68 +71,79 @@ namespace WaccaMyPageScraper.Wpf.Resources
                 StageGrade.Blue => Properties.Resources.StageIV_Blue,
                 StageGrade.Silver => Properties.Resources.StageIV_Silver,
                 StageGrade.Gold => Properties.Resources.StageIV_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 5 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageV_Blue,
                 StageGrade.Silver => Properties.Resources.StageV_Silver,
                 StageGrade.Gold => Properties.Resources.StageV_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 6 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageVI_Blue,
                 StageGrade.Silver => Properties.Resources.StageVI_Silver,
                 StageGrade.Gold => Properties.Resources.StageVI_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 7 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageVII_Blue,
                 StageGrade.Silver => Properties.Resources.StageVII_Silver,
                 StageGrade.Gold => Properties.Resources.StageVII_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 8 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageVIII_Blue,
                 StageGrade.Silver => Properties.Resources.StageVIII_Silver,
                 StageGrade.Gold => Properties.Resources.StageVIII_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 9 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageIX_Blue,
                 StageGrade.Silver => Properties.Resources.StageIX_Silver,
                 StageGrade.Gold => Properties.Resources.StageIX_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 10 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageX_Blue,
                 StageGrade.Silver => Properties.Resources.StageX_Silver,
                 StageGrade.Gold => Properties.Resources.StageX_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 11 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageXI_Blue,
                 StageGrade.Silver => Properties.Resources.StageXI_Silver,
                 StageGrade.Gold => Properties.Resources.StageXI_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 12 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageXII_Blue,
                 StageGrade.Silver => Properties.Resources.StageXII_Silver,
                 StageGrade.Gold => Properties.Resources.StageXII_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 13 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageXIII_Blue,
                 StageGrade.Silver => Properties.Resources.StageXIII_Silver,
                 StageGrade.Gold => Properties.Resources.StageXIII_Gold,
+                _ => Properties.Resources.StageNone,
             },
             var (id, grade) when id == 14 => grade switch
             {
                 StageGrade.Blue => Properties.Resources.StageXIV_Blue,
                 StageGrade.Silver => Properties.Resources.StageXIV_Silver,
                 StageGrade.Gold => Properties.Resources.StageXIV_Gold,
+                _ => Properties.Resources.StageNone,
             },
-            _ => new byte[0],
+            _ => Properties.Resources.StageNone,
         };
 
         public static byte[] GetTrophyIcon(Trophy trophy) => (trophy.Category, trophy.Rarity) switch

@@ -16,6 +16,8 @@ namespace WaccaMyPageScraper.Data
         /// </summary>
         public int[] Rankings { get; set; }
 
+        public int GetRanking(Difficulty difficulty) => this.Rankings[(int)difficulty];
+
         public MusicRankings() : base()
         {
             this.Rankings = new int[4];

@@ -220,6 +220,9 @@
   <data name="StageI_Silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\stageicons\stage_icon_1_2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="StageNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\stageicons\stage_icon_null.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="StageUpJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\files\stageup.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

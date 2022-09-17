@@ -47,7 +47,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var stages = await new CsvHandler<Stage>(Log.Logger)
                 .ImportAsync(Directories.StageData);
 
-            this.Stages = StageModel.FromStages(stages);
+            var stageRankings = await new CsvHandler<StageRanking>(Log.Logger)
+                .ImportAsync(Directories.StageRankings);
+
+            if (stages is null)
+                return;
+
+            this.Stages = StageModel.FromStages(stages, stageRankings);
         }
 
         public override async void FetcherEvent()
@@ -66,9 +72,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             // Fetch stages
             int count = 0;
             var stages = new List<Stage>();
+            var rankings = new List<StageRanking>();
             foreach (var meta in stageMetadata)
             {
-                stages.Add(await this.fetcher.FetchStageAsync(meta));
+                stages.Add(await this.fetcher.FetchStageAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                        count, stageMetadata.Length, progressText)),
+                    new Progress<int>(),
+                    meta));
+                rankings.Add(await this.fetcher.FetchStageRankingAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                        count, stageMetadata.Length, progressText)),
+                    new Progress<int>(),
+                    meta));
+
                 ++count;
 
                 this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,
@@ -80,11 +99,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (!Directory.Exists(Directories.Stage))
                 Directory.CreateDirectory(Directories.Stage);
 
-            var csvHandler = new CsvHandler<Stage>(stages, Log.Logger);
-            csvHandler.Export(Directories.StageData);
+            var stageCsvHandler = new CsvHandler<Stage>(stages, Log.Logger);
+            stageCsvHandler.Export(Directories.StageData);
+
+            var stageRankingCsvHandler = new CsvHandler<StageRanking>(rankings, Log.Logger);
+            stageRankingCsvHandler.Export(Directories.StageRankings);
 
             // Convert Stage to StageModels
-            this.Stages = StageModel.FromStages(stages);
+            this.Stages = StageModel.FromStages(stages, rankings);
 
             // Set complete message
             this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,

@@ -160,6 +160,15 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ({0}/{1}) {2}.
+        /// </summary>
+        public static string FetchingProgressMsg {
+            get {
+                return ResourceManager.GetString("FetchingProgressMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logged In.
         /// </summary>
         public static string LoggedIn {

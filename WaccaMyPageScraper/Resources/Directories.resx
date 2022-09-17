@@ -141,7 +141,7 @@
   <data name="RecordImage" xml:space="preserve">
     <value>data/records/image/</value>
   </data>
-  <data name="RecordRankingData" xml:space="preserve">
+  <data name="RecordRankings" xml:space="preserve">
     <value>data/records/rankings.csv</value>
   </data>
   <data name="Resources" xml:space="preserve">
@@ -155,6 +155,9 @@
   </data>
   <data name="StageData" xml:space="preserve">
     <value>data/stages/stages.csv</value>
+  </data>
+  <data name="StageRankings" xml:space="preserve">
+    <value>data/stages/rankings.csv</value>
   </data>
   <data name="Trophy" xml:space="preserve">
     <value>data/trophies/</value>

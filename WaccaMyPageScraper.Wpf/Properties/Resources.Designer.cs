@@ -401,6 +401,16 @@ namespace WaccaMyPageScraper.Wpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] StageNone {
+            get {
+                object obj = ResourceManager.GetObject("StageNone", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {&quot;1&quot;:{&quot;tracks&quot;:[{&quot;id&quot;:2058,&quot;title&quot;:&quot;sister&apos;s noise&quot;,&quot;level&quot;:&quot;2&quot;,&quot;difficulty&quot;:&quot;Normal&quot;},{&quot;id&quot;:2214,&quot;title&quot;:&quot;バレリーコ&quot;,&quot;level&quot;:&quot;3&quot;,&quot;difficulty&quot;:&quot;Normal&quot;},{&quot;id&quot;:2206,&quot;title&quot;:&quot;Scream out!&quot;,&quot;level&quot;:&quot;4&quot;,&quot;difficulty&quot;:&quot;Normal&quot;}],&quot;clearCondition&quot;:{&quot;judge&quot;:&quot;Miss&quot;,&quot;count&quot;:50},&quot;lifeRestore&quot;:20},&quot;2&quot;:{&quot;tracks&quot;:[{&quot;id&quot;:2207,&quot;title&quot;:&quot;MAGENTA POTION&quot;,&quot;level&quot;:&quot;4&quot;,&quot;difficulty&quot;:&quot;Normal&quot;},{&quot;id&quot;:2209,&quot;title&quot;:&quot;ATAMA WARUI&quot;,&quot;level&quot;:&quot;5&quot;,&quot;difficulty&quot;:&quot;Normal&quot;},{&quot;id&quot;:2229,&quot;title&quot;:&quot;Night Club Junkie&quot;,&quot;level&quot;:&quot;6+&quot;,&quot;difficulty&quot;:&quot;Hard&quot;....
         /// </summary>
         internal static string StageUpJson {

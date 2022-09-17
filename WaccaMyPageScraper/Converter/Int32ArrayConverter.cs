@@ -14,7 +14,7 @@ namespace WaccaMyPageScraper.Converter
     {
         public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
         {
-            var textRegex = new Regex(@"^\[(\d+||,)+\]$");
+            var textRegex = new Regex(@"^\[((-||\d+)||,)+\]$");
             if (!textRegex.IsMatch(text))
             {
                 string message = string.Format(Localization.Converter.ConvertingNotSupported, "System.Int32[]");

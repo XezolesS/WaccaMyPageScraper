@@ -30,7 +30,7 @@ namespace WaccaMyPageScraper.Data
         /// </summary>
         public int Inferno { get; set; }
 
-        public int GetRankings(Difficulty difficulty) => difficulty switch
+        public int GetRanking(Difficulty difficulty) => difficulty switch
         {
             Difficulty.Normal => this.Normal,
             Difficulty.Hard => this.Hard,

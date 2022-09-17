@@ -79,6 +79,8 @@ namespace WaccaMyPageScraper.FetcherActions
                 // Fetch ranking
                 this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.StageRanking + $"({stageArg.Id})");
+                progressText.Report(string.Format(Localization.Fetcher.Fetching,
+                        Localization.Data.StageRanking + $"({stageArg.Id})"));
 
                 var ranking = -1;
                 if (rankingImageNode is null)
@@ -106,6 +108,8 @@ namespace WaccaMyPageScraper.FetcherActions
             this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
                 Localization.Data.StageRanking,
                 result);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched1,
+                Localization.Data.StageRanking));
 
             return result;
         }

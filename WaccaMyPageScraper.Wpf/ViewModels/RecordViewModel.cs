@@ -126,11 +126,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var musics = await new CsvHandler<Music>(Log.Logger)
                 .ImportAsync(Directories.RecordData);
 
+            var musicRankings = await new CsvHandler<MusicRankings>(Log.Logger)
+                .ImportAsync(Directories.RecordRankings);
+
             if (musics is null)
                 return;
 
             // Update a property
-            this.Records = RecordModel.FromMusics(musics);
+            this.Records = RecordModel.FromMusics(musics, musicRankings);
         }
 
         public override async void FetcherEvent()
@@ -150,9 +153,22 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             // Fetch records
             int count = 0;
             var musics = new List<Music>();
+            var rankings = new List<MusicRankings>();
             foreach (var meta in musicMetadata)
             {
-                musics.Add(await this.fetcher.FetchMusicAsync(meta));
+                musics.Add(await this.fetcher.FetchMusicAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                        count, musicMetadata.Length, progressText)),
+                    new Progress<int>(),
+                    meta));
+                rankings.Add(await this.fetcher.FetchMusicRankingsAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                        count, musicMetadata.Length, progressText)),
+                    new Progress<int>(),
+                    meta));
+
                 await this.fetcher.FetchMusicImageAsync(meta);
                 ++count;
 
@@ -165,11 +181,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (!Directory.Exists(Directories.Record))
                 Directory.CreateDirectory(Directories.Record);
 
-            var csvHandler = new CsvHandler<Music>(musics, Log.Logger);
-            csvHandler.Export(Directories.RecordData);
+            var musicCsvHandler = new CsvHandler<Music>(musics, Log.Logger);
+            musicCsvHandler.Export(Directories.RecordData);
+
+            var musicRankingsCsvHandler = new CsvHandler<MusicRankings>(rankings, Log.Logger);
+            musicRankingsCsvHandler.Export(Directories.RecordRankings);
 
             // Convert Music to RecordModels
-            this.Records = RecordModel.FromMusics(musics);
+            this.Records = RecordModel.FromMusics(musics, rankings);
 
             // Set comlete message
             this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,

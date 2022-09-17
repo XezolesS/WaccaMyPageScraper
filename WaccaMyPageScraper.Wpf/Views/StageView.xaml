@@ -88,11 +88,31 @@
                                                    Foreground="Pink"
                                                    FontSize="10" />
                                     </StackPanel>
-                                    <Grid Grid.Column="3">
-                                        <TextBlock Grid.Column="2"
-                                                   Text="{Binding TotalScore}"
-                                                   Margin="10,0"
+                                    
+                                    <Grid Grid.Column="3"
+                                          Margin="10,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Grid.Row="0"
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Right">
+                                            <TextBlock Text="#" 
+                                                   Foreground="{Binding RankingColor}"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Ranking}"
+                                                   Foreground="{Binding RankingColor}"
+                                                   FontSize="12"
                                                    VerticalAlignment="Center"
+                                                   HorizontalAlignment="Right" />
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding TotalScore}"
+                                                   VerticalAlignment="Top"
                                                    HorizontalAlignment="Right"
                                                    FontSize="20"
                                                    FontWeight="Bold" />

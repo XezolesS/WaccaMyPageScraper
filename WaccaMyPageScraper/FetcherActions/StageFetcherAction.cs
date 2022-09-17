@@ -81,6 +81,8 @@ namespace WaccaMyPageScraper.FetcherActions
                 // Fetch stage score data
                 this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                     Localization.Data.Stage + $"({stageArg.Id})");
+                progressText.Report(string.Format(Localization.Fetcher.Fetching,
+                    Localization.Data.Stage + $"({stageArg.Id})"));
 
                 var scores = new int[3];
                 for (int i = 0; i < 3; i++)
@@ -100,6 +102,8 @@ namespace WaccaMyPageScraper.FetcherActions
             this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
                 Localization.Data.Stage,
                 result);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched1,
+                Localization.Data.Stage));
 
             return result;
         }
