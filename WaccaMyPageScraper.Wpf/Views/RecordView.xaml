@@ -6,9 +6,11 @@
              xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
              xmlns:Converter="clr-namespace:WaccaMyPageScraper.Wpf.Converters"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600">
 
@@ -54,7 +56,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
         <Style x:Key="DescendingCheckBox" TargetType="{x:Type CheckBox}">
             <Setter Property="Height" Value="20" />
             <Setter Property="Width" Value="20" />
@@ -100,19 +101,68 @@
                                 <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckDescend" Value="{StaticResource MahApps.Brushes.Accent}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckAscend" Value="0.0" />
-                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckDescend" Value="1.0" />
+                                <Setter Property="Visibility" TargetName="DescendingCheckBoxCheckAscend" Value="Collapsed" />
+                                <Setter Property="Visibility" TargetName="DescendingCheckBoxCheckDescend" Value="Visible" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckAscend" Value="1.0" />
-                                <Setter Property="Opacity" TargetName="DescendingCheckBoxCheckDescend" Value="0.0" />
+                                <Setter Property="Visibility" TargetName="DescendingCheckBoxCheckAscend" Value="Visible" />
+                                <Setter Property="Visibility" TargetName="DescendingCheckBoxCheckDescend" Value="Collapsed" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style x:Key="RichViewCheckBox" TargetType="{x:Type CheckBox}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="RichViewCheckBoxBorder"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                Background="#252525"
+                                BorderBrush="AliceBlue"
+                                BorderThickness="2"
+                                CornerRadius="2">
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <!-- Coolicons licensed under CC 4.0 -->
+                                <!-- https://github.com/krystonschwarze/coolicons#license -->
+                                <iconPacks:PackIconCoolicons x:Name="RichViewCheckBoxChecked" 
+                                                             Kind="ListChecklistAlt" 
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Center" />
+                                <iconPacks:PackIconCoolicons x:Name="RichViewCheckBoxUnchecked"
+                                                             Kind="ListUl" 
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="RichViewCheckBoxBorder" Value="0.7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderBrush" TargetName="RichViewCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Visibility" TargetName="RichViewCheckBoxChecked" Value="Visible" />
+                                <Setter Property="Visibility" TargetName="RichViewCheckBoxUnchecked" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Visibility" TargetName="RichViewCheckBoxChecked" Value="Collapsed" />
+                                <Setter Property="Visibility" TargetName="RichViewCheckBoxUnchecked" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Converter:SortRecordByConverter x:Key="SortRecordBy" />
     </UserControl.Resources>
     
@@ -129,7 +179,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0"
@@ -154,13 +204,16 @@
 
             <TextBox Grid.Column="1"
                      Text="{Binding FilterSearchText, UpdateSourceTrigger=PropertyChanged}"
+                     mah:TextBoxHelper.Watermark="Search for the Title or Artist"
                      Margin="10,0"
                      VerticalAlignment="Center"
-                     HorizontalAlignment="Stretch"/>
+                     HorizontalAlignment="Stretch" />
 
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -175,11 +228,130 @@
                 </ComboBox>
                 <CheckBox Grid.Column="1"
                           Style="{StaticResource DescendingCheckBox}"
-                          IsChecked="{Binding IsSortDescending}" />
+                          IsChecked="{Binding IsSortDescending}" 
+                          Margin="5, 0" />
+                <CheckBox Grid.Column="2"
+                          Style="{StaticResource RichViewCheckBox}"
+                          IsChecked="{Binding IsRichView}" />
             </Grid>
         </Grid>
 
-        <ItemsControl x:Name="RecordsControl"
+        <DataGrid x:Name="RecordsControlSimple"
+                  Grid.Row="1"
+                  IsReadOnly="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                  ScrollViewer.CanContentScroll="True"
+                  ItemsSource="{Binding FilteredRecords, IsAsync=True}"
+                  AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="{x:Static LocalizedText:Data.Genre}"
+                                        MinWidth="60" MaxWidth="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding GenreColor}">
+                                <TextBlock Text="{Binding GenreText}" 
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{x:Static LocalizedText:Data.Level}"
+                                        MinWidth="55" MaxWidth="55">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding DifficultyColor}">
+                                <TextBlock Text="{Binding Level}" 
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="" 
+                                        MinWidth="25" MaxWidth="25">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding JacketImage}" 
+                                   Height="24" Width="24" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}" 
+                                    Width="200"
+                                    MinWidth="200" 
+                                    CanUserSort="False" />
+                <DataGridTextColumn Header="{x:Static LocalizedText:Data.Artist}"
+                                    Binding="{Binding Artist}" 
+                                    Width="150"
+                                    MinWidth="150"
+                                    CanUserSort="False" />
+                <DataGridTextColumn Header="{x:Static LocalizedText:Data.Score}"
+                                    Binding="{Binding Score}" 
+                                    MinWidth="60" MaxWidth="60"
+                                    CanUserSort="False" />
+                <DataGridTemplateColumn Header="Rate" 
+                                        MinWidth="50" MaxWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding RateIcon}" 
+                                   Height="24" Width="24" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Acheive" 
+                                        MinWidth="50" MaxWidth="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding AchieveIcon}" 
+                                   Height="24" Width="24" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{x:Static LocalizedText:Data.PlayCount}"
+                                    Binding="{Binding PlayCount}" 
+                                    MinWidth="50" MaxWidth="100"
+                                    CanUserSort="False" />
+                <DataGridTemplateColumn Header="{x:Static LocalizedText:Data.MusicRanking}"
+                                        MinWidth="50" MaxWidth="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Left">
+                                <TextBlock Text="#" 
+                                           Foreground="{Binding RankingColor}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding Ranking}" 
+                                           Foreground="{Binding RankingColor}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRichView}" Value="False">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRichView}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+        <ItemsControl x:Name="RecordsControlRich"
                       Grid.Row="1"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -227,7 +399,7 @@
                                     <RowDefinition Height="55" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                
+
                                 <TextBox Grid.Row="0"
                                          Text="{Binding Title}"
                                          VerticalAlignment="Top"
@@ -317,7 +489,7 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        
+
                                         <Image Grid.Column="0" 
                                                Source="{Binding RateIcon}" 
                                                Height="35" Width="35"
@@ -335,6 +507,22 @@
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <ItemsControl.Style>
+                <Style TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRichView}" Value="False">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRichView}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.Style>
         </ItemsControl>
 
         <Grid Grid.Row="2"

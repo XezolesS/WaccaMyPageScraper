@@ -84,6 +84,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 OnFilterAndSorterChanged);
         }
 
+        private bool _isRichView;
+        public bool IsRichView
+        {
+            get => _isRichView;
+            set => SetProperty(ref _isRichView, value);
+        }
+
         IEnumerable<RecordModel> _records;
         public IEnumerable<RecordModel> Records
         {
