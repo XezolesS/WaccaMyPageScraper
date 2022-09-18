@@ -29,13 +29,9 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         
         public DelegateCommand LoginCommand { get; private set; }
 
-        IEventAggregator _eventAggregator;
-
         public LoginViewModel(IEventAggregator ea) : base()
         {
             this.LoginCommand = new DelegateCommand(FetcherEvent);
-
-            this._eventAggregator = ea;
         }
 
         public override void InitializeData()

@@ -1,0 +1,386 @@
+﻿<mah:MetroWindow x:Class="WaccaMyPageScraper.Wpf.Views.RecordDetailWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+                 xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+                 xmlns:prism="http://prismlibrary.com/"
+                 xmlns:enums="clr-namespace:WaccaMyPageScraper.Enums;assembly=WaccaMyPageScraper"
+                 xmlns:rsrc="clr-namespace:WaccaMyPageScraper.Wpf.Resources"
+                 prism:ViewModelLocator.AutoWireViewModel="True"
+                 mc:Ignorable="d"
+                 Title="Record Details" 
+                 Height="800" Width="600"
+                 ResizeMode="NoResize"
+                 Background="#252538"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0"
+                  Margin="10">
+                <lvc:PieChart Series="{Binding RecordDetails.AchieveSeries[0]}"
+                              Total="{Binding RecordDetails.MusicCounts[0]}" />
+
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Normal" 
+                               Foreground="{x:Static rsrc:DifficultyColors.Normal}"
+                               FontSize="16" 
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.ClearedCounts[0]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Normal}"
+                                   FontSize="28" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MusicCounts[0]}" 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="cleared" 
+                               Foreground="LightGray"
+                               FontSize="10"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.TotalScores[0]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Normal}"
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MaxTotalScores[0]}" 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="#" 
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[0]}"
+                                   FontSize="14"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.TotalScoreRankings.Normal}"
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[0]}"
+                                   FontSize="12" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1"
+                  Margin="10">
+                <lvc:CartesianChart Series="{Binding RecordDetails.RateSeries[0]}"
+                                    XAxes="{Binding RecordDetails.RateXAxes}"
+                                    YAxes="{Binding RecordDetails.RateYAxes[0]}" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0"
+                  Margin="10">
+                <lvc:PieChart Series="{Binding RecordDetails.AchieveSeries[1]}"
+                              Total="{Binding RecordDetails.MusicCounts[1]}" />
+                
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Hard" 
+                               Foreground="{x:Static rsrc:DifficultyColors.Hard}"
+                               FontSize="16" 
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.ClearedCounts[1]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Hard}"
+                                   FontSize="28" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MusicCounts[1]}" 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="cleared" 
+                               Foreground="LightGray"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.TotalScores[1]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Hard}"
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MaxTotalScores[1]}" 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="#" 
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[1]}"
+                                   FontSize="14"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.TotalScoreRankings.Hard}"
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[1]}"
+                                   FontSize="12" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1"
+                  Margin="10">
+                <lvc:CartesianChart Series="{Binding RecordDetails.RateSeries[1]}"
+                                    XAxes="{Binding RecordDetails.RateXAxes}"
+                                    YAxes="{Binding RecordDetails.RateYAxes[1]}" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0"
+                  Margin="10">
+                <lvc:PieChart Series="{Binding RecordDetails.AchieveSeries[2]}"
+                              Total="{Binding RecordDetails.MusicCounts[2]}" />
+
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Expert" 
+                               Foreground="{x:Static rsrc:DifficultyColors.Expert}"
+                               FontSize="16" 
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.ClearedCounts[2]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Expert}"
+                                   FontSize="28" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MusicCounts[2]}" 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="cleared" 
+                               Foreground="LightGray"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.TotalScores[2]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Expert}"
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MaxTotalScores[2]}" 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="#" 
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[2]}"
+                                   FontSize="14"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.TotalScoreRankings.Expert}"
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[2]}"
+                                   FontSize="12" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1"
+                  Margin="10">
+                <lvc:CartesianChart Series="{Binding RecordDetails.RateSeries[2]}"
+                                    XAxes="{Binding RecordDetails.RateXAxes}"
+                                    YAxes="{Binding RecordDetails.RateYAxes[2]}" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0"
+                  Margin="10">
+                <lvc:PieChart Series="{Binding RecordDetails.AchieveSeries[3]}"
+                              Total="{Binding RecordDetails.MusicCounts[3]}" />
+
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Inferno" 
+                               Foreground="{x:Static rsrc:DifficultyColors.Inferno}"
+                               FontSize="16" 
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.ClearedCounts[3]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Inferno}"
+                                   FontSize="28" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MusicCounts[3]}" 
+                                   Foreground="LightGray"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="cleared" 
+                               Foreground="LightGray"
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" />
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RecordDetails.TotalScores[3]}"
+                                   Foreground="{x:Static rsrc:DifficultyColors.Inferno}"
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text=" / " 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.MaxTotalScores[3]}" 
+                                   Foreground="LightGray"
+                                   FontSize="10"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="#" 
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[3]}"
+                                   FontSize="14"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding RecordDetails.TotalScoreRankings.Inferno}"
+                                   Foreground="{Binding RecordDetails.TotalScoreRankingColors[3]}"
+                                   FontSize="12" 
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1"
+                  Margin="10">
+                <lvc:CartesianChart Series="{Binding RecordDetails.RateSeries[3]}"
+                                    XAxes="{Binding RecordDetails.RateXAxes}"
+                                    YAxes="{Binding RecordDetails.RateYAxes[3]}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

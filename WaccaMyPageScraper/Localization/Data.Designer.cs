@@ -61,6 +61,51 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ALL Marvelous!.
+        /// </summary>
+        public static string Achieve_AllMarvelous {
+            get {
+                return ResourceManager.GetString("Achieve_AllMarvelous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Achieve_Clear {
+            get {
+                return ResourceManager.GetString("Achieve_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Combo!.
+        /// </summary>
+        public static string Achieve_FullCombo {
+            get {
+                return ResourceManager.GetString("Achieve_FullCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missless.
+        /// </summary>
+        public static string Achieve_Missless {
+            get {
+                return ResourceManager.GetString("Achieve_Missless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Played or Failed.
+        /// </summary>
+        public static string Achieve_NoAchieve {
+            get {
+                return ResourceManager.GetString("Achieve_NoAchieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Achieve Icon.
         /// </summary>
         public static string AchieveIcon {
@@ -264,6 +309,141 @@ namespace WaccaMyPageScraper.Localization {
         public static string PlayerRate {
             get {
                 return ResourceManager.GetString("PlayerRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rate.
+        /// </summary>
+        public static string Rate {
+            get {
+                return ResourceManager.GetString("Rate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A.
+        /// </summary>
+        public static string Rate_A {
+            get {
+                return ResourceManager.GetString("Rate_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AA.
+        /// </summary>
+        public static string Rate_AA {
+            get {
+                return ResourceManager.GetString("Rate_AA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AAA.
+        /// </summary>
+        public static string Rate_AAA {
+            get {
+                return ResourceManager.GetString("Rate_AAA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B.
+        /// </summary>
+        public static string Rate_B {
+            get {
+                return ResourceManager.GetString("Rate_B", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C.
+        /// </summary>
+        public static string Rate_C {
+            get {
+                return ResourceManager.GetString("Rate_C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D.
+        /// </summary>
+        public static string Rate_D {
+            get {
+                return ResourceManager.GetString("Rate_D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master.
+        /// </summary>
+        public static string Rate_Master {
+            get {
+                return ResourceManager.GetString("Rate_Master", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string Rate_No {
+            get {
+                return ResourceManager.GetString("Rate_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S.
+        /// </summary>
+        public static string Rate_S {
+            get {
+                return ResourceManager.GetString("Rate_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S+.
+        /// </summary>
+        public static string Rate_S_Plus {
+            get {
+                return ResourceManager.GetString("Rate_S_Plus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SS.
+        /// </summary>
+        public static string Rate_SS {
+            get {
+                return ResourceManager.GetString("Rate_SS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SS+.
+        /// </summary>
+        public static string Rate_SS_Plus {
+            get {
+                return ResourceManager.GetString("Rate_SS_Plus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSS.
+        /// </summary>
+        public static string Rate_SSS {
+            get {
+                return ResourceManager.GetString("Rate_SSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSS+.
+        /// </summary>
+        public static string Rate_SSS_Plus {
+            get {
+                return ResourceManager.GetString("Rate_SSS_Plus", resourceCulture);
             }
         }
         

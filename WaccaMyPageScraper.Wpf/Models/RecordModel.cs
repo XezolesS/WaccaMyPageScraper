@@ -86,13 +86,7 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Difficulty Difficulty { get; set; }
 
-        public string DifficultyColor => this.Difficulty switch 
-        { 
-            Difficulty.Normal => "#009DE6",
-            Difficulty.Hard => "#FED131",
-            Difficulty.Expert => "#FC06A3",
-            Difficulty.Inferno => "#4A004F"
-        }; 
+        public Brush DifficultyColor => DifficultyColors.GetBrush(this.Difficulty);
 
         public string Level { get; set; }
 

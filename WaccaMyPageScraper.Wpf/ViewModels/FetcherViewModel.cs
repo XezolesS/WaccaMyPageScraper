@@ -17,6 +17,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
     public abstract class FetcherViewModel : BindableBase
     {
         protected Fetcher fetcher;
+        protected IEventAggregator _eventAggregator;
 
         private string _fetchProgressText;
         public string FetchProgressText
@@ -45,10 +46,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         {
             InitializeData();
 
+            this._eventAggregator = ea;
+
             this.FetcherVisibility = Visibility.Collapsed;
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(FetcherLoginEvent);
         }
+        
         /// <summary>
         /// Initialize data and might be processed or showed.
         /// </summary>

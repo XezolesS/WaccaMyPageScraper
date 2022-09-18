@@ -128,7 +128,7 @@
                                 Background="#252525"
                                 BorderBrush="AliceBlue"
                                 BorderThickness="2"
-                                CornerRadius="2">
+                                CornerRadius="4">
                             <Grid VerticalAlignment="Center"
                                   HorizontalAlignment="Center">
                                 <!-- Coolicons licensed under CC 4.0 -->
@@ -157,6 +157,43 @@
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter Property="Visibility" TargetName="RichViewCheckBoxChecked" Value="Collapsed" />
                                 <Setter Property="Visibility" TargetName="RichViewCheckBoxUnchecked" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DetailButton" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="DetailButtonBorder"
+                                Height="{TemplateBinding Height}"
+                                Width="{TemplateBinding Width}"
+                                Background="#252525"
+                                BorderBrush="AliceBlue"
+                                BorderThickness="2"
+                                CornerRadius="4">
+                            <Grid VerticalAlignment="Center"
+                                  HorizontalAlignment="Center">
+                                <!-- Coolicons licensed under CC 4.0 -->
+                                <!-- https://github.com/krystonschwarze/coolicons#license -->
+                                <iconPacks:PackIconCoolicons Kind="DoughnutChart"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" TargetName="DetailButtonBorder" Value="0.7" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="BorderBrush" TargetName="DetailButtonBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -229,10 +266,15 @@
                 <CheckBox Grid.Column="1"
                           Style="{StaticResource DescendingCheckBox}"
                           IsChecked="{Binding IsSortDescending}" 
-                          Margin="5, 0" />
+                          Margin="5,0,0,0" />
                 <CheckBox Grid.Column="2"
                           Style="{StaticResource RichViewCheckBox}"
-                          IsChecked="{Binding IsRichView}" />
+                          IsChecked="{Binding IsRichView}"
+                          Margin="5,0,0,0" />
+                <Button Grid.Column="3"
+                        Style="{StaticResource DetailButton}"
+                        Command="{Binding OpenRecordDetailCommand}"
+                        Margin="5,0,0,0" />
             </Grid>
         </Grid>
 
