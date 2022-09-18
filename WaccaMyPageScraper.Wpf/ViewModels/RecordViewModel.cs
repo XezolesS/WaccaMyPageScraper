@@ -117,7 +117,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public RecordViewModel(IEventAggregator ea) : base(ea)
         {
-            this.RecordDetailWindow = new RecordDetailWindow();
+            this.RecordDetailWindow = new RecordDetailWindow(); // Initialize for it's ViewModel
 
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
@@ -224,6 +224,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         
         public async void OpenRecordDetailEvent()
         {
+            // Reset window.
+            this.RecordDetailWindow.Close();
+            this.RecordDetailWindow = new RecordDetailWindow();
+
             // Build record detail model
             var totalScoreRankings = await new CsvHandler<TotalScoreRankings>(Log.Logger)
                 .ImportAsync(Directories.TotalScoreRankings);
