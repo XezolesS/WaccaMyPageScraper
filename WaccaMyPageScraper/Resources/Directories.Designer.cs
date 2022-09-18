@@ -196,6 +196,15 @@ namespace WaccaMyPageScraper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to data/records/total_score_rankings.csv.
+        /// </summary>
+        public static string TotalScoreRankings {
+            get {
+                return ResourceManager.GetString("TotalScoreRankings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to data/trophies/.
         /// </summary>
         public static string Trophy {

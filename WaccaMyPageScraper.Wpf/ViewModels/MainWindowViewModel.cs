@@ -20,6 +20,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public MainWindowViewModel()
         {
+            InitializeConsole();
+        }
+
+        private void InitializeConsole()
+        {
             // Initializing logger console
             this.Console = new ConsoleWindow();
             Log.Logger = new LoggerConfiguration()

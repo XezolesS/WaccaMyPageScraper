@@ -20,7 +20,7 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public byte[] StageIcon => ImageLocator.GetStageIcon(this.Stage);
 
-        public Brush RateBrush => RankingColors.GetColor(this.Rate);
+        public Brush RateBrush => PlayeRateColors.GetColor(this.Rate);
 
         public int TotalRpRanking { get; set; }
 

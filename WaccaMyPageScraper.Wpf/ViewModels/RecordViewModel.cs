@@ -20,11 +20,15 @@ using WaccaMyPageScraper.Wpf.Enums;
 using WaccaMyPageScraper.Wpf.Events;
 using WaccaMyPageScraper.Wpf.Models;
 using System.Threading;
+using WaccaMyPageScraper.Wpf.Views;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public sealed class RecordViewModel : FetcherViewModel
     {
+        private RecordDetailModel RecordDetailModel;
+        private RecordDetailWindow RecordDetailWindow;
+
         #region Properties
         private bool _filterDifficultyNormal;
         public bool FilterDifficultyNormal
@@ -84,6 +88,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 OnFilterAndSorterChanged);
         }
 
+        private bool _isRichView;
+        public bool IsRichView
+        {
+            get => _isRichView;
+            set => SetProperty(ref _isRichView, value);
+        }
+
         IEnumerable<RecordModel> _records;
         public IEnumerable<RecordModel> Records
         {
@@ -100,10 +111,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         }
 
         public DelegateCommand FetchRecordsCommand { get; private set; }
+
+        public DelegateCommand OpenRecordDetailCommand { get; private set; }
         #endregion
 
         public RecordViewModel(IEventAggregator ea) : base(ea)
         {
+            this.RecordDetailWindow = new RecordDetailWindow();
+
             this.FilterDifficultyNormal = false;
             this.FilterDifficultyHard = false;
             this.FilterDifficultyExpert = true;
@@ -118,7 +133,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.SelectedSortBy = SortRecordBy.Default;
             this.IsSortDescending = false;
 
+            this.IsRichView = true;
+
             this.FetchRecordsCommand = new DelegateCommand(FetcherEvent);
+            this.OpenRecordDetailCommand = new DelegateCommand(OpenRecordDetailEvent);
         }
 
         public override async void InitializeData()
@@ -177,6 +195,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 this.FetchProgressPercent = (int)(((double)count / musicMetadata.Length) * 100);
             }
 
+            // Fetch total score rankings
+            var totalScoreRankings = await this.fetcher.FetchTotalScoreRankingsFetch(
+                new Progress<string>(progressText => this.FetchProgressText = progressText),
+                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
+
             // Save records
             if (!Directory.Exists(Directories.Record))
                 Directory.CreateDirectory(Directories.Record);
@@ -187,6 +210,10 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             var musicRankingsCsvHandler = new CsvHandler<MusicRankings>(rankings, Log.Logger);
             musicRankingsCsvHandler.Export(Directories.RecordRankings);
 
+            var totalScoreRankingsCsvHandler = new CsvHandler<TotalScoreRankings>(
+                new List<TotalScoreRankings> { totalScoreRankings }, Log.Logger);
+            totalScoreRankingsCsvHandler.Export(Directories.TotalScoreRankings);
+
             // Convert Music to RecordModels
             this.Records = RecordModel.FromMusics(musics, rankings);
 
@@ -195,6 +222,20 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 this.Records.Count(), WaccaMyPageScraper.Localization.Data.Record);
         }
         
+        public async void OpenRecordDetailEvent()
+        {
+            // Build record detail model
+            var totalScoreRankings = await new CsvHandler<TotalScoreRankings>(Log.Logger)
+                .ImportAsync(Directories.TotalScoreRankings);
+            this.RecordDetailModel = RecordDetailModel.ConvertFrom(this.Records.ToArray(), totalScoreRankings?.First());
+
+            // Publish a event
+            this._eventAggregator.GetEvent<OpenRecordDetailEvent>().Publish(this.RecordDetailModel);
+
+            // Show record detail window
+            this.RecordDetailWindow.ShowDialog();
+        }
+
         private async void OnFilterAndSorterChanged()
         {
             if (this.Records is null)

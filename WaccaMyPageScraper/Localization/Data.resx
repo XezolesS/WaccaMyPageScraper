@@ -120,6 +120,21 @@
   <data name="AchieveIcon" xml:space="preserve">
     <value>Achieve Icon</value>
   </data>
+  <data name="Achieve_AllMarvelous" xml:space="preserve">
+    <value>ALL Marvelous!</value>
+  </data>
+  <data name="Achieve_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Achieve_FullCombo" xml:space="preserve">
+    <value>Full Combo!</value>
+  </data>
+  <data name="Achieve_Missless" xml:space="preserve">
+    <value>Missless</value>
+  </data>
+  <data name="Achieve_NoAchieve" xml:space="preserve">
+    <value>Not Played or Failed</value>
+  </data>
   <data name="AimeId" xml:space="preserve">
     <value>Aime ID</value>
   </data>
@@ -186,8 +201,53 @@
   <data name="PlayerRate" xml:space="preserve">
     <value>Player Rate</value>
   </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Rate</value>
+  </data>
   <data name="RateIcon" xml:space="preserve">
     <value>Rate Icon</value>
+  </data>
+  <data name="Rate_A" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Rate_AA" xml:space="preserve">
+    <value>AA</value>
+  </data>
+  <data name="Rate_AAA" xml:space="preserve">
+    <value>AAA</value>
+  </data>
+  <data name="Rate_B" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="Rate_C" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="Rate_D" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="Rate_Master" xml:space="preserve">
+    <value>Master</value>
+  </data>
+  <data name="Rate_No" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Rate_S" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="Rate_SS" xml:space="preserve">
+    <value>SS</value>
+  </data>
+  <data name="Rate_SSS" xml:space="preserve">
+    <value>SSS</value>
+  </data>
+  <data name="Rate_SSS_Plus" xml:space="preserve">
+    <value>SSS+</value>
+  </data>
+  <data name="Rate_SS_Plus" xml:space="preserve">
+    <value>SS+</value>
+  </data>
+  <data name="Rate_S_Plus" xml:space="preserve">
+    <value>S+</value>
   </data>
   <data name="Record" xml:space="preserve">
     <value>Record</value>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.FetcherActions
 {
@@ -71,6 +72,8 @@ namespace WaccaMyPageScraper.FetcherActions
                     // Fetch ranking
                     this._fetcher.Logger?.Information(Localization.Fetcher.Fetching,
                         Localization.Data.TotalScoreRanking + $"({i})");
+                    progressText.Report(string.Format(Localization.Fetcher.Fetching,
+                        Localization.Data.TotalScoreRanking + $"({(Difficulty)(i - 1)})"));
 
                     var ranking = -1;
                     if (rankingImageNode is null)
@@ -101,6 +104,8 @@ namespace WaccaMyPageScraper.FetcherActions
             this._fetcher.Logger?.Information(Localization.Fetcher.DataFetched2,
                 Localization.Data.TotalScoreRanking,
                 result);
+            progressText.Report(string.Format(Localization.Fetcher.DataFetched1,
+                Localization.Data.TotalScoreRanking));
 
             return result;
         }

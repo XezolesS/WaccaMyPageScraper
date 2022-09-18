@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace WaccaMyPageScraper.Wpf.Resources
 {
-    internal class RateColors
+    public static class PlayeRateColors
     {
         #region Rate Colors
         private static LinearGradientBrush RateColor1 = new LinearGradientBrush(
@@ -72,7 +72,7 @@ namespace WaccaMyPageScraper.Wpf.Resources
             }, 45.0);
         #endregion
 
-        public Brush GetColor(int rate) => rate switch
+        public static Brush GetColor(int rate) => rate switch
         {
             var r when r < 300 => RateColor1,
             var r when r < 600 => RateColor2,
