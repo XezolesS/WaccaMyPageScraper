@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
@@ -18,8 +19,11 @@
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button Content="Console" 
-                    Command="{Binding OpenConsoleCommand}" />
+            <Button Command="{Binding OpenConsoleCommand}">
+                <Button.Content>
+                    <iconPacks:PackIconCoolicons Kind="Terminal" />
+                </Button.Content>
+            </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
     
