@@ -68,7 +68,8 @@ namespace WaccaMyPageScraper.Wpf.Resources
         public int LifeRestore { get; set; }
 
         public string LifeRestoreText => this.LifeRestore == 0 ?
-            string.Empty : $"Restore {this.LifeRestore} Lifes";
+            string.Empty 
+            : string.Format(WaccaMyPageScraper.Wpf.Localization.UI.StageLifeRestoreText, this.LifeRestore);
 
         public StageData() { }
 
@@ -128,7 +129,8 @@ namespace WaccaMyPageScraper.Wpf.Resources
             this.Count = count;
         }
 
-        public override string ToString() => $"In {this.Count} {this.Judge}s";
+        public override string ToString() => string.Format(WaccaMyPageScraper.Wpf.Localization.UI.StageClearConditionText, 
+            this.Count, this.Judge);
     }
     #endregion
 }

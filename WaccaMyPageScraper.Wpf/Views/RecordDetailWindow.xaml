@@ -13,9 +13,9 @@
                  prism:ViewModelLocator.AutoWireViewModel="True"
                  mc:Ignorable="d"
                  Title="Record Details" 
-                 Height="800" Width="600"
+                 Height="800" Width="700"
                  ResizeMode="NoResize"
-                 Background="#252538"
+                 Background="{DynamicResource MahApps.Brushes.Window.Background}"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}">
 
     <Grid>
@@ -66,7 +66,6 @@
                     </StackPanel>
                     <TextBlock Text="cleared" 
                                Foreground="LightGray"
-                               FontSize="10"
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center" />
 
@@ -81,7 +80,6 @@
                                    HorizontalAlignment="Center" />
                         <TextBlock Text=" / " 
                                    Foreground="LightGray"
-                                   FontSize="10"
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Center" />
                         <TextBlock Text="{Binding RecordDetails.MaxTotalScores[0]}" 

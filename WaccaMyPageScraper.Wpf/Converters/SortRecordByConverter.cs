@@ -9,7 +9,7 @@ using WaccaMyPageScraper.Wpf.Enums;
 
 namespace WaccaMyPageScraper.Wpf.Converters
 {
-    public class SortRecordByConverter : IValueConverter
+    public sealed class SortRecordByConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -17,12 +17,12 @@ namespace WaccaMyPageScraper.Wpf.Converters
 
             return sortRecordBy switch
             {
-                SortRecordBy.Default => Localization.SortRecordBy.Default,
-                SortRecordBy.Title => Localization.SortRecordBy.Title,
-                SortRecordBy.Artist => Localization.SortRecordBy.Artist,
-                SortRecordBy.Level => Localization.SortRecordBy.Level,
-                SortRecordBy.Score => Localization.SortRecordBy.Score,
-                SortRecordBy.PlayCount => Localization.SortRecordBy.PlayCount,
+                SortRecordBy.Default => WaccaMyPageScraper.Localization.Data.Default,
+                SortRecordBy.Title => WaccaMyPageScraper.Localization.Data.Title,
+                SortRecordBy.Artist => WaccaMyPageScraper.Localization.Data.Artist,
+                SortRecordBy.Level => WaccaMyPageScraper.Localization.Data.Level,
+                SortRecordBy.Score => WaccaMyPageScraper.Localization.Data.Score,
+                SortRecordBy.PlayCount => WaccaMyPageScraper.Localization.Data.PlayCount,
             };
         }
 

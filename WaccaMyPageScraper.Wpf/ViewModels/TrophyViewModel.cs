@@ -21,16 +21,11 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
     public sealed class TrophyViewModel : FetcherViewModel
     {
         #region Properties
-        private string[] _seasons;
-        public string[] Seasons => new string[3]
-        {
-            $"{WaccaMyPageScraper.Localization.Data.Season} 1", 
-            $"{WaccaMyPageScraper.Localization.Data.Season} 2", 
-            $"{WaccaMyPageScraper.Localization.Data.Season} 3"
-        };
+        private int[] _seasons;
+        public int[] Seasons => new int[3] { 1, 2, 3 };
 
-        private string _selectedSeason;
-        public string SelectedSeason
+        private int _selectedSeason;
+        public int SelectedSeason
         {
             get => _selectedSeason;
             set => SetProperty(ref _selectedSeason, value, OnSeasonChanged);
@@ -70,9 +65,9 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public TrophyViewModel(IEventAggregator ea) : base(ea)
         {
-            this.SelectedSeason = "Season 1";
+            this.SelectedSeason = 1;
 
-            this.FetchProgressText = "Not Logged In";
+            this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.NotLoggedIn;
             this.FetchProgressPercent = 0;
 
             this.FetchTrophiesCommand = new DelegateCommand(FetcherEvent);
@@ -115,10 +110,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (this.Trophies is null)
                 return;
 
-            var filtered = _trophies.Where(t => 
-                (this.SelectedSeason.Equals("Season 1") && t.Id.ToString().StartsWith("10"))
-                || (this.SelectedSeason.Equals("Season 2") && t.Id.ToString().StartsWith("20"))
-                || (this.SelectedSeason.Equals("Season 3") && t.Id.ToString().StartsWith("30")));
+            var filtered = _trophies.Where(t => t.Id.ToString().StartsWith(this.SelectedSeason + "0"));
 
             var bronzes = filtered.Where(t => t.Rarity == 1);
             var silver = filtered.Where(t => t.Rarity == 2);

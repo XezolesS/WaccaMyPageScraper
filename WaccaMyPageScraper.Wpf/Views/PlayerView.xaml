@@ -41,7 +41,7 @@
             <TextBlock Text="{Binding Player.Name}" 
                        Margin="0,10"
                        HorizontalAlignment="Center"
-                       Foreground="AliceBlue"
+                       Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
                        FontSize="24"
                        FontWeight="Bold" />
 
@@ -55,7 +55,8 @@
                            Text="{Binding Player.LevelText}"
                            Padding="20,0"
                            HorizontalAlignment="Left"
-                           Foreground="Yellow"
+                           Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                           FontWeight="SemiBold"
                            FontSize="16" />
 
                 <TextBlock Grid.Column="1"
@@ -63,8 +64,8 @@
                            Padding="20,0"
                            HorizontalAlignment="Right"
                            Foreground="{Binding Player.RateBrush}"
+                           FontWeight="SemiBold"
                            FontSize="16" />
-
             </Grid>
 
             <Grid>
@@ -95,24 +96,24 @@
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
                 <TextBlock Grid.Row="1" Grid.Column="1"
                            Text="{Binding Player.PlayCountVersus}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            Text="{x:Static LocalizedText:Data.PlayCountCoop}" 
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
                 <TextBlock Grid.Row="2" Grid.Column="1"
                            Text="{Binding Player.PlayCountCoop}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
             </Grid>
             
             <Grid>
@@ -159,12 +160,12 @@
                            Margin="10, 0" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
                 <TextBlock Grid.Row="2" Grid.Column="1"
                            Text="{Binding Player.TotalRpSpent}" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Foreground="Gray" />
+                           Foreground="{DynamicResource MahApps.Brushes.Gray2}" />
             </Grid>
         </StackPanel>
     </Grid>

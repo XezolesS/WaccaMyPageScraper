@@ -1,4 +1,5 @@
 ﻿using LiveChartsCore;
+using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using System;
@@ -66,7 +67,7 @@ namespace WaccaMyPageScraper.Wpf.Models
         public Axis[] RateXAxes => new Axis[]
         {
             new Axis {
-                Labels = new string[] { WaccaMyPageScraper.Localization.Data.Rate },
+                Labels = new string[] { "" }, // It doesn't support other encoding?
             },
         };
 
@@ -177,12 +178,19 @@ namespace WaccaMyPageScraper.Wpf.Models
             for (Rate rate = Rate.D; rate <= Rate.Master; rate++)
             {
                 var rateTuple = GetRateTuple(difficulty, rate);
+                var rateName = WaccaMyPageScraper.Localization.RateTextParser.Parse(rate);
                 result[(int)rate - 1] = new ColumnSeries<int>
                 {
-                    Name = WaccaMyPageScraper.Localization.RateTextParser.Parse(rate),
+                    Name = rateName,
                     Values = new int[] { this.Rates[rateTuple] },
                     Fill = RatePaints.GetPaint(rate),
-                    DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                    MaxBarWidth = 40,
+                    Padding = 24,
+                    IsVisibleAtLegend = true,
+                    LegendShapeSize = 16,
+                    TooltipLabelFormatter = (value) => string.Format("{0}\t{1}", rateName, value.Model),
+                    DataLabelsFormatter = (value) => rateName,
+                    DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Bottom,
                     DataLabelsPaint = RatePaints.GetPaint(rate),
                     DataLabelsSize = 10,
                 };

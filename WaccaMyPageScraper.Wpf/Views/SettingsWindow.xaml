@@ -1,0 +1,222 @@
+﻿<mah:MetroWindow x:Class="WaccaMyPageScraper.Wpf.Views.SettingsWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+                 xmlns:Converter="clr-namespace:WaccaMyPageScraper.Wpf.Converters"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
+                 xmlns:prism="http://prismlibrary.com/"
+                 xmlns:LocalziedUIText="clr-namespace:WaccaMyPageScraper.Wpf.Localization"
+                 prism:ViewModelLocator.AutoWireViewModel="True"
+                 mc:Ignorable="d"
+                 Title="Settings" 
+                 Height="450" Width="400"
+                 ResizeMode="NoResize"
+                 Background="{DynamicResource MahApps.Brushes.Window.Background}"
+                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}">
+
+    <mah:MetroWindow.Resources>
+        <Converter:LanguageConverter x:Key="LanguageConverter" />
+        <Converter:StringColorKeyValueTextConverter x:Key="KvTextConverter" />
+        <Converter:StringColorKeyValueBrushConverter x:Key="KvBrushConverter" />
+    </mah:MetroWindow.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Margin="10">
+            <Label Content="{x:Static LocalziedUIText:UI.Settings}"
+                   Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                   FontSize="24" />
+            <Separator Margin="0,5" />
+
+            <Grid Margin="20,10,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="{x:Static LocalziedUIText:UI.Language}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Margin="10,0" />
+                <ComboBox Grid.Column="1" 
+                          ItemsSource="{Binding LanguageOptions}" 
+                          SelectedValue="{Binding SelectedLanguage}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=., Converter={StaticResource LanguageConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <TextBlock Text="{x:Static LocalziedUIText:UI.LanguageRestart}" 
+                       Foreground="LightGray"
+                       FontSize="11"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center" />
+
+            <Grid Margin="20,20,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="{x:Static LocalziedUIText:UI.Theme}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Margin="10,0" />
+                <ComboBox Grid.Column="1" 
+                          ItemsSource="{Binding Themes}" 
+                          SelectedItem="{Binding SelectedTheme}">
+                </ComboBox>
+            </Grid>
+            <Grid Margin="20,10,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                           Text="{x:Static LocalziedUIText:UI.Color}" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Margin="10,0" />
+                <ComboBox Grid.Column="1" 
+                          ItemsSource="{Binding Colors}" 
+                          SelectedItem="{Binding SelectedColor}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Stretch">
+                                <Border Height="16" Width="16"
+                                        CornerRadius="8"
+                                        Background="{Binding Path=., Converter={StaticResource KvBrushConverter}}"
+                                        BorderThickness="0"
+                                        Margin="5,0" />
+                                <TextBlock Text="{Binding Path=., Converter={StaticResource KvTextConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Margin="10">
+            <Grid>
+                <Label Content="{x:Static LocalziedUIText:UI.About}"
+                       Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                       FontSize="18" 
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" />
+                <Label Content="v1.1.0, Testing"
+                       Foreground="{DynamicResource MahApps.Brushes.Accent3}"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Right" />
+            </Grid>
+            <Separator Margin="0,5" />
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        Margin="0,5">
+                <TextBlock Text="WACCA MyPage Scraper" />
+                <TextBlock Text=" is created by " />
+                <TextBlock Text="XezolesS" 
+                           Foreground="{DynamicResource MahApps.Brushes.Accent}"
+                           FontWeight="Bold" />
+            </StackPanel>
+
+            <TextBlock Text="If you have encountered some bugs while using the program," 
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" />
+            <StackPanel Orientation="Horizontal"
+                        Height="20" Width="Auto"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,10">
+                <TextBlock Text="please submit an issue to " 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center">
+                </TextBlock>
+                <Label VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       Padding="0">
+                    <Hyperlink Command="{Binding GitHubClickCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Coolicons licensed under CC 4.0 -->
+                            <!-- https://github.com/krystonschwarze/coolicons#license -->
+                            <iconPacks:PackIconCoolicons Grid.Column="0" 
+                                                         Kind="Github" 
+                                                         Height="13" Width="13" 
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Padding="0,0,3,0"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="GitHub" 
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Center">
+                            </TextBlock>
+                        </Grid>
+                    </Hyperlink>
+                </Label>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center">
+                <TextBlock Text="The program" 
+                           FontWeight="Bold" />
+                <TextBlock Text=" is lisenced under " 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="MIT Lisence" 
+                           FontWeight="Bold" />
+                <TextBlock Text="." 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center">
+                <TextBlock FontWeight="Bold"
+                           Foreground="{mah:StaticResource MahApps.Brushes.Badged.Foreground}">
+                    <Hyperlink Command="{Binding CooliconsClickCommand}">
+                        Coolicons
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Text=", an icon pack used in the program, is lisenced under " 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="CC 4.0" 
+                           FontWeight="Bold" />
+                <TextBlock Text="." 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="WACCA so long"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Center" 
+                       Margin="10"/>
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>

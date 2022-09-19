@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WaccaMyPageScraper.Wpf.Views"
-             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
              xmlns:ViewModels="clr-namespace:WaccaMyPageScraper.Wpf.ViewModels"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
+             xmlns:LocalziedUIText="clr-namespace:WaccaMyPageScraper.Wpf.Localization"
              mc:Ignorable="d" 
    
              d:DesignHeight="100" d:DesignWidth="240">
@@ -22,7 +23,8 @@
                 Grid.Row="0"
                 Margin="10"
                 Padding="20,5"
-                Content="Login"
+                Content="{x:Static LocalziedUIText:UI.LoginButtonText}"
+                Background="{DynamicResource MahApps.Brushes.Accent3}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center" 
                 Command="{Binding LoginCommand}"
@@ -30,21 +32,22 @@
 
         <Grid Grid.Row="1"
               Margin="10"
-              VerticalAlignment="Center">
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Column="0"
-                   Content="{x:Static LocalizedText:Data.AimeId}"
-                   Foreground="AliceBlue" />
+                   Content="{x:Static LocalizedText:Data.AimeId}" />
 
             <TextBox x:Name="TextBoxAimeId"
                      Grid.Column="1" 
                      Text="{Binding AimeId}"
-                     Foreground="AliceBlue"
+                     MinWidth="52"
                      BorderThickness="0,0,0,1"
+                     BorderBrush="{DynamicResource MahApps.Brushes.Text}"
                      Background="Transparent" />
         </Grid>
     </Grid>

@@ -8,6 +8,8 @@
              xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
+             xmlns:LocalziedUIText="clr-namespace:WaccaMyPageScraper.Wpf.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600">
     <UserControl.Resources>
@@ -46,8 +48,8 @@
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="#101020"
-                            BorderBrush="AliceBlue"
+                    <Border Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeBlackLow}"
+                            BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}"
                             BorderThickness="1"
                             CornerRadius="0,30,30,0"
                             MaxWidth="600"
@@ -55,12 +57,12 @@
                             Padding="10">
                         <Expander mah:HeaderedControlHelper.HeaderBackground="Transparent"
                                   Background="Transparent"
-                                  BorderBrush="Transparent">
+                                  BorderThickness="0">
                             <Expander.Header>
                                 <Grid Height="50">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="60" />
-                                        <ColumnDefinition Width="10*" />
+                                        <ColumnDefinition Width="8*" />
                                         <ColumnDefinition Width="4*" />
                                         <ColumnDefinition Width="5*" />
                                     </Grid.ColumnDefinitions>
@@ -70,22 +72,21 @@
                                            Height="50" Width="50"
                                            RenderOptions.BitmapScalingMode="HighQuality" />
                                     <TextBlock Grid.Column="1"
-                                               Text="{Binding Name}" 
+                                               Text="{Binding LocalizedName}" 
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left"
                                                Background="Transparent"
-                                               Foreground="AliceBlue"
-                                               FontSize="20"
+                                               FontSize="18"
                                                FontWeight="Bold" />
                                     <StackPanel Grid.Column="2"
                                                 Orientation="Vertical"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left">
                                         <TextBlock Text="{Binding StageData.ClearCondition}"
-                                                   Foreground="SkyBlue"
+                                                   Foreground="DeepSkyBlue"
                                                    FontSize="10" />
                                         <TextBlock Text="{Binding StageData.LifeRestoreText}"
-                                                   Foreground="Pink"
+                                                   Foreground="HotPink"
                                                    FontSize="10" />
                                     </StackPanel>
                                     
@@ -288,7 +289,7 @@
         </ItemsControl>
 
         <Grid Grid.Row="1"
-              Margin="0,10"
+              Margin="0,10,0,0"
               VerticalAlignment="Bottom"
               HorizontalAlignment="Stretch"
               Visibility="{Binding FetcherVisibility}">
@@ -308,7 +309,7 @@
                                   Margin="10,0" />
 
             <Button Grid.Column="1"
-                    Content="Fetch"
+                    Content="{x:Static LocalziedUIText:UI.FetchButtonText}"
                     Margin="10,0"
                     Command="{Binding FetchStagesCommand}" />
         </Grid>

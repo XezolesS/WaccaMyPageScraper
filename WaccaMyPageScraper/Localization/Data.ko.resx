@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Achieve" xml:space="preserve">
-    <value>Achieve</value>
+    <value>달성도</value>
   </data>
   <data name="AchieveIcon" xml:space="preserve">
-    <value>Achieve Icon</value>
+    <value>달성도 아이콘</value>
   </data>
   <data name="Achieve_AllMarvelous" xml:space="preserve">
     <value>ALL Marvelous!</value>
   </data>
   <data name="Achieve_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>클리어</value>
   </data>
   <data name="Achieve_FullCombo" xml:space="preserve">
     <value>Full Combo!</value>
@@ -136,82 +136,82 @@
     <value>Missless</value>
   </data>
   <data name="Achieve_NoAchieve" xml:space="preserve">
-    <value>Not Played or Failed</value>
+    <value>플레이 하지 않았거나 클리어 하지 못함</value>
   </data>
   <data name="AimeId" xml:space="preserve">
     <value>Aime ID</value>
   </data>
   <data name="Artist" xml:space="preserve">
-    <value>Artist</value>
+    <value>아티스트</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>기본</value>
   </data>
   <data name="Genre" xml:space="preserve">
-    <value>Genre</value>
+    <value>장르</value>
   </data>
   <data name="Genre_AnimePop" xml:space="preserve">
-    <value>Anime/Pop</value>
+    <value>애니/팝</value>
   </data>
   <data name="Genre_Original" xml:space="preserve">
-    <value>Original</value>
+    <value>오리지널</value>
   </data>
   <data name="Genre_TanoC" xml:space="preserve">
     <value>HARDCORE TANO*C</value>
   </data>
   <data name="Genre_Touhou" xml:space="preserve">
-    <value>Touhou</value>
+    <value>동방 어레인지</value>
   </data>
   <data name="Genre_TwoPointFive" xml:space="preserve">
-    <value>2.5 Dimension</value>
+    <value>2.5 차원</value>
   </data>
   <data name="Genre_Variety" xml:space="preserve">
-    <value>Variety</value>
+    <value>버라이어티</value>
   </data>
   <data name="Genre_Vocaloid" xml:space="preserve">
-    <value>Vocaloid</value>
+    <value>보컬로이드</value>
   </data>
   <data name="Level" xml:space="preserve">
-    <value>Level</value>
+    <value>레벨</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Music</value>
+    <value>악곡</value>
   </data>
   <data name="MusicImage" xml:space="preserve">
-    <value>Music Jacket Image</value>
+    <value>악곡 자켓 이미지</value>
   </data>
   <data name="MusicMetadata" xml:space="preserve">
-    <value>Music Metadata</value>
+    <value>악곡 메타데이터</value>
   </data>
   <data name="MusicRanking" xml:space="preserve">
-    <value>Music Ranking</value>
+    <value>악곡 랭킹</value>
   </data>
   <data name="PlayCount" xml:space="preserve">
-    <value>Play Count</value>
+    <value>플레이 횟수</value>
   </data>
   <data name="PlayCountCoop" xml:space="preserve">
-    <value>Play Count (co-op)</value>
+    <value>플레이 횟수 (co-op)</value>
   </data>
   <data name="PlayCountVersus" xml:space="preserve">
-    <value>Play Count (vs)</value>
+    <value>플레이 횟수 (vs)</value>
   </data>
   <data name="Player" xml:space="preserve">
-    <value>Player</value>
+    <value>플레이어</value>
   </data>
   <data name="PlayerIcon" xml:space="preserve">
-    <value>Player Icon</value>
+    <value>플레이어 아이콘</value>
   </data>
   <data name="PlayerName" xml:space="preserve">
-    <value>Player Name</value>
+    <value>플레이어 이름</value>
   </data>
   <data name="PlayerRate" xml:space="preserve">
-    <value>Player Rate</value>
+    <value>플레이어 레이팅</value>
   </data>
   <data name="Rate" xml:space="preserve">
-    <value>Rate</value>
+    <value>등급</value>
   </data>
   <data name="RateIcon" xml:space="preserve">
-    <value>Rate Icon</value>
+    <value>등급 아이콘</value>
   </data>
   <data name="Rate_A" xml:space="preserve">
     <value>A</value>
@@ -256,48 +256,48 @@
     <value>S+</value>
   </data>
   <data name="Record" xml:space="preserve">
-    <value>Record</value>
+    <value>기록</value>
   </data>
   <data name="Score" xml:space="preserve">
-    <value>Score</value>
+    <value>점수</value>
   </data>
   <data name="Season" xml:space="preserve">
-    <value>Season</value>
+    <value>시즌</value>
   </data>
   <data name="Stage" xml:space="preserve">
-    <value>Stage</value>
+    <value>스테이지</value>
   </data>
   <data name="StageIcon" xml:space="preserve">
-    <value>Stage Icon</value>
+    <value>스테이지 아이콘</value>
   </data>
   <data name="StageMetadata" xml:space="preserve">
-    <value>Stage Metadata</value>
+    <value>스테이지 메타데이터</value>
   </data>
   <data name="StageRanking" xml:space="preserve">
-    <value>Stage Ranking</value>
+    <value>스테이지 랭킹</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Title</value>
+    <value>제목</value>
   </data>
   <data name="TotalRpEarned" xml:space="preserve">
-    <value>RP Earned</value>
+    <value>획득한 RP</value>
   </data>
   <data name="TotalRpRanking" xml:space="preserve">
-    <value>Total RP Ranking</value>
+    <value>획득한 RP 랭킹</value>
   </data>
   <data name="TotalRpSpent" xml:space="preserve">
-    <value>RP Spent</value>
+    <value>소비한 RP</value>
   </data>
   <data name="TotalScore" xml:space="preserve">
-    <value>Total Score</value>
+    <value>총합 점수</value>
   </data>
   <data name="TotalScoreRanking" xml:space="preserve">
-    <value>Total Score Ranking</value>
+    <value>총합 점수 랭킹</value>
   </data>
   <data name="Trophy" xml:space="preserve">
-    <value>Trophy</value>
+    <value>트로피</value>
   </data>
   <data name="TrophyIcon" xml:space="preserve">
-    <value>Trophy Icon</value>
+    <value>트로피 아이콘</value>
   </data>
 </root>

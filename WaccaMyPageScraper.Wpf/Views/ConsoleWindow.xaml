@@ -8,7 +8,7 @@
                  mc:Ignorable="d"
                  Title="Log" 
                  Height="450" Width="800"
-                 Background="#252538"
+                 Background="{DynamicResource MahApps.Brushes.Window.Background}"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}">
     
     <Grid>

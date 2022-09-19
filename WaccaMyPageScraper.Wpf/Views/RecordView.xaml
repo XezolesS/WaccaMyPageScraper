@@ -11,6 +11,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
+             xmlns:LocalziedUIText="clr-namespace:WaccaMyPageScraper.Wpf.Localization"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="600">
 
@@ -42,8 +43,8 @@
                                 <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorder" Value="0.7" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
-                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorderFill" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorder" Value="{DynamicResource MahApps.Brushes.Accent}" />
+                                <Setter Property="Background" TargetName="DifficultyCheckBoxBorderFill" Value="{DynamicResource MahApps.Brushes.Accent}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Opacity" TargetName="DifficultyCheckBoxBorderFill" Value="1.0" />
@@ -61,29 +62,30 @@
             <Setter Property="Width" Value="20" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Control.Background}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
                         <Border x:Name="DescendingCheckBoxBorder"
                                 Height="{TemplateBinding Height}"
                                 Width="{TemplateBinding Width}"
-                                Background="#252525"
-                                BorderBrush="AliceBlue"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="2"
                                 CornerRadius="12">
                             <Grid VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   Margin="1,1,0,0">
                                 <Path x:Name="DescendingCheckBoxCheckAscend"
-                                      Stroke="AliceBlue"
+                                      Stroke="{TemplateBinding BorderBrush}"
                                       StrokeThickness="2">
                                     <Path.Data>
                                         <PathGeometry Figures="M 0,5 5,0 10,5" />
                                     </Path.Data>
                                 </Path>
                                 <Path x:Name="DescendingCheckBoxCheckDescend"
-                                      Stroke="AliceBlue"
+                                      Stroke="{TemplateBinding BorderBrush}"
                                       StrokeThickness="2">
                                     <Path.Data>
                                         <PathGeometry Figures="M 0,0 5,5 10,0" />
@@ -93,12 +95,14 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="DescendingCheckBoxBorder" Value="0.7" />
+                                <Setter Property="BorderBrush" TargetName="DescendingCheckBoxBorder" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckAscend" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckDescend" Value="{DynamicResource MahApps.Brushes.Accent2}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="BorderBrush" TargetName="DescendingCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
-                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckAscend" Value="{StaticResource MahApps.Brushes.Accent}" />
-                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckDescend" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="BorderBrush" TargetName="DescendingCheckBoxBorder" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckAscend" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                                <Setter Property="Stroke" TargetName="DescendingCheckBoxCheckDescend" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Visibility" TargetName="DescendingCheckBoxCheckAscend" Value="Collapsed" />
@@ -118,15 +122,16 @@
             <Setter Property="Width" Value="24" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Control.Background}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
                         <Border x:Name="RichViewCheckBoxBorder"
                                 Height="{TemplateBinding Height}"
                                 Width="{TemplateBinding Width}"
-                                Background="#252525"
-                                BorderBrush="AliceBlue"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="2"
                                 CornerRadius="4">
                             <Grid VerticalAlignment="Center"
@@ -136,19 +141,25 @@
                                 <iconPacks:PackIconCoolicons x:Name="RichViewCheckBoxChecked" 
                                                              Kind="ListChecklistAlt" 
                                                              VerticalAlignment="Center" 
-                                                             HorizontalAlignment="Center" />
+                                                             HorizontalAlignment="Center"
+                                                             Foreground="{TemplateBinding BorderBrush}" />
                                 <iconPacks:PackIconCoolicons x:Name="RichViewCheckBoxUnchecked"
                                                              Kind="ListUl" 
                                                              VerticalAlignment="Center" 
-                                                             HorizontalAlignment="Center" />
+                                                             HorizontalAlignment="Center"
+                                                             Foreground="{TemplateBinding BorderBrush}" />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="RichViewCheckBoxBorder" Value="0.7" />
+                                <Setter Property="BorderBrush" TargetName="RichViewCheckBoxBorder" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+                                <Setter Property="Foreground" TargetName="RichViewCheckBoxChecked" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+                                <Setter Property="Foreground" TargetName="RichViewCheckBoxUnchecked" Value="{DynamicResource MahApps.Brushes.Accent2}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="BorderBrush" TargetName="RichViewCheckBoxBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="BorderBrush" TargetName="RichViewCheckBoxBorder" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                                <Setter Property="Foreground" TargetName="RichViewCheckBoxChecked" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                                <Setter Property="Foreground" TargetName="RichViewCheckBoxUnchecked" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter Property="Visibility" TargetName="RichViewCheckBoxChecked" Value="Visible" />
@@ -168,32 +179,37 @@
             <Setter Property="Width" Value="24" />
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Control.Background}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Accent}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="DetailButtonBorder"
                                 Height="{TemplateBinding Height}"
                                 Width="{TemplateBinding Width}"
-                                Background="#252525"
-                                BorderBrush="AliceBlue"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="2"
                                 CornerRadius="4">
                             <Grid VerticalAlignment="Center"
                                   HorizontalAlignment="Center">
                                 <!-- Coolicons licensed under CC 4.0 -->
                                 <!-- https://github.com/krystonschwarze/coolicons#license -->
-                                <iconPacks:PackIconCoolicons Kind="DoughnutChart"
+                                <iconPacks:PackIconCoolicons x:Name="DetailButtonContent"
+                                                             Kind="DoughnutChart"
                                                              VerticalAlignment="Center" 
-                                                             HorizontalAlignment="Center" />
+                                                             HorizontalAlignment="Center"
+                                                             Foreground="{TemplateBinding BorderBrush}" />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" TargetName="DetailButtonBorder" Value="0.7" />
+                                <Setter Property="BorderBrush" TargetName="DetailButtonBorder" Value="{DynamicResource MahApps.Brushes.Accent2}" />
+                                <Setter Property="Foreground" TargetName="DetailButtonContent" Value="{DynamicResource MahApps.Brushes.Accent2}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="BorderBrush" TargetName="DetailButtonBorder" Value="{StaticResource MahApps.Brushes.Accent}" />
+                                <Setter Property="BorderBrush" TargetName="DetailButtonBorder" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                                <Setter Property="Foreground" TargetName="DetailButtonContent" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -241,7 +257,7 @@
 
             <TextBox Grid.Column="1"
                      Text="{Binding FilterSearchText, UpdateSourceTrigger=PropertyChanged}"
-                     mah:TextBoxHelper.Watermark="Search for the Title or Artist"
+                     mah:TextBoxHelper.Watermark="{x:Static LocalziedUIText:UI.RecordSearchWatermark}"
                      Margin="10,0"
                      VerticalAlignment="Center"
                      HorizontalAlignment="Stretch" />
@@ -266,14 +282,17 @@
                 <CheckBox Grid.Column="1"
                           Style="{StaticResource DescendingCheckBox}"
                           IsChecked="{Binding IsSortDescending}" 
+                          ToolTip="{x:Static LocalziedUIText:UI.DescendingToolTip}"
                           Margin="5,0,0,0" />
                 <CheckBox Grid.Column="2"
                           Style="{StaticResource RichViewCheckBox}"
                           IsChecked="{Binding IsRichView}"
+                          ToolTip="{x:Static LocalziedUIText:UI.RichViewToolTip}"
                           Margin="5,0,0,0" />
                 <Button Grid.Column="3"
                         Style="{StaticResource DetailButton}"
                         Command="{Binding OpenRecordDetailCommand}"
+                        ToolTip="{x:Static LocalziedUIText:UI.RecordDetailToolTip}"
                         Margin="5,0,0,0" />
             </Grid>
         </Grid>
@@ -311,8 +330,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="" 
-                                        MinWidth="25" MaxWidth="25">
+                <DataGridTemplateColumn MinWidth="25" MaxWidth="25">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding JacketImage}" 
@@ -320,7 +338,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Title"
+                <DataGridTextColumn Header="{x:Static LocalizedText:Data.Title}"
                                     Binding="{Binding Title}" 
                                     Width="200"
                                     MinWidth="200" 
@@ -334,7 +352,7 @@
                                     Binding="{Binding Score}" 
                                     MinWidth="60" MaxWidth="60"
                                     CanUserSort="False" />
-                <DataGridTemplateColumn Header="Rate" 
+                <DataGridTemplateColumn Header="{x:Static LocalizedText:Data.Rate}" 
                                         MinWidth="50" MaxWidth="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -343,7 +361,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Acheive" 
+                <DataGridTemplateColumn Header="{x:Static LocalizedText:Data.Achieve}" 
                                         MinWidth="50" MaxWidth="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -419,7 +437,7 @@
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="#101020"
+                    <Border Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeBlackLow}"
                             BorderBrush="{Binding DifficultyColor}"
                             BorderThickness="1"
                             CornerRadius="0,30,30,0"
@@ -462,7 +480,7 @@
                                          HorizontalAlignment="Left"
                                          Background="Transparent"
                                          BorderThickness="0"
-                                         Foreground="LightGray"
+                                         Foreground="{DynamicResource MahApps.Brushes.Gray2}"
                                          IsReadOnly="True"
                                          TextWrapping="Wrap"
                                          FontSize="10" />
@@ -483,7 +501,7 @@
                                                    FontSize="12" />
                                         <TextBlock Margin="4,0,0,0" 
                                                    Text="times played"
-                                                   Foreground="Gray"
+                                                   Foreground="{DynamicResource MahApps.Brushes.Gray2}"
                                                    FontSize="11"
                                                    FontWeight="Light"
                                                    VerticalAlignment="Bottom" />
@@ -568,7 +586,7 @@
         </ItemsControl>
 
         <Grid Grid.Row="2"
-              Margin="0,10"
+              Margin="0,10,0,0"
               VerticalAlignment="Bottom"
               HorizontalAlignment="Stretch"
               Visibility="{Binding FetcherVisibility}">
@@ -590,7 +608,7 @@
                                   Margin="10,0" />
 
             <Button Grid.Column="1"
-                    Content="Fetch"
+                    Content="{x:Static LocalziedUIText:UI.FetchButtonText}"
                     Margin="10,0"
                     Command="{Binding FetchRecordsCommand}" />
         </Grid>

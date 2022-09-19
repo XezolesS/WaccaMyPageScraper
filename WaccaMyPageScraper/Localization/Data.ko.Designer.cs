@@ -22,14 +22,14 @@ namespace WaccaMyPageScraper.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Data {
+    public class Data___Copy {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Data() {
+        internal Data___Copy() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WaccaMyPageScraper.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Localization.Data", typeof(Data).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WaccaMyPageScraper.Localization.Data - Copy", typeof(Data___Copy).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,15 +57,6 @@ namespace WaccaMyPageScraper.Localization {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Achieve.
-        /// </summary>
-        public static string Achieve {
-            get {
-                return ResourceManager.GetString("Achieve", resourceCulture);
             }
         }
         
@@ -138,15 +129,6 @@ namespace WaccaMyPageScraper.Localization {
         public static string Artist {
             get {
                 return ResourceManager.GetString("Artist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        public static string Default {
-            get {
-                return ResourceManager.GetString("Default", resourceCulture);
             }
         }
         
@@ -534,15 +516,6 @@ namespace WaccaMyPageScraper.Localization {
         public static string StageRanking {
             get {
                 return ResourceManager.GetString("StageRanking", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title.
-        /// </summary>
-        public static string Title {
-            get {
-                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
         

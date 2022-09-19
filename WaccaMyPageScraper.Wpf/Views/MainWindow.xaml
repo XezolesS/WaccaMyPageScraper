@@ -10,10 +10,11 @@
         xmlns:Views="clr-namespace:WaccaMyPageScraper.Wpf.Views"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:LocalizedText="clr-namespace:WaccaMyPageScraper.Localization;assembly=WaccaMyPageScraper"
         mc:Ignorable="d"
         Height="500" Width="800"
         MinHeight="500" MinWidth="800"
-        Background="#252538"
+        Background="{DynamicResource MahApps.Brushes.Window.Background}"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         Title="WACCA My Page Scraper">
 
@@ -21,7 +22,16 @@
         <mah:WindowCommands>
             <Button Command="{Binding OpenConsoleCommand}">
                 <Button.Content>
+                    <!-- Coolicons licensed under CC 4.0 -->
+                    <!-- https://github.com/krystonschwarze/coolicons#license -->
                     <iconPacks:PackIconCoolicons Kind="Terminal" />
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding OpenSettingsWindowCommand}">
+                <Button.Content>
+                    <!-- Coolicons licensed under CC 4.0 -->
+                    <!-- https://github.com/krystonschwarze/coolicons#license -->
+                    <iconPacks:PackIconCoolicons Kind="Settings" />
                 </Button.Content>
             </Button>
         </mah:WindowCommands>
@@ -34,7 +44,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0"
-              Background="#161624">
+              Background="{DynamicResource MahApps.Brushes.Accent4}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="100" />
@@ -51,15 +61,15 @@
                                      Margin="5"
                                      Padding="10"
                                      Background="Transparent">
-            <mah:MetroTabItem Header="Record">
+            <mah:MetroTabItem Header="{x:Static LocalizedText:Data.Record}">
                 <Views:RecordView />
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Stage">
+            <mah:MetroTabItem Header="{x:Static LocalizedText:Data.Stage}">
                 <Views:StageView />
             </mah:MetroTabItem>
 
-            <mah:MetroTabItem Header="Trophy">
+            <mah:MetroTabItem Header="{x:Static LocalizedText:Data.Trophy}">
                 <Views:TrophyView />
             </mah:MetroTabItem>
         </mah:MetroAnimatedTabControl>

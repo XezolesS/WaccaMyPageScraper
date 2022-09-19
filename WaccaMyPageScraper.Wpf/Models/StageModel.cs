@@ -17,6 +17,10 @@ namespace WaccaMyPageScraper.Wpf.Models
 
         public Brush RankingColor => RankingColors.GetColor(this.Ranking);
 
+        public string LocalizedName => 1 <= this.Id && this.Id <= 14 ?
+            this.Name.Replace("ステージ", WaccaMyPageScraper.Localization.Data.Stage)
+            : this.Name;
+
         public StageModel() { }
 
         public StageModel(Stage stage) : base(stage.Id, stage.Name, stage.Grade, stage.Scores, stage.TotalScore)

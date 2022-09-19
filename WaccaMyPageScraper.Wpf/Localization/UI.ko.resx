@@ -117,22 +117,48 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Artist" xml:space="preserve">
-    <value>Artist</value>
+  <data name="About" xml:space="preserve">
+    <value>정보</value>
   </data>
-  <data name="Default" xml:space="preserve">
-    <value>Default</value>
+  <data name="Color" xml:space="preserve">
+    <value>색</value>
   </data>
-  <data name="Level" xml:space="preserve">
-    <value>Level</value>
+  <data name="DescendingToolTip" xml:space="preserve">
+    <value>내림차순/오름차순 정렬</value>
   </data>
-  <data name="PlayCount" xml:space="preserve">
-    <value>Play Count</value>
+  <data name="FetchButtonText" xml:space="preserve">
+    <value>불러오기</value>
   </data>
-  <data name="Score" xml:space="preserve">
-    <value>Score</value>
+  <data name="Language" xml:space="preserve">
+    <value>언어</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Title</value>
+  <data name="LanguageRestart" xml:space="preserve">
+    <value>언어 설정은 프로그램을 재시작하면 적용됩니다.</value>
+  </data>
+  <data name="LoginButtonText" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="RecordDetailToolTip" xml:space="preserve">
+    <value>기록 세부사항 보기</value>
+  </data>
+  <data name="RecordSearchWatermark" xml:space="preserve">
+    <value>제목이나 아티스트로 검색</value>
+  </data>
+  <data name="RichViewToolTip" xml:space="preserve">
+    <value>단순/화려한 양식으로 보기</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="StageClearConditionText" xml:space="preserve">
+    <value>{1} 판정 {0}개 내</value>
+    <comment>{0}: Count, {1}: Judge</comment>
+  </data>
+  <data name="StageLifeRestoreText" xml:space="preserve">
+    <value>라이프 {0} 회복</value>
+    <comment>{0}: Lifes</comment>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>테마</value>
   </data>
 </root>
