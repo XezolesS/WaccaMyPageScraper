@@ -6,6 +6,16 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <Authors>XezolesS</Authors>
+    <RepositoryUrl>https://github.com/XezolesS/WaccaMyPageScraper.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <PackageId>WACCA MPS</PackageId>
+    <Copyright>MIT Lisence</Copyright>
+    <PackageProjectUrl>https://github.com/XezolesS/WaccaMyPageScraper</PackageProjectUrl>
+    <Version>1.1.0</Version>
+    <AssemblyName>WACCA MPS</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

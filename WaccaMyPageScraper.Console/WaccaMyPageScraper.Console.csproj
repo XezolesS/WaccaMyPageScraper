@@ -5,6 +5,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
+    <PackageProjectUrl>https://github.com/XezolesS/WaccaMyPageScraper</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/XezolesS/WaccaMyPageScraper</RepositoryUrl>
+    <Copyright>MIT Lisence</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <Authors>XezolesS</Authors>
   </PropertyGroup>
 
   <ItemGroup>
