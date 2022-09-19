@@ -86,6 +86,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (this.fetcher is null)
                 return;
 
+            if (!this.IsFetchable)
+                return;
+
+            this.IsFetchable = false;
+
+            // Create Directory
+            if (!Directory.Exists(Directories.Trophy))
+                Directory.CreateDirectory(Directories.Trophy);
+
             // Reset Trophies
             this.Trophies = new List<TrophyModel>();
 
@@ -95,14 +104,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Save trophies
-            if (!Directory.Exists(Directories.Trophy))
-                Directory.CreateDirectory(Directories.Trophy);
-
             var csvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
             csvHandler.Export(Directories.TrophyData);
 
             // Convert Trophies to TrophyModels
             this.Trophies = TrophyModel.FromTrophies(trophies);
+
+            this.IsFetchable = true;
         }
 
         private void OnSeasonChanged()

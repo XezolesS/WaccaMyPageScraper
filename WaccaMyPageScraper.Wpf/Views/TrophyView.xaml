@@ -230,6 +230,7 @@
             <Button Grid.Column="1"
                     Content="{x:Static LocalziedUIText:UI.FetchButtonText}"
                     Margin="10,0"
+                    IsEnabled="{Binding IsFetchable}"
                     Command="{Binding FetchTrophiesCommand}" />
         </Grid>
     </Grid>

@@ -30,6 +30,7 @@
                 Command="{Binding LoginCommand}"
                 IsEnabled="{Binding IsAbleToAccess}" />
 
+
         <Grid Grid.Row="1"
               Margin="10"
               VerticalAlignment="Center"
@@ -45,7 +46,7 @@
             <TextBox x:Name="TextBoxAimeId"
                      Grid.Column="1" 
                      Text="{Binding AimeId}"
-                     MinWidth="52"
+                     MinWidth="60"
                      BorderThickness="0,0,0,1"
                      BorderBrush="{DynamicResource MahApps.Brushes.Text}"
                      Background="Transparent" />

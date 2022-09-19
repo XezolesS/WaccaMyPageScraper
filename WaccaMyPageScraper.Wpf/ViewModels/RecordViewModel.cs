@@ -159,6 +159,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (this.fetcher is null)
                 return;
 
+            if (!this.IsFetchable)
+                return;
+
+            this.IsFetchable = false;
+
+            // Create Directory
+            if (!Directory.Exists(Directories.Record))
+                Directory.CreateDirectory(Directories.Record);
+
             // Reset Records
             this.Records = new List<RecordModel>();
             this.FilteredRecords.Clear();
@@ -201,9 +210,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
             // Save records
-            if (!Directory.Exists(Directories.Record))
-                Directory.CreateDirectory(Directories.Record);
-
             var musicCsvHandler = new CsvHandler<Music>(musics, Log.Logger);
             musicCsvHandler.Export(Directories.RecordData);
 
@@ -220,10 +226,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             // Set comlete message
             this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,
                 this.Records.Count(), WaccaMyPageScraper.Localization.Data.Record);
+
+            this.IsFetchable = true;
         }
         
         public async void OpenRecordDetailEvent()
         {
+            if (this.Records == null || this.Records.Count() == 0)
+                return;
+
             // Reset window.
             this.RecordDetailWindow.Close();
             this.RecordDetailWindow = new RecordDetailWindow();

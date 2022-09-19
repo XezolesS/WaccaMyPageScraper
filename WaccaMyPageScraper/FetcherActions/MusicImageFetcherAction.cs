@@ -45,11 +45,11 @@ namespace WaccaMyPageScraper.FetcherActions
                 return null;
             }
 
-            if (!Directory.Exists(Directories.Resources))
+            if (!Directory.Exists(Directories.RecordImage))
             {
-                Directory.CreateDirectory(Directories.Resources);
+                Directory.CreateDirectory(Directories.RecordImage);
 
-                this._fetcher.Logger?.Information(Localization.Fetcher.NoDirectory, Path.GetFullPath(Directories.Resources));
+                this._fetcher.Logger?.Information(Localization.Fetcher.NoDirectory, Path.GetFullPath(Directories.RecordImage));
             }
 
             string? result = null;

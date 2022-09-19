@@ -19,6 +19,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         protected Fetcher fetcher;
         protected IEventAggregator _eventAggregator;
 
+        private bool _isFetchable;
+        public bool IsFetchable
+        {
+            get => _isFetchable;
+            set => SetProperty(ref _isFetchable, value);
+        }
+
         private string _fetchProgressText;
         public string FetchProgressText
         {
@@ -48,6 +55,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this._eventAggregator = ea;
 
+            this.IsFetchable = true;
             this.FetcherVisibility = Visibility.Collapsed;
 
             ea.GetEvent<LoginSuccessEvent>().Subscribe(FetcherLoginEvent);

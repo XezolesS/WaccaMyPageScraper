@@ -61,6 +61,15 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             if (this.fetcher is null)
                 return;
 
+            if (!this.IsFetchable)
+                return;
+
+            this.IsFetchable = false;
+
+            // Create Directory
+            if (!Directory.Exists(Directories.Stage))
+                Directory.CreateDirectory(Directories.Stage);
+
             // Reset Stages
             this.Stages = new List<StageModel>();
 
@@ -96,9 +105,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             }
 
             // Save stages
-            if (!Directory.Exists(Directories.Stage))
-                Directory.CreateDirectory(Directories.Stage);
-
             var stageCsvHandler = new CsvHandler<Stage>(stages, Log.Logger);
             stageCsvHandler.Export(Directories.StageData);
 
@@ -111,6 +117,8 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             // Set complete message
             this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,
                 this.Stages.Count(), WaccaMyPageScraper.Localization.Data.Stage);
+
+            this.IsFetchable = true;
         }
     }
 }
