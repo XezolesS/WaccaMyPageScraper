@@ -500,7 +500,7 @@
                                                    Foreground="Yellow"
                                                    FontSize="12" />
                                         <TextBlock Margin="4,0,0,0" 
-                                                   Text="times played"
+                                                   Text="{x:Static LocalziedUIText:UI.TimesPlayed}"
                                                    Foreground="{DynamicResource MahApps.Brushes.Gray2}"
                                                    FontSize="11"
                                                    FontWeight="Light"

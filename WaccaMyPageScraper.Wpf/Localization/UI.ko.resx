@@ -161,4 +161,7 @@
   <data name="Theme" xml:space="preserve">
     <value>테마</value>
   </data>
+  <data name="TimesPlayed" xml:space="preserve">
+    <value>회 플레이</value>
+  </data>
 </root>

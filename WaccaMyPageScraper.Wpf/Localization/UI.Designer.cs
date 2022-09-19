@@ -185,5 +185,14 @@ namespace WaccaMyPageScraper.Wpf.Localization {
                 return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to times played.
+        /// </summary>
+        public static string TimesPlayed {
+            get {
+                return ResourceManager.GetString("TimesPlayed", resourceCulture);
+            }
+        }
     }
 }

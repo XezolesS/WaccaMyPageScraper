@@ -161,4 +161,7 @@
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
   </data>
+  <data name="TimesPlayed" xml:space="preserve">
+    <value>times played</value>
+  </data>
 </root>
