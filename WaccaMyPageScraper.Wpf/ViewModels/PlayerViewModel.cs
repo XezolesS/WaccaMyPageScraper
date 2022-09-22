@@ -55,7 +55,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
         private async void UpdatePlayerData(Fetcher fetcher)
         {
             var player = Task.Run(async () => await fetcher.FetchPlayerAsync()).Result;
-            var totalRpRanking = Task.Run(async () => await fetcher.FetchTotalRpRankingFetch()).Result;
+            var totalRpRanking = Task.Run(async () => await fetcher.FetchTotalRpRankingAsync()).Result;
 
             var playerIcon = await fetcher.FetchPlayerIconAsync();
 

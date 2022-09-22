@@ -85,12 +85,12 @@ namespace WaccaMyPageScraper
         public async Task<StageRanking> FetchStageRankingAsync(IProgress<string> progressText, IProgress<int> progressPercent, StageMetadata stageMetadata)
             => await new StageRankingFetcherAction(this).FetchAsync(progressText, progressPercent, stageMetadata);
 
-        public async Task<TotalRpRanking> FetchTotalRpRankingFetch() => await FetchTotalRpRankingFetch(new Progress<string>(), new Progress<int>());
-        public async Task<TotalRpRanking> FetchTotalRpRankingFetch(IProgress<string> progressText, IProgress<int> progressPercent)
+        public async Task<TotalRpRanking> FetchTotalRpRankingAsync() => await FetchTotalRpRankingAsync(new Progress<string>(), new Progress<int>());
+        public async Task<TotalRpRanking> FetchTotalRpRankingAsync(IProgress<string> progressText, IProgress<int> progressPercent)
             => await new TotalRpRankingFetcherAction(this).FetchAsync(progressText, progressPercent);
 
-        public async Task<TotalScoreRankings> FetchTotalScoreRankingsFetch() => await FetchTotalScoreRankingsFetch(new Progress<string>(), new Progress<int>());
-        public async Task<TotalScoreRankings> FetchTotalScoreRankingsFetch(IProgress<string> progressText, IProgress<int> progressPercent)
+        public async Task<TotalScoreRankings> FetchTotalScoreRankingsAsync() => await FetchTotalScoreRankingsAsync(new Progress<string>(), new Progress<int>());
+        public async Task<TotalScoreRankings> FetchTotalScoreRankingsAsync(IProgress<string> progressText, IProgress<int> progressPercent)
             => await new TotalScoreRankingsFetcherAction(this).FetchAsync(progressText, progressPercent);
 
         public async Task<Trophy[]> FetchTrophiesAsync() => await FetchTrophiesAsync(new Progress<string>(), new Progress<int>());

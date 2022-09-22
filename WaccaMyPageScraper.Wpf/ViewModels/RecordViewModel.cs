@@ -205,7 +205,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             }
 
             // Fetch total score rankings
-            var totalScoreRankings = await this.fetcher.FetchTotalScoreRankingsFetch(
+            var totalScoreRankings = await this.fetcher.FetchTotalScoreRankingsAsync(
                 new Progress<string>(progressText => this.FetchProgressText = progressText),
                 new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
 
