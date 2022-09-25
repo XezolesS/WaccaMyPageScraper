@@ -126,9 +126,6 @@
   <data name="DescendingToolTip" xml:space="preserve">
     <value>Sort by descending/ascending</value>
   </data>
-  <data name="EnableLogging" xml:space="preserve">
-    <value>Enable Logging</value>
-  </data>
   <data name="FetchButtonText" xml:space="preserve">
     <value>Fetch</value>
   </data>
