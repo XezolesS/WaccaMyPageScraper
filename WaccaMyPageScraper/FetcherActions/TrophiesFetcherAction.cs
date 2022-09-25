@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.FetcherActions
 {
@@ -81,7 +82,11 @@ namespace WaccaMyPageScraper.FetcherActions
                         .GetStringAsync($"{DescriptionUrl}?trid={resultItem.Id}")
                         .ConfigureAwait(false);
                     var descDocument = new HtmlDocument();
-                    descDocument.LoadHtml(descResponse);
+                    if (!this.TryLoadHtml(ref descDocument, responseContent))
+                    {
+                        this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                        return null;
+                    }
 
                     var descriptionNode = descDocument.DocumentNode.SelectSingleNode("//p[@class='description']/span");
                     var description = descriptionNode.InnerText;

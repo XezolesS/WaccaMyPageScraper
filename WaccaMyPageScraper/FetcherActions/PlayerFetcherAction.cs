@@ -58,7 +58,11 @@ namespace WaccaMyPageScraper.FetcherActions
                 var numericRegex = new Regex("[0-9]+");
 
                 var document = new HtmlDocument();
-                document.LoadHtml(response);
+                if (!this.TryLoadHtml(ref document, response))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var playerDataNode = document.DocumentNode.SelectSingleNode("//div[@class='playdata__playerdata']");
 

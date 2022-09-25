@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using HtmlAgilityPack;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,16 @@ namespace WaccaMyPageScraper.FetcherActions
         }
         
         public abstract Task<T?> FetchAsync(IProgress<string> progressText, IProgress<int> progressPercent, params object?[] args);
+
+        protected bool TryLoadHtml(ref HtmlDocument document, string content)
+        {
+            document.LoadHtml(content);
+
+            if (document.DocumentNode.SelectSingleNode("//img[@src='/img/web/twitter.svg']") != null)
+                return false;
+
+            return true;
+        }
 
         protected int CalculatePercent(int count, int total) => (int)(((double)count / total) * 100);
     }

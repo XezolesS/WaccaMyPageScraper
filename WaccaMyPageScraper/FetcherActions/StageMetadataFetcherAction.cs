@@ -53,7 +53,11 @@ namespace WaccaMyPageScraper.FetcherActions
             try
             {
                 var document = new HtmlDocument();
-                document.LoadHtml(response);
+                if (!this.TryLoadHtml(ref document, response))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var stageListNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/ul[@class='stageup__list']");
                 var stageItemNodes = stageListNode.SelectNodes("./form/a[@class='stageup__list__link']");

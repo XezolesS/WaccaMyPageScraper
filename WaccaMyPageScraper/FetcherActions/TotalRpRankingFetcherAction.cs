@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WaccaMyPageScraper.Data;
+using WaccaMyPageScraper.Enums;
 
 namespace WaccaMyPageScraper.FetcherActions
 {
@@ -58,7 +59,11 @@ namespace WaccaMyPageScraper.FetcherActions
 
                 // Check response content HTML to find out if it's an error page.
                 var document = new HtmlDocument();
-                document.LoadHtml(responseContent);
+                if (!this.TryLoadHtml(ref document, responseContent))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var rankingNode = document.DocumentNode.SelectSingleNode("//div[@class='ranking__wp-score__rank top-rank']");
                 var rankingImageNode = rankingNode.SelectSingleNode("(./img)[last()]");

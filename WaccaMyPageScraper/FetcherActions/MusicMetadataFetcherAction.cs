@@ -51,7 +51,11 @@ namespace WaccaMyPageScraper.FetcherActions
             try
             {
                 var document = new HtmlDocument();
-                document.LoadHtml(response);
+                if (!this.TryLoadHtml(ref document, response))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var scoreListNode = document.DocumentNode.SelectSingleNode("//section[@class='playdata']/div[@class='contents-wrap']/div[@class='playdata__score-list']/ul");
                 var musicItemNodes = scoreListNode.SelectNodes("./li");

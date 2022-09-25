@@ -126,6 +126,9 @@
   <data name="DescendingToolTip" xml:space="preserve">
     <value>내림차순/오름차순 정렬</value>
   </data>
+  <data name="EnableLogging" xml:space="preserve">
+    <value>로깅 활성화</value>
+  </data>
   <data name="FetchButtonText" xml:space="preserve">
     <value>불러오기</value>
   </data>

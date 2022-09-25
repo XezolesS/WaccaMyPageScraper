@@ -99,9 +99,13 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.Trophies = new List<TrophyModel>();
 
             // Fetch trophies
-            var trophies = await this.fetcher.FetchTrophiesAsync(
-                new Progress<string>(progressText => this.FetchProgressText = progressText),
-                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
+            var trophies = await FetchTrophiesAsync();
+
+            if (trophies is null)
+            {
+                this.IsFetchable = true;
+                return;
+            }
 
             // Save trophies
             var csvHandler = new CsvHandler<Trophy>(trophies, Log.Logger);
@@ -111,6 +115,34 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.Trophies = TrophyModel.FromTrophies(trophies);
 
             this.IsFetchable = true;
+        }
+
+        private async Task<Trophy[]?> FetchTrophiesAsync()
+        {
+            try
+            {
+                return await this.fetcher.FetchTrophiesAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = progressText),
+                    new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
+            }
+            catch (Exception ex)
+            {
+                if (!await this.fetcher.TryLoginAsync(
+                        new Progress<string>(progressText =>
+                            this.FetchProgressText = progressText)))
+                {
+                    Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
+                            WaccaMyPageScraper.Localization.Data.Trophy, ex.Message);
+
+                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
+                        WaccaMyPageScraper.Localization.Data.Trophy);
+                    this.FetchProgressPercent = 0;
+
+                    return null;
+                }
+
+                return await FetchTrophiesAsync();
+            }
         }
 
         private void OnSeasonChanged()

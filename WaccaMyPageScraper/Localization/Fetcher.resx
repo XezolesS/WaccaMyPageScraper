@@ -169,6 +169,9 @@
   <data name="LoggedOff" xml:space="preserve">
     <value>Not Logged In</value>
   </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Failed to login.</value>
+  </data>
   <data name="NoArgument" xml:space="preserve">
     <value>{0} must have argument(s): {1}!</value>
     <comment>{0}: Name of a method, {1}: Arguments</comment>
@@ -183,6 +186,10 @@
   </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Fetcher is not logged in to the page!</value>
+  </data>
+  <data name="ReloggingIn" xml:space="preserve">
+    <value>Reconnecting... ({0} tries)</value>
+    <comment>{0}: Tries</comment>
   </data>
   <data name="SetReferrer" xml:space="preserve">
     <value>Set Referrer as {0} and send request.</value>

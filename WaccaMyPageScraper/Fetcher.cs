@@ -18,9 +18,11 @@ namespace WaccaMyPageScraper
     {
         private static readonly string MyPageLoginExecUrl = "https://wacca.marv-games.jp/web/login/exec";
 
+        private static readonly int MaxReconnectTries = 10;
+
         public string AimeId { get; private set; }
 
-        public LoginStatus LoginStatus { get; private set; }
+        public LoginStatus LoginStatus { get; internal set; }
 
         internal HttpClient Client { get; private set; }
 
@@ -106,41 +108,68 @@ namespace WaccaMyPageScraper
             var parameters = new Dictionary<string, string> { { "aimeId", this.AimeId} };
             var encodedContent = new FormUrlEncodedContent(parameters);
 
-            var response = await this.Client.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
-            this.Logger?.Debug("{Response}", response);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                this.Logger?.Error(Localization.Fetcher.ConnectionError);
+                var response = await this.Client.PostAsync(MyPageLoginExecUrl, encodedContent).ConfigureAwait(false);
+                this.Logger?.Debug("{Response}", response);
 
-                return false;
+                if (!response.IsSuccessStatusCode)
+                {
+                    this.Logger?.Error(Localization.Fetcher.ConnectionError);
+
+                    return false;
+                }
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Check response content HTML to find out if it's an error page.
+                var document = new HtmlDocument();
+                document.LoadHtml(responseContent);
+
+                var errorCodeNode = document.DocumentNode.SelectSingleNode("//p[@class='error_code']");
+                var errorMessageNode = document.DocumentNode.SelectSingleNode("//p[@class='error_message']");
+
+                if (errorCodeNode != null && errorMessageNode != null)
+                {
+                    var errorCode = errorCodeNode?.InnerText.Trim()
+                        .Replace("エラーコード: ", "Error Code: ");
+                    var errorMessage = errorMessageNode?.InnerText.Trim();
+
+                    this.Logger?.Error("{ErrorCode}: {ErrorMessage}", errorCode, errorMessage);
+
+                    this.LoginStatus = LoginStatus.LoggedOff;
+
+                    return false;
+                }
             }
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            // Check response content HTML to find out if it's an error page.
-            var document = new HtmlDocument();
-            document.LoadHtml(responseContent);
-
-            var errorCodeNode = document.DocumentNode.SelectSingleNode("//p[@class='error_code']");
-            var errorMessageNode = document.DocumentNode.SelectSingleNode("//p[@class='error_message']");
-
-            if (errorCodeNode != null && errorMessageNode != null)
+            catch (Exception ex)
             {
-                var errorCode = errorCodeNode?.InnerText.Trim()
-                    .Replace("エラーコード: ", "Error Code: ");
-                var errorMessage = errorMessageNode?.InnerText.Trim();
-
-                this.Logger?.Error("{ErrorCode}: {ErrorMessage}", errorCode, errorMessage);
-
+                this.Logger?.Error(Localization.Fetcher.LoginFailed + " {0}", ex.Message);
                 this.LoginStatus = LoginStatus.LoggedOff;
 
                 return false;
             }
-            
+
             this.LoginStatus = LoginStatus.LoggedOn;
 
             return true;
+        }
+
+        public async Task<bool> TryLoginAsync(IProgress<string> progressText)
+        {
+            for (int tries = 1; tries <= MaxReconnectTries; tries++)
+            {
+                var result = await this.LoginAsync();
+                if (result)
+                    return true;
+
+                Log.Error(Localization.Fetcher.ReloggingIn, tries);
+                progressText.Report(string.Format(Localization.Fetcher.ReloggingIn, tries));
+
+                await Task.Delay(1000);
+            }
+
+            return false;
         }
 
         public void Dispose()

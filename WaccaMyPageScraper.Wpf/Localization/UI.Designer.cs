@@ -88,6 +88,15 @@ namespace WaccaMyPageScraper.Wpf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Logging.
+        /// </summary>
+        public static string EnableLogging {
+            get {
+                return ResourceManager.GetString("EnableLogging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fetch.
         /// </summary>
         public static string FetchButtonText {

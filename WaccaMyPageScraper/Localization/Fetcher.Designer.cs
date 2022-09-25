@@ -187,6 +187,15 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to login..
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must have argument(s): {1}!.
         /// </summary>
         public static string NoArgument {
@@ -219,6 +228,15 @@ namespace WaccaMyPageScraper.Localization {
         public static string NotLoggedIn {
             get {
                 return ResourceManager.GetString("NotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reconnecting... ({0} tries).
+        /// </summary>
+        public static string ReloggingIn {
+            get {
+                return ResourceManager.GetString("ReloggingIn", resourceCulture);
             }
         }
         

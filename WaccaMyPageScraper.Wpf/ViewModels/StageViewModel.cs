@@ -74,34 +74,24 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.Stages = new List<StageModel>();
 
             // Fetch stage list
-            var stageMetadata = await this.fetcher.FetchStageMetadataAsync(
-                new Progress<string>(progressText => this.FetchProgressText = progressText),
-                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
+            var stageMetadata = await FetchStageMetadataAsync();
+
+            if (stageMetadata is null)
+            {
+                this.IsFetchable = true;
+                return;
+            }
 
             // Fetch stages
-            int count = 0;
-            var stages = new List<Stage>();
-            var rankings = new List<StageRanking>();
-            foreach (var meta in stageMetadata)
+            var stageRecords = await FetchStageRecordsAsync(stageMetadata);
+            var stages = stageRecords.Item1;
+            var rankings = stageRecords.Item2;
+
+            if (stages is null || rankings is null ||
+                stages.Last() is null || rankings.Last() is null)
             {
-                stages.Add(await this.fetcher.FetchStageAsync(
-                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
-                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
-                        count, stageMetadata.Length, progressText)),
-                    new Progress<int>(),
-                    meta));
-                rankings.Add(await this.fetcher.FetchStageRankingAsync(
-                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
-                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
-                        count, stageMetadata.Length, progressText)),
-                    new Progress<int>(),
-                    meta));
-
-                ++count;
-
-                this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,
-                    count, stageMetadata.Length, meta.Name);
-                this.FetchProgressPercent = (int)(((double)count / stageMetadata.Length) * 100);
+                this.IsFetchable = true;
+                return;
             }
 
             // Save stages
@@ -119,6 +109,88 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
                 this.Stages.Count(), WaccaMyPageScraper.Localization.Data.Stage);
 
             this.IsFetchable = true;
+        }
+
+        private async Task<StageMetadata[]?> FetchStageMetadataAsync()
+        {
+            try
+            {
+                return await this.fetcher.FetchStageMetadataAsync(
+                new Progress<string>(progressText => this.FetchProgressText = progressText),
+                new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
+            }
+            catch (Exception ex)
+            {
+                if (!await this.fetcher.TryLoginAsync(
+                        new Progress<string>(progressText =>
+                            this.FetchProgressText = progressText)))
+                {
+                    Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
+                    WaccaMyPageScraper.Localization.Data.StageMetadata, ex.Message);
+
+                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
+                        WaccaMyPageScraper.Localization.Data.StageMetadata);
+                    this.FetchProgressPercent = 0;
+
+                    return null;
+                }
+
+                return await FetchStageMetadataAsync();
+            }
+        }
+
+        private async Task<(Stage[]?, StageRanking[]?)> FetchStageRecordsAsync(StageMetadata[] stageMetadata)
+        {
+            int count = 0;
+
+            var stages = new List<Stage>();
+            var rankings = new List<StageRanking>();
+            for (int i = 0; i < stageMetadata.Length; i++)
+            {
+                var meta = stageMetadata[i];
+
+                try
+                {
+                    stages.Add(await this.fetcher.FetchStageAsync(
+                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                        count, stageMetadata.Length, progressText)),
+                    new Progress<int>(),
+                    meta));
+                    rankings.Add(await this.fetcher.FetchStageRankingAsync(
+                        new Progress<string>(progressText => this.FetchProgressText = string.Format(
+                            WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
+                            count, stageMetadata.Length, progressText)),
+                        new Progress<int>(),
+                        meta));
+
+                    ++count;
+
+                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,
+                        count, stageMetadata.Length, meta.Name);
+                    this.FetchProgressPercent = (int)(((double)count / stageMetadata.Length) * 100);
+                }
+                catch (Exception ex)
+                {
+                    i--;
+
+                    if (!await this.fetcher.TryLoginAsync(
+                        new Progress<string>(progressText =>
+                            this.FetchProgressText = progressText)))
+                    {
+                        Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
+                            WaccaMyPageScraper.Localization.Data.Stage, ex.Message);
+
+                        this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
+                            WaccaMyPageScraper.Localization.Data.Stage);
+                        this.FetchProgressPercent = 0;
+
+                        return (null, null);
+                    }
+                }
+            }
+
+            return (stages.ToArray(), rankings.ToArray());
         }
     }
 }

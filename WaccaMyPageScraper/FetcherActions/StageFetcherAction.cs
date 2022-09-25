@@ -72,7 +72,11 @@ namespace WaccaMyPageScraper.FetcherActions
 
                 // Check response content HTML to find out if it's an error page.
                 var document = new HtmlDocument();
-                document.LoadHtml(responseContent);
+                if (!this.TryLoadHtml(ref document, responseContent))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var stageDetailNode = document.DocumentNode.SelectSingleNode("//section[@class='stageup']/div[@class='stageup__detail']");
                 var scoreNodes = stageDetailNode.SelectNodes("./ul/li/div/div[@class='stageup__detail__song-info__score']");

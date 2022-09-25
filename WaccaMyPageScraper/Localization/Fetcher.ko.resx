@@ -169,6 +169,9 @@
   <data name="LoggedOff" xml:space="preserve">
     <value>로그인 하지 않음</value>
   </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>로그인 실패.</value>
+  </data>
   <data name="NoArgument" xml:space="preserve">
     <value>{0}는 파라미터를 필요로 합니다: {1}!</value>
     <comment>{0}: Name of a method, {1}: Arguments</comment>
@@ -183,6 +186,10 @@
   </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Fetcher가 페이지에 로그인되어 있지 않습니다!</value>
+  </data>
+  <data name="ReloggingIn" xml:space="preserve">
+    <value>재접속중... ({0}번째 시도)</value>
+    <comment>{0}: Tries</comment>
   </data>
   <data name="SetReferrer" xml:space="preserve">
     <value>Referrer를 {0}로 설정 하고 리퀘스트를 보냈습니다.</value>

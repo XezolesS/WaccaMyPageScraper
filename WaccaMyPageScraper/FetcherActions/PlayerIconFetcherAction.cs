@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Resources;
 
 namespace WaccaMyPageScraper.FetcherActions
@@ -52,7 +53,11 @@ namespace WaccaMyPageScraper.FetcherActions
             try
             {
                 var document = new HtmlDocument();
-                document.LoadHtml(response);
+                if (!this.TryLoadHtml(ref document, response))
+                {
+                    this._fetcher.LoginStatus = LoginStatus.LoggedOff;
+                    return null;
+                }
 
                 var playerIconNode = document.DocumentNode.SelectSingleNode("//div[@class='icon__image']/img");
                 var playerIconSrc = playerIconNode.Attributes["src"].Value;
