@@ -117,13 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="English" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="Japanese" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="Korean" xml:space="preserve">
-    <value>한국어</value>
+  <data name="ConvertingNotSupported" xml:space="preserve">
+    <value> {0}に変換できません。</value>
+    <comment>{0}: Type</comment>
   </data>
 </root>

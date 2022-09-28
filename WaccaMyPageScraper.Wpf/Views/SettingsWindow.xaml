@@ -120,7 +120,7 @@
                        FontSize="18" 
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left" />
-                <Label Content="v1.1.0"
+                <Label Content="v1.1.1"
                        Foreground="{DynamicResource MahApps.Brushes.Accent3}"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Right" />

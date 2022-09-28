@@ -82,7 +82,7 @@ namespace WaccaMyPageScraper.FetcherActions
                         .GetStringAsync($"{DescriptionUrl}?trid={resultItem.Id}")
                         .ConfigureAwait(false);
                     var descDocument = new HtmlDocument();
-                    if (!this.TryLoadHtml(ref descDocument, responseContent))
+                    if (!this.TryLoadHtml(ref descDocument, descResponse))
                     {
                         this._fetcher.LoginStatus = LoginStatus.LoggedOff;
                         return null;

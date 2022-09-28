@@ -180,10 +180,6 @@
     <value>No directory found. Create new directory: {0}</value>
     <comment>{0}: Directory</comment>
   </data>
-  <data name="NoStageRecordExists" xml:space="preserve">
-    <value>There is no record of {0}.</value>
-    <comment>{0}: Stage name</comment>
-  </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Fetcher is not logged in to the page!</value>
   </data>

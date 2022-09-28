@@ -22,6 +22,7 @@ namespace WaccaMyPageScraper.Wpf.Converters
             {
                 Language.English => Localization.Language.English,
                 Language.Korean => Localization.Language.Korean,
+                Language.Japanese => Localization.Language.Japanese,
 
                 _ => Localization.Language.English,
             };
@@ -38,6 +39,7 @@ namespace WaccaMyPageScraper.Wpf.Converters
             {
                 var str when str.Equals(Localization.Language.English) => Language.English,
                 var str when str.Equals(Localization.Language.Korean) => Language.Korean,
+                var str when str.Equals(Localization.Language.Japanese) => Language.Japanese,
 
                 _ => Language.English,
             };

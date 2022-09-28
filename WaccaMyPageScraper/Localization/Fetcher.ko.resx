@@ -180,10 +180,6 @@
     <value>디렉토리를 찾지 못했습니다. 새로운 디렉토리를 생성합니다: {0}</value>
     <comment>{0}: Directory</comment>
   </data>
-  <data name="NoStageRecordExists" xml:space="preserve">
-    <value>{0}에 대한 기록이 없습니다.</value>
-    <comment>{0}: Stage name</comment>
-  </data>
   <data name="NotLoggedIn" xml:space="preserve">
     <value>Fetcher가 페이지에 로그인되어 있지 않습니다!</value>
   </data>

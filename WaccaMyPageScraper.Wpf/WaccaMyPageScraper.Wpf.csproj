@@ -75,6 +75,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Language.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Localization\UI.ja.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\UI.ko.resx">
       <LastGenOutput>UI.ko.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>

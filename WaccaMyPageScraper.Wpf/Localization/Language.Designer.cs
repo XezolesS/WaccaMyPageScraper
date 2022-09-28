@@ -70,6 +70,15 @@ namespace WaccaMyPageScraper.Wpf.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 日本語.
+        /// </summary>
+        internal static string Japanese {
+            get {
+                return ResourceManager.GetString("Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 한국어.
         /// </summary>
         internal static string Korean {

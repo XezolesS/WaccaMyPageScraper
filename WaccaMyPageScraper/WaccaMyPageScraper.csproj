@@ -33,6 +33,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Converter.resx</DependentUpon>
     </Compile>
+    <Compile Update="Localization\Data - Copy.ko.Designer.cs">
+      <DependentUpon>Data.ko.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Localization\Data.ko.Designer.cs">
       <DependentUpon>Data.ko.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -42,6 +47,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Data.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Localization\Fetcher - Copy.ko.Designer.cs">
+      <DependentUpon>Fetcher.ko.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Localization\Fetcher.ko.Designer.cs">
       <DependentUpon>Fetcher.ko.resx</DependentUpon>
@@ -61,6 +71,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Localization\Converter.ja.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Converter.ko.resx">
       <LastGenOutput>Converter.ko.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -69,6 +82,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Converter.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Data.ja.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Data - Copy.ko.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Localization\Data.ko.resx">
       <LastGenOutput>Data.ko.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -76,6 +94,11 @@
     <EmbeddedResource Update="Localization\Data.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Data.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Fetcher.ja.resx">
+      <SubType>Designer</SubType>
+      <LastGenOutput>Fetcher - Copy.ko.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Localization\Fetcher.ko.resx">
       <SubType>Designer</SubType>

@@ -117,13 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="English" xml:space="preserve">
-    <value>English</value>
+  <data name="About" xml:space="preserve">
+    <value>情報</value>
   </data>
-  <data name="Japanese" xml:space="preserve">
-    <value>日本語</value>
+  <data name="Color" xml:space="preserve">
+    <value>カラー</value>
   </data>
-  <data name="Korean" xml:space="preserve">
-    <value>한국어</value>
+  <data name="DescendingToolTip" xml:space="preserve">
+    <value>降順/昇順ソート</value>
+  </data>
+  <data name="FetchButtonText" xml:space="preserve">
+    <value>フェッチ</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="LanguageRestart" xml:space="preserve">
+    <value>言語設定はプログラムを再起動すると適用されます。</value>
+  </data>
+  <data name="LoginButtonText" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="RecordDetailToolTip" xml:space="preserve">
+    <value>記録詳細を見る</value>
+  </data>
+  <data name="RecordSearchWatermark" xml:space="preserve">
+    <value>曲名やアーティスト名で検索</value>
+  </data>
+  <data name="RichViewToolTip" xml:space="preserve">
+    <value>シンプル／リッチなフォームで見る</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="StageClearConditionText" xml:space="preserve">
+    <value>{1}判定 {0}個内</value>
+    <comment>{0}: Count, {1}: Judge</comment>
+  </data>
+  <data name="StageLifeRestoreText" xml:space="preserve">
+    <value>ライフ {0} 回復</value>
+    <comment>{0}: Lifes</comment>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="TimesPlayed" xml:space="preserve">
+    <value>回プレイ</value>
   </data>
 </root>

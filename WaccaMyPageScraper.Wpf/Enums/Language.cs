@@ -9,6 +9,7 @@ namespace WaccaMyPageScraper.Wpf.Enums
     public enum Language
     {
         English,
-        Korean
+        Korean,
+        Japanese,
     }
 }

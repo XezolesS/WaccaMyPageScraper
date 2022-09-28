@@ -117,13 +117,78 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="English" xml:space="preserve">
-    <value>English</value>
+  <data name="Connected" xml:space="preserve">
+    <value>接続成功。</value>
   </data>
-  <data name="Japanese" xml:space="preserve">
-    <value>日本語</value>
+  <data name="Connecting" xml:space="preserve">
+    <value>{0}に接続中…</value>
+    <comment>{0}: Url</comment>
   </data>
-  <data name="Korean" xml:space="preserve">
-    <value>한국어</value>
+  <data name="ConnectionError" xml:space="preserve">
+    <value>ページにアクセスした途中問題が発生されました！</value>
+  </data>
+  <data name="DataFetched1" xml:space="preserve">
+    <value>{0}をフェッチしました。</value>
+    <comment>{0}: Name of data type</comment>
+  </data>
+  <data name="DataFetched2" xml:space="preserve">
+    <value>{0}をフェッチしました: {1}</value>
+    <comment>{0}: Name of data type, {1}: Data</comment>
+  </data>
+  <data name="DataFetched3" xml:space="preserve">
+    <value>{0}個の {1}をフェッチしました。</value>
+    <comment>{0}: Total fetched, {1}: Name of Data Type</comment>
+  </data>
+  <data name="DataSaved" xml:space="preserve">
+    <value>{0}が{1}にセーブされてました。</value>
+    <comment>{0}: Name of data type, {1}: Path</comment>
+  </data>
+  <data name="Fetching" xml:space="preserve">
+    <value>{0}をフェッチ中…</value>
+    <comment>{0}: Data</comment>
+  </data>
+  <data name="FetchingFail" xml:space="preserve">
+    <value>{0}のフェッチが失敗されてます。</value>
+    <comment>{0}: Name of data type</comment>
+  </data>
+  <data name="FetchingMany" xml:space="preserve">
+    <value>{0}をフェッチ中 ({2} 中 {1})</value>
+    <comment>{0}: Data, {1}: Count, {2}: Total</comment>
+  </data>
+  <data name="FetchingProgress" xml:space="preserve">
+    <value>({0}/{1}) {2}をフェッチ中…</value>
+    <comment>{0}: Count, {1}: Total, {2}: Data</comment>
+  </data>
+  <data name="FetchingProgressMsg" xml:space="preserve">
+    <value>({0}/{1}) {2}</value>
+    <comment>{0}: Count, {1}: Total, {2}: Message</comment>
+  </data>
+  <data name="LoggedIn" xml:space="preserve">
+    <value>ログイン成功</value>
+  </data>
+  <data name="LoggedOff" xml:space="preserve">
+    <value>ログインしてない</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>ログイン失敗。</value>
+  </data>
+  <data name="NoArgument" xml:space="preserve">
+    <value>{0}はパラメータが必要します: {1}!</value>
+    <comment>{0}: Name of a method, {1}: Arguments</comment>
+  </data>
+  <data name="NoDirectory" xml:space="preserve">
+    <value>ディレクトリーが見つかれません. 新しいディレクトリーを作成します: {0}</value>
+    <comment>{0}: Directory</comment>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>フェッチャーがログインしていません！</value>
+  </data>
+  <data name="ReloggingIn" xml:space="preserve">
+    <value>再接続中... ({0}回目)</value>
+    <comment>{0}: Tries</comment>
+  </data>
+  <data name="SetReferrer" xml:space="preserve">
+    <value>Referrerを{0}に設定してリクエストを送りました。</value>
+    <comment>{0}: Referrer</comment>
   </data>
 </root>

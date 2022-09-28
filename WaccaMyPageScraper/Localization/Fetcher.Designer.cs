@@ -214,15 +214,6 @@ namespace WaccaMyPageScraper.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no record of {0}..
-        /// </summary>
-        public static string NoStageRecordExists {
-            get {
-                return ResourceManager.GetString("NoStageRecordExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fetcher is not logged in to the page!.
         /// </summary>
         public static string NotLoggedIn {

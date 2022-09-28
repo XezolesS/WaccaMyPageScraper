@@ -80,6 +80,7 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             {
                 Language.English => "en",
                 Language.Korean => "ko",
+                Language.Japanese => "ja",
             };
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo(languageCode);
