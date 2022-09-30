@@ -24,7 +24,9 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
         public bool IsAbleToAccess
         {
-           get => DateTime.Compare(DateTime.Now, new DateTime(2022, 9, 30)) < 0;
+            get => DateTime.Compare(
+               DateTime.Now.ToUniversalTime().AddHours(9), // to UTC+9
+               new DateTime(2022, 9, 30, 23, 59, 59)) <= 0;
         }
         
         public DelegateCommand LoginCommand { get; private set; }
