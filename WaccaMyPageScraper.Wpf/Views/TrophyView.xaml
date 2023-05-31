@@ -206,32 +206,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <Grid Grid.Row="2"
-              Margin="0,10,0,0"
-              VerticalAlignment="Bottom"
-              HorizontalAlignment="Stretch"
-              Visibility="{Binding FetcherVisibility}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" 
-                       Text="{Binding FetchProgressText}"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Panel.ZIndex="1" />
-            <mah:MetroProgressBar Grid.Column="0" 
-                                  Maximum="100"
-                                  Value="{Binding FetchProgressPercent}"
-                                  Margin="10,0" />
-
-            <Button Grid.Column="1"
-                    Content="{x:Static LocalziedUIText:UI.FetchButtonText}"
-                    Margin="10,0"
-                    IsEnabled="{Binding IsFetchable}"
-                    Command="{Binding FetchTrophiesCommand}" />
-        </Grid>
     </Grid>
 </UserControl>

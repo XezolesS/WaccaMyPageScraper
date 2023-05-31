@@ -20,13 +20,6 @@
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <Button Command="{Binding OpenConsoleCommand}">
-                <Button.Content>
-                    <!-- Coolicons licensed under CC 4.0 -->
-                    <!-- https://github.com/krystonschwarze/coolicons#license -->
-                    <iconPacks:PackIconCoolicons Kind="Terminal" />
-                </Button.Content>
-            </Button>
             <Button Command="{Binding OpenSettingsWindowCommand}">
                 <Button.Content>
                     <!-- Coolicons licensed under CC 4.0 -->
@@ -53,8 +46,6 @@
             <Views:PlayerView Grid.Row="0" 
                               VerticalAlignment="Stretch"
                               HorizontalAlignment="Stretch" />
-            <Views:LoginView Grid.Row="1" 
-                             VerticalAlignment="Bottom" />
         </Grid>
 
         <mah:MetroAnimatedTabControl Grid.Column="1"

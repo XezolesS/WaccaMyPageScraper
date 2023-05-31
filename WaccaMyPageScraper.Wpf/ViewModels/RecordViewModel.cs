@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using WaccaMyPageScraper.Data;
-using WaccaMyPageScraper.FetcherActions;
 using WaccaMyPageScraper.Resources;
 using WaccaMyPageScraper.Enums;
 using WaccaMyPageScraper.Wpf.Enums;
@@ -24,10 +23,11 @@ using WaccaMyPageScraper.Wpf.Views;
 
 namespace WaccaMyPageScraper.Wpf.ViewModels
 {
-    public sealed class RecordViewModel : FetcherViewModel
+    public sealed class RecordViewModel : BindableBase
     {
         private RecordDetailModel RecordDetailModel;
         private RecordDetailWindow RecordDetailWindow;
+        private IEventAggregator _eventAggregator;
 
         #region Properties
         private bool _filterDifficultyNormal;
@@ -110,13 +110,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             set => SetProperty(ref _filteredRecords, value);
         }
 
-        public DelegateCommand FetchRecordsCommand { get; private set; }
-
         public DelegateCommand OpenRecordDetailCommand { get; private set; }
         #endregion
 
-        public RecordViewModel(IEventAggregator ea) : base(ea)
+        public RecordViewModel(IEventAggregator ea)
         {
+            InitializeData();
+            this._eventAggregator = ea;
+
             this.RecordDetailWindow = new RecordDetailWindow(); // Initialize for it's ViewModel
 
             this.FilterDifficultyNormal = false;
@@ -126,20 +127,16 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             this.FilterSearchText = string.Empty;
 
-            this.FetchProgressText = WaccaMyPageScraper.Localization.Fetcher.LoggedOff;
-            this.FetchProgressPercent = 0;
-
             this.FilteredRecords = new ObservableCollection<RecordModel>();
             this.SelectedSortBy = SortRecordBy.Default;
             this.IsSortDescending = false;
 
             this.IsRichView = true;
 
-            this.FetchRecordsCommand = new DelegateCommand(FetcherEvent);
             this.OpenRecordDetailCommand = new DelegateCommand(OpenRecordDetailEvent);
         }
 
-        public override async void InitializeData()
+        public async void InitializeData()
         {
             var musics = await new CsvHandler<Music>(Log.Logger)
                 .ImportAsync(Directories.RecordData);
@@ -152,183 +149,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 
             // Update a property
             this.Records = RecordModel.FromMusics(musics, musicRankings);
-        }
-
-        public override async void FetcherEvent()
-        {
-            if (this.fetcher is null)
-                return;
-
-            if (!this.IsFetchable)
-                return;
-
-            this.IsFetchable = false;
-
-            // Create Directory
-            if (!Directory.Exists(Directories.Record))
-                Directory.CreateDirectory(Directories.Record);
-
-            // Reset Records
-            this.Records = new List<RecordModel>();
-            this.FilteredRecords.Clear();
-
-            // Fetch music list
-            var musicMetadata = await FetchMusicMetadataAsync();
-
-            if (musicMetadata is null)
-            {
-                this.IsFetchable = true;
-                return;
-            }
-
-            // Fetch records
-            var records = await FetchRecordsAsync(musicMetadata);
-            var musics = records.Item1;
-            var rankings = records.Item2;
-
-            if (musics is null || rankings is null ||
-                musics.Last() is null || rankings.Last() is null)
-            {
-                this.IsFetchable = true;
-                return;
-            }
-
-            // Fetch total score rankings
-            var totalScoreRankings = await FetchTotalScoreRankingsAsync();
-
-            // Save records
-            var musicCsvHandler = new CsvHandler<Music>(musics, Log.Logger);
-            musicCsvHandler.Export(Directories.RecordData);
-
-            var musicRankingsCsvHandler = new CsvHandler<MusicRankings>(rankings, Log.Logger);
-            musicRankingsCsvHandler.Export(Directories.RecordRankings);
-
-            if (totalScoreRankings is not null)
-            {
-                var totalScoreRankingsCsvHandler = new CsvHandler<TotalScoreRankings>(
-                    new List<TotalScoreRankings> { totalScoreRankings }, Log.Logger);
-                totalScoreRankingsCsvHandler.Export(Directories.TotalScoreRankings);
-            }
-
-            // Convert Music to RecordModels
-            this.Records = RecordModel.FromMusics(musics, rankings);
-
-            // Set comlete message
-            this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.DataFetched3,
-                this.Records.Count(), WaccaMyPageScraper.Localization.Data.Record);
-
-            this.IsFetchable = true;
-        }
-
-        private async Task<MusicMetadata[]?> FetchMusicMetadataAsync()
-        {
-            try
-            {
-                return await this.fetcher.FetchMusicMetadataAsync(
-                    new Progress<string>(progressText => this.FetchProgressText = progressText),
-                    new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
-            }
-            catch (Exception ex)
-            {
-                if (!await this.fetcher.TryLoginAsync(
-                        new Progress<string>(progressText =>
-                            this.FetchProgressText = progressText)))
-                {
-                    Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
-                            WaccaMyPageScraper.Localization.Data.MusicMetadata, ex.Message);
-
-                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
-                        WaccaMyPageScraper.Localization.Data.MusicMetadata);
-                    this.FetchProgressPercent = 0;
-
-                    return null;
-                }
-
-                return await FetchMusicMetadataAsync();
-            }
-        }
-
-        private async Task<(Music[]?, MusicRankings[]?)> FetchRecordsAsync(MusicMetadata[] musicMetadata)
-        {
-            int count = 0;
-
-            var musics = new List<Music>();
-            var rankings = new List<MusicRankings>();
-            for (int i = 0; i < musicMetadata.Length; i++)
-            {
-                var meta = musicMetadata[i];
-
-                try
-                {
-                    musics.Add(await this.fetcher.FetchMusicAsync(
-                    new Progress<string>(progressText => this.FetchProgressText = string.Format(
-                        WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
-                        count, musicMetadata.Length, progressText)),
-                    new Progress<int>(),
-                    meta));
-                    rankings.Add(await this.fetcher.FetchMusicRankingsAsync(
-                        new Progress<string>(progressText => this.FetchProgressText = string.Format(
-                            WaccaMyPageScraper.Localization.Fetcher.FetchingProgressMsg,
-                            count, musicMetadata.Length, progressText)),
-                        new Progress<int>(),
-                        meta));
-
-                    await this.fetcher.FetchMusicImageAsync(meta);
-                    ++count;
-
-                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingProgress,
-                        count, musicMetadata.Length, meta.Title);
-                    this.FetchProgressPercent = (int)(((double)count / musicMetadata.Length) * 100);
-                }
-                catch (Exception ex)
-                {
-                    i--;
-
-                    if (!await this.fetcher.TryLoginAsync(
-                        new Progress<string>(progressText => 
-                            this.FetchProgressText = progressText)))
-                    {
-                        Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
-                            WaccaMyPageScraper.Localization.Data.Music, ex.Message);
-
-                        this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
-                            WaccaMyPageScraper.Localization.Data.Music);
-                        this.FetchProgressPercent = 0;
-
-                        return (null, null);
-                    }
-                }
-            }
-
-            return (musics.ToArray(), rankings.ToArray());
-        }
-
-        private async Task<TotalScoreRankings?> FetchTotalScoreRankingsAsync()
-        {
-            try
-            {
-                return await this.fetcher.FetchTotalScoreRankingsAsync(
-                    new Progress<string>(progressText => this.FetchProgressText = progressText),
-                    new Progress<int>(progressPercent => this.FetchProgressPercent = progressPercent));
-            }
-            catch (Exception ex)
-            {
-                if (!await this.fetcher.TryLoginAsync(
-                        new Progress<string>(progressText =>
-                            this.FetchProgressText = progressText)))
-                {
-                    Log.Error(WaccaMyPageScraper.Localization.Fetcher.FetchingFail + " {0}",
-                     WaccaMyPageScraper.Localization.Data.TotalScoreRanking, ex.Message);
-
-                    this.FetchProgressText = string.Format(WaccaMyPageScraper.Localization.Fetcher.FetchingFail,
-                        WaccaMyPageScraper.Localization.Data.TotalScoreRanking);
-                    this.FetchProgressPercent = 0;
-
-                    return null;
-                }
-
-                return await FetchTotalScoreRankingsAsync();
-            }
         }
 
         public async void OpenRecordDetailEvent()

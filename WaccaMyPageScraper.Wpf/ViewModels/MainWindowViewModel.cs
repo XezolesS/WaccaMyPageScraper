@@ -19,39 +19,14 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
 {
     public sealed class MainWindowViewModel : BindableBase
     {
-        private ConsoleWindow Console;
         private SettingsWindow SettingsWindow;
-
-        public DelegateCommand OpenConsoleCommand { get; private set; }
 
         public DelegateCommand OpenSettingsWindowCommand { get; private set; }
 
         public MainWindowViewModel()
         {
-            InitializeConsole();
             InitializeSettingsWindow();
             InitializeCultures();
-        }
-
-        private void InitializeConsole()
-        {
-            // Initializing logger console
-            this.Console = new ConsoleWindow();
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.RichTextBox(this.Console.richTextBoxLog)
-                .CreateLogger();
-
-            // Prevent termination of console instance.
-            this.Console.Closing += (sender, e) =>
-            {
-                this.Console.Hide();
-                e.Cancel = true;
-            };
-
-            // Auto scroll when console content updated
-            this.Console.richTextBoxLog.TextChanged += (sender, e) => this.Console.richTextBoxLog.ScrollToEnd();
-
-            this.OpenConsoleCommand = new DelegateCommand(ExecuteOpenConsoleCommand);
         }
 
         private void InitializeSettingsWindow()
@@ -59,12 +34,6 @@ namespace WaccaMyPageScraper.Wpf.ViewModels
             this.SettingsWindow = new SettingsWindow();
 
             this.OpenSettingsWindowCommand = new DelegateCommand(ExecuteSettingsWindowCommand);
-        }
-
-        private void ExecuteOpenConsoleCommand()
-        {
-            this.Console.Owner = Application.Current.MainWindow;
-            this.Console.Show();
         }
 
         private void InitializeCultures()
